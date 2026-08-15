@@ -5,7 +5,7 @@ export function Header() {
 
     return (
         <header className='sticky top-0 z-50 border-b border-white/10 bg-slate-900'>
-            <div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
+            <div className=' px-4 sm:px-6 lg:px-30'>
                 <div className='flex items-center justify-between h-16'>
                     {/* Logo */}
                     <div className='flex items-center gap-2'>
@@ -32,10 +32,10 @@ export function Header() {
                     {/* Auth Buttons */}
                     <div className='flex items-center gap-3'>
                         <button className='hidden sm:inline-block px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors'>
-                            <a href='auth'>Log in</a>
+                            <a href='/auth'>Log in</a>
                         </button>
                         <button className='px-4 py-2 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-200 hover:scale-105'>
-                            <a href='auth'>Sign up</a>
+                            <a href='/auth'>Sign up</a>
                         </button>
 
                         {/* Mobile Menu Button */}
@@ -69,10 +69,10 @@ export function Header() {
                         </a>
                         <div className='pt-3 border-t border-white/10 flex flex-col gap-2'>
                             <button className='w-full px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors'>
-                                Log in
+                                <a href='/auth'>Log in</a>
                             </button>
                             <button className='w-full px-4 py-2 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg'>
-                                Sign up
+                                <a href='/auth'>Sign up</a>
                             </button>
                         </div>
                     </div>

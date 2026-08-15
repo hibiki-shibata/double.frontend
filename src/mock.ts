@@ -9,6 +9,18 @@ export const mockMarkets: Market[] = [
         status: 'OPEN',
         closeTime: '2026-09-01T00:00:00Z',
         createdAt: '2026-07-01T00:00:00Z',
+        predictions: [
+            {
+                name: 'Prediction A',
+                totalParticipants: 123344,
+                betSum: BigInt(1000)
+            },
+            {
+                name: 'Prediction B',
+                totalParticipants: 567890,
+                betSum: BigInt(3000)
+            }
+        ]
     },
     {
         id: 'mkt_002',
@@ -17,6 +29,18 @@ export const mockMarkets: Market[] = [
         status: 'CLOSED',
         closeTime: '2026-08-20T00:00:00Z',
         createdAt: '2026-08-01T00:00:00Z',
+        predictions: [
+            {
+                name: 'Prediction A',
+                totalParticipants: 123344,
+                betSum: BigInt(1000)
+            },
+            {
+                name: 'Prediction B',
+                totalParticipants: 567890,
+                betSum: BigInt(3000)
+            }
+        ]
     },
     {
         id: 'mkt_003',
@@ -25,6 +49,18 @@ export const mockMarkets: Market[] = [
         status: 'CLOSED',
         closeTime: '2026-08-20T00:00:00Z',
         createdAt: '2026-08-01T00:00:00Z',
+        predictions: [
+            {
+                name: 'Prediction A',
+                totalParticipants: 123344,
+                betSum: BigInt(1000)
+            },
+            {
+                name: 'Prediction B',
+                totalParticipants: 567890,
+                betSum: BigInt(3000)
+            }
+        ]
     },
     {
         id: 'mkt_004',
@@ -33,6 +69,18 @@ export const mockMarkets: Market[] = [
         status: 'OPEN',
         closeTime: '2026-08-20T00:00:00Z',
         createdAt: '2026-08-01T00:00:00Z',
+        predictions: [
+            {
+                name: 'Prediction A',
+                totalParticipants: 123344,
+                betSum: BigInt(1000)
+            },
+            {
+                name: 'Prediction B',
+                totalParticipants: 567890,
+                betSum: BigInt(3000)
+            }
+        ]
     },
     {
         id: 'mkt_004',
@@ -41,5 +89,17 @@ export const mockMarkets: Market[] = [
         status: 'OPEN',
         closeTime: '2026-08-20T00:00:00Z',
         createdAt: '2026-08-01T00:00:00Z',
+        predictions: [
+            {
+                name: 'Prediction A',
+                totalParticipants: 123344,
+                betSum: BigInt(1000)
+            },
+            {
+                name: 'Prediction B',
+                totalParticipants: 567890,
+                betSum: BigInt(3000)
+            }
+        ]
     },
 ]

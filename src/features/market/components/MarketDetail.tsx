@@ -1,7 +1,7 @@
-// MarketDetail.tsx - Performance Optimized
-// import { useParams } from 'react-router-dom';
+// MarketDetail.tsx
 import { ArrowLeft, Clock, Calendar, Users, Award, BarChart3 } from 'lucide-react';
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useState } from 'react';
+import { CheckoutPanel } from './CheckoutPanel';
 
 type MarketResponse = {
     id: string;
@@ -27,6 +27,8 @@ const STATUS_CONFIG = {
 
 export function MarketDetail() {
     // const { id } = useParams();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [showCheckout, setShowCheckout] = useState(false);
 
     // Mock data - replace with actual fetch
     const market: MarketResponse = useMemo(() => ({
@@ -80,108 +82,130 @@ export function MarketDetail() {
     const statusConfig = STATUS_CONFIG[market.status];
     const isOpen = market.status === 'OPEN';
 
+    const toggleCheckout = () => {
+        setShowCheckout(!showCheckout);
+    };
+
     return (
         <>
-            <button
-                onClick={() => window.history.back()}
+            <div
                 className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-150 mb-6"
             >
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-150" />
-                <span>Back to Markets</span>
-            </button>
+                <a href='/'>Back to Markets</a>
+            </div>
 
             {/* Main Card */}
-            <div className="bg-white/5 rounded-2xl border border-white/10 p-8">
-                {/* Header - Removed animate-pulse */}
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
-                    <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-3">
-                            <span className={`px-4 py-1 rounded-full font-semibold ${statusConfig.color}`}>
-                                {/* <span className={`${statusConfig.color}`} /> */}
-                                {statusConfig.label}
-                            </span>
-                            <span className="text-xs text-gray-400 flex items-center gap-1">
-                                <Clock className="w-3 h-3" />
-                                Created {formatDate(market.createdAt)}
-                            </span>
+            <div className={`grid gap-6 ${showCheckout ? 'max-w-7xl mx-auto grid-cols-1 lg:grid-cols-2' : 'max-w-6xl mx-auto grid-cols-1'}`}>
+                <div className="bg-white/5 rounded-2xl border border-white/10 p-8">
+                    {/* Header - Removed animate-pulse */}
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
+                        <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-3">
+                                <span className={`px-4 py-1 rounded-full font-semibold ${statusConfig.color}`}>
+                                    {statusConfig.label}
+                                </span>
+                                <span className="text-xs text-gray-400 flex items-center gap-1">
+                                    <Clock className="w-3 h-3" />
+                                    Created {formatDate(market.createdAt)}
+                                </span>
+                            </div>
+                            <h1 className="text-2xl sm:text-3xl font-bold">
+                                {market.title}
+                            </h1>
                         </div>
-                        <h1 className="text-2xl sm:text-3xl font-bold">
-                            {market.title}
-                        </h1>
+                        <div className="flex items-center gap-4">
+                            <div className="text-right">
+                                <p className="text-xs text-gray-400">Total Volume</p>
+                                <p className="text-lg font-bold">
+                                    ${calculatedData.totalBetsFormatted}M
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                        <div className="text-right">
-                            <p className="text-xs text-gray-400">Total Volume</p>
-                            <p className="text-lg font-bold">
+
+                    {/* Stats Grid - Using memoized values */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-white/5 rounded-xl border border-white/5 mb-8">
+                        <div>
+                            <p className="text-xs text-gray-400">Participants</p>
+                            <p className="text-lg font-semibold text-white flex items-center gap-1">
+                                <Users className="w-4 h-4 text-blue-400" />
+                                {calculatedData.totalParticipants.toLocaleString()}
+                            </p>
+                        </div>
+                        <div>
+                            <p className="text-xs text-gray-400">Total Bets</p>
+                            <p className="text-lg font-semibold text-white flex items-center gap-1">
+                                <BarChart3 className="w-4 h-4 text-purple-400" />
                                 ${calculatedData.totalBetsFormatted}M
                             </p>
                         </div>
+                        <div>
+                            <p className="text-xs text-gray-400">Predictions</p>
+                            <p className="text-lg font-semibold text-white">
+                                {calculatedData.predictions.length}
+                            </p>
+                        </div>
+                        <div>
+                            <p className="text-xs text-gray-400">Closes</p>
+                            <p className="text-lg font-semibold text-white flex items-center gap-1">
+                                <Calendar className="w-4 h-4 text-orange-400" />
+                                {formatDate(market.closeAt)}
+                            </p>
+                        </div>
                     </div>
+
+                    {/* Predictions - Using memoized data */}
+                    <div>
+                        <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                            <Award className="w-5 h-5 text-yellow-400" />
+                            Predictions
+                        </h2>
+                        <div className="space-y-3">
+                            {calculatedData.predictions.map((prediction, index) => {
+                                const isLeading = prediction.percentage === calculatedData.maxPercentage &&
+                                    calculatedData.maxPercentage > 0;
+
+                                return (
+                                    <PredictionCard
+                                        key={index}
+                                        prediction={prediction}
+                                        isLeading={isLeading}
+                                        formatBetAmount={formatBetAmount}
+                                    />
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Action Button */}
+                    {isOpen && (
+                        <div className="mt-8 pt-6 border-t border-white/10">
+                            <button
+                                onClick={toggleCheckout}
+                                className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl font-semibold text-white hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-150 hover:scale-[1.02] active:scale-95"
+                            >
+                                {showCheckout ? 'Close Bet' : 'Place Your Bet'}
+                            </button>
+                            <p className="text-xs text-gray-400 mt-3">
+                                ⚡ {calculatedData.totalParticipants.toLocaleString()} participants already placed their bets
+                            </p>
+                        </div>
+                    )}
                 </div>
 
-                {/* Stats Grid - Using memoized values */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-white/5 rounded-xl border border-white/5 mb-8">
+                {/* Checkout Panel - Only visible when showCheckout is true */}
+                {showCheckout && (
                     <div>
-                        <p className="text-xs text-gray-400">Participants</p>
-                        <p className="text-lg font-semibold text-white flex items-center gap-1">
-                            <Users className="w-4 h-4 text-blue-400" />
-                            {calculatedData.totalParticipants.toLocaleString()}
-                        </p>
-                    </div>
-                    <div>
-                        <p className="text-xs text-gray-400">Total Bets</p>
-                        <p className="text-lg font-semibold text-white flex items-center gap-1">
-                            <BarChart3 className="w-4 h-4 text-purple-400" />
-                            ${calculatedData.totalBetsFormatted}M
-                        </p>
-                    </div>
-                    <div>
-                        <p className="text-xs text-gray-400">Predictions</p>
-                        <p className="text-lg font-semibold text-white">
-                            {calculatedData.predictions.length}
-                        </p>
-                    </div>
-                    <div>
-                        <p className="text-xs text-gray-400">Closes</p>
-                        <p className="text-lg font-semibold text-white flex items-center gap-1">
-                            <Calendar className="w-4 h-4 text-orange-400" />
-                            {formatDate(market.closeAt)}
-                        </p>
-                    </div>
-                </div>
-
-                {/* Predictions - Using memoized data */}
-                <div>
-                    <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                        <Award className="w-5 h-5 text-yellow-400" />
-                        Predictions
-                    </h2>
-                    <div className="space-y-3">
-                        {calculatedData.predictions.map((prediction, index) => {
-                            const isLeading = prediction.percentage === calculatedData.maxPercentage &&
-                                calculatedData.maxPercentage > 0;
-
-                            return (
-                                <PredictionCard
-                                    key={index}
-                                    prediction={prediction}
-                                    isLeading={isLeading}
-                                    formatBetAmount={formatBetAmount}
-                                />
-                            );
-                        })}
-                    </div>
-                </div>
-
-                {/* Action Button */}
-                {isOpen && (
-                    <div className="mt-8 pt-6 border-t border-white/10">
-                        <button className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl font-semibold text-white hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-150 hover:scale-[1.02] active:scale-95">
-                            Place Your Bet
-                        </button>
-                        <p className="text-xs text-gray-400 mt-3">
-                            ⚡ {calculatedData.totalParticipants.toLocaleString()} participants already placed their bets
-                        </p>
+                        <CheckoutPanel
+                            isLoggedIn={isLoggedIn}
+                            marketStatus={market.status}
+                            predictions={market.predictions}
+                            onVote={(prediction, amount) => {
+                                console.log('Vote:', { prediction, amount });
+                                // Handle vote submission
+                            }}
+                        />
                     </div>
                 )}
             </div>

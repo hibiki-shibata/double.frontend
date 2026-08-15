@@ -12,7 +12,7 @@ export function MarketList({ markets }: Props) {
     }
 
     return (
-        <>
+        <div className='max-w-7xl mx-auto'>
             <div className='pt-5 pb-6 border-b border-gray-200 dark:border-gray-700'>
                 <h1 className='text-3xl font-bold text-gray-900 dark:text-white tracking-tight'>
                     Trading Markets
@@ -35,6 +35,6 @@ export function MarketList({ markets }: Props) {
                     <MarketCard key={market.id} market={market}/>
                 ))}
             </div>
-        </>
+        </div>
     )
 }
