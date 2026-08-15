@@ -10,6 +10,7 @@ import { Privacy } from './features/service-info/Privacy.tsx'
 import { Terms } from './features/service-info/Terms.tsx'
 import { About } from './features/service-info/About.tsx'
 import { Auth } from './features/auth/components/Auth.tsx'
+import { AccountSettings } from './features/user-profile/components/UserSettings.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/terms' element={<App children={<Terms />} />} />
         <Route path='/about' element={<App children={<About />} />} />
         <Route path='/auth' element={<Auth/>} />
+        <Route path='/settings' element={<AccountSettings/>} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
