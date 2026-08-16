@@ -1,7 +1,19 @@
+import { History, LogOut, SettingsIcon, User, Wallet } from 'lucide-react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 export function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const navigate = useNavigate();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    const handleLogout = async () => {
+        // await logout();
+        navigate('/');
+        setIsDropdownOpen(false);
+    };
+
 
     return (
         <header className='sticky top-0 z-50 border-b border-white/10 bg-slate-900'>
@@ -29,19 +41,109 @@ export function Header() {
                         </a>
                     </nav>
 
-                    {/* Auth Buttons */}
-                    <div className='flex items-center gap-3'>
-                        <button className='hidden sm:inline-block px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors'>
-                            <a href='/auth'>Log in</a>
-                        </button>
-                        <button className='px-4 py-2 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-200 hover:scale-105'>
-                            <a href='/auth'>Sign up</a>
-                        </button>
+                    <div className="flex items-center gap-3">
+                        {isLoggedIn ? (
+                            <>
+                                {/* Desktop User Menu */}
+                                <div className="hidden sm:relative sm:flex sm:items-center">
+                                    <button
+                                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                        className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+                                    >
+                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-sm font-medium text-white">
+                                            H
+                                        </div>
+                                        <span className="text-sm text-gray-300">Account</span>
+                                        <svg
+                                            className={`w-4 h-4 text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
 
-                        {/* Mobile Menu Button */}
+                                    {/* Dropdown Menu */}
+                                    {isDropdownOpen && (
+                                        <div className="absolute right-0 top-full mt-2 w-56 bg-slate-800 rounded-xl border border-white/10 shadow-xl py-1 z-50">
+                                            <div className="px-4 py-3 border-b border-white/10">
+                                                <p className="text-sm font-medium text-white">Hibiki Shibata</p>
+                                                <p className="text-xs text-gray-400">hibiki@example.com</p>
+                                            </div>
+                                            <div
+
+                                                onClick={() => setIsDropdownOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                                            >
+                                                <User className="w-4 h-4" />
+                                                <a href='/settings'>Profile</a>
+                                            </div>
+                                            <div
+
+                                                onClick={() => setIsDropdownOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                                            >
+                                                <Wallet className="w-4 h-4" />
+                                                <a href='/settings'>Wallet</a>
+                                            </div>
+                                            <div
+
+                                                onClick={() => setIsDropdownOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                                            >
+                                                <History className="w-4 h-4" />
+                                                <a href='/settings'>History</a>
+                                            </div>
+                                            <div
+                                                onClick={() => setIsDropdownOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                                            >
+                                                <SettingsIcon className="w-4 h-4" />
+                                                <a href='/settings'>Settings</a>
+                                            </div>
+                                            <button
+                                                onClick={handleLogout}
+                                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors border-t border-white/10"
+                                            >
+                                                <LogOut className="w-4 h-4" />
+                                                Logout
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Mobile User Icon */}
+                                <button
+                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                    className="sm:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
+                                >
+                                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-sm font-medium text-white">
+                                        H
+                                    </div>
+                                </button>
+                            </>
+                        ) : (
+                            // Auth Buttons (Logged Out)
+                            <div className="flex items-center gap-3">
+                                <div
+                                    className="hidden sm:inline-block px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                                >
+                                    <a href='/auth'>Log in</a>
+                                </div>
+                                <div
+
+                                    className="px-4 py-2 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-200 hover:scale-105"
+                                >
+                                    <a href='/auth'>Sign Up</a>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Mobile Menu Toggle - Always visible */}
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className='md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors'
+                            className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
                             aria-label="Toggle menu"
                         >
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -57,27 +159,63 @@ export function Header() {
 
                 {/* Mobile Menu */}
                 {isMobileMenuOpen && (
-                    <div className='md:hidden py-4 border-t border-white/10 space-y-3'>
-                        <a href="#" className='block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors'>
+                    <div className="md:hidden py-4 border-t border-white/10 space-y-3">
+                        <div
+
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
+                        >
                             Markets
-                        </a>
-                        <a href="#" className='block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors'>
-                            Portfolio
-                        </a>
-                        <a href="#" className='block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors'>
-                            About
-                        </a>
-                        <div className='pt-3 border-t border-white/10 flex flex-col gap-2'>
-                            <button className='w-full px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors'>
-                                <a href='/auth'>Log in</a>
-                            </button>
-                            <button className='w-full px-4 py-2 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg'>
-                                <a href='/auth'>Sign up</a>
-                            </button>
                         </div>
+                        {isLoggedIn && (
+                            <div
+
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
+                            >
+                                Account
+                            </div>
+                        )}
+                        <div
+
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
+                        >
+                            About
+                        </div>
+                        {!isLoggedIn && (
+                            <>
+                                <div
+
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
+                                >
+                                    <a href='/auth'>Log in</a>
+                                </div>
+                                <div
+
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="block px-3 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white text-center"
+                                >
+                                    <a href='/auth'>Sign Up</a>
+                                </div>
+                            </>
+                        )}
+                        {isLoggedIn && (
+                            <button
+                                onClick={() => {
+                                    handleLogout();
+                                    setIsMobileMenuOpen(false);
+                                }}
+                                className="block w-full text-left px-3 py-2 rounded-lg text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors"
+                            >
+                                Logout
+                            </button>
+                        )}
                     </div>
                 )}
+
             </div>
-        </header>
+        </header >
     );
 }

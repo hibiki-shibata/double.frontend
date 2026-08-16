@@ -19,7 +19,7 @@ export function Footer() {
                             </li>
                             <li>
                                 <a href="https://hibiki-shibata.github.io/" target='_blank' className="text-sm text-gray-400 hover:text-white">
-                                    Service Owner
+                                    Service Owner Profile
                                 </a>
                             </li>
                         </ul>
