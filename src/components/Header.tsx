@@ -71,37 +71,42 @@ export function Header() {
                                                 <p className="text-sm font-medium text-white">Hibiki Shibata</p>
                                                 <p className="text-xs text-gray-400">hibiki@example.com</p>
                                             </div>
-                                            <div
-
-                                                onClick={() => setIsDropdownOpen(false)}
-                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
-                                            >
-                                                <User className="w-4 h-4" />
-                                                <a href='/settings'>Profile</a>
-                                            </div>
-                                            <div
-
-                                                onClick={() => setIsDropdownOpen(false)}
-                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
-                                            >
-                                                <Wallet className="w-4 h-4" />
-                                                <a href='/settings'>Wallet</a>
-                                            </div>
-                                            <div
-
-                                                onClick={() => setIsDropdownOpen(false)}
-                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
-                                            >
-                                                <History className="w-4 h-4" />
-                                                <a href='/settings'>History</a>
-                                            </div>
-                                            <div
-                                                onClick={() => setIsDropdownOpen(false)}
-                                                className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
-                                            >
-                                                <SettingsIcon className="w-4 h-4" />
-                                                <a href='/settings'>Settings</a>
-                                            </div>
+                                            <a href='/settings'>
+                                                <div
+                                                    onClick={() => setIsDropdownOpen(false)}
+                                                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                                                >
+                                                    <User className="w-4 h-4" />
+                                                    Profile
+                                                </div>
+                                            </a>
+                                            <a href='/settings'>
+                                                <div
+                                                    onClick={() => setIsDropdownOpen(false)}
+                                                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                                                >
+                                                    <Wallet className="w-4 h-4" />
+                                                    Wallet
+                                                </div>
+                                            </a>
+                                            <a href='/settings'>
+                                                <div
+                                                    onClick={() => setIsDropdownOpen(false)}
+                                                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                                                >
+                                                    <History className="w-4 h-4" />
+                                                    History
+                                                </div>
+                                            </a>
+                                            <a href='/settings'>
+                                                <div
+                                                    onClick={() => setIsDropdownOpen(false)}
+                                                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
+                                                >
+                                                    <SettingsIcon className="w-4 h-4" />
+                                                    Settings
+                                                </div>
+                                            </a>
                                             <button
                                                 onClick={handleLogout}
                                                 className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors border-t border-white/10"
@@ -161,7 +166,6 @@ export function Header() {
                 {isMobileMenuOpen && (
                     <div className="md:hidden py-4 border-t border-white/10 space-y-3">
                         <div
-
                             onClick={() => setIsMobileMenuOpen(false)}
                             className="block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
                         >
@@ -169,7 +173,6 @@ export function Header() {
                         </div>
                         {isLoggedIn && (
                             <div
-
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 className="block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
                             >
@@ -177,7 +180,6 @@ export function Header() {
                             </div>
                         )}
                         <div
-
                             onClick={() => setIsMobileMenuOpen(false)}
                             className="block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
                         >
@@ -185,20 +187,22 @@ export function Header() {
                         </div>
                         {!isLoggedIn && (
                             <>
-                                <div
-
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    className="block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
-                                >
-                                    <a href='/auth'>Log in</a>
-                                </div>
-                                <div
-
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    className="block px-3 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white text-center"
-                                >
-                                    <a href='/auth'>Sign Up</a>
-                                </div>
+                                <a href='/auth'>
+                                    <div
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
+                                    >
+                                        Log in
+                                    </div>
+                                </a>
+                                <a href='/auth'>
+                                    <div
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="block px-3 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white text-center"
+                                    >
+                                        Sign Up
+                                    </div>
+                                </a>
                             </>
                         )}
                         {isLoggedIn && (
