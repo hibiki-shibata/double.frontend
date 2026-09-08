@@ -6,9 +6,17 @@ interface Props {
     onSelect?: (marketId: string) => void;
 }
 
-export function MarketList({ markets }: Props) {
+export function MarketList() {
+    const markets: Market[] = []
+
     if (markets.length === 0) {
-        return <p className="text-sm text-white">No markets to show.</p>;
+        return (
+            <div className='h-screen'>
+                <p className="flex items-center justify-center text-white h-full">
+                    No markets to show:(
+                    We will add more markets soon
+                </p>
+            </div>)
     }
 
     return (
@@ -32,7 +40,7 @@ export function MarketList({ markets }: Props) {
             </div>
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {markets.map((market) => (
-                    <MarketCard key={market.id} market={market}/>
+                    <MarketCard key={market.id} market={market} />
                 ))}
             </div>
         </div>

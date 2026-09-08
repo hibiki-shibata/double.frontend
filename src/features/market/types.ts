@@ -1,6 +1,6 @@
 export type MarketStatus = 'OPEN' | 'CLOSED' | 'SETTLED' | 'CANCELLED';
 
-export interface Market {
+export type Market = {
     id: string;
     title: string;
     description: string;
@@ -11,14 +11,12 @@ export interface Market {
     predictions: Predictions[]
 }
 
-export interface MarketListParams {
-    status?: MarketStatus;
-    cursor?: string;
+export type MarketListParams = {
+    page?: string;
     limit?: number;
 }
 
-
-export interface Predictions {
+export type Predictions = {
     name: string;
     totalParticipants: number;
     betSum: bigint;

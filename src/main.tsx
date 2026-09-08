@@ -5,7 +5,6 @@ import App from './App.tsx'
 import './index.css'
 import { MarketDetail } from './features/market/components/MarketDetail'
 import { MarketList } from './features/market/components/MarketList'
-import { mockMarkets } from './mock'
 import { Privacy } from './features/service-info/Privacy'
 import { Terms } from './features/service-info/Terms'
 import { About } from './features/service-info/About'
@@ -20,7 +19,7 @@ createRoot(document.getElementById('root')!).render(
         {/* App acts as a layout with shared components (Header, Footer) */}
         <Route element={<App />}>
           {/* Index route for the main page */}
-          <Route index path="*" element={<MarketList markets={mockMarkets} />} />
+          <Route index path="*" element={<MarketList />} />
 
           {/* Nested routes */}
           <Route path="market/*" element={<MarketDetail />} />

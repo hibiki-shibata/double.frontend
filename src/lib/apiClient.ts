@@ -32,7 +32,7 @@ export function setAuthTokenProvider(fn: () => string | null): void {
 
 interface RequestOptions extends Omit<RequestInit, 'body'> {
     body?: unknown;
-    params?: Record<string, string | number | boolean | undefined>;
+    params?:  Record<string, unknown>
 }
 
 function buildUrl(path: string, params?: RequestOptions['params']): string {
@@ -76,8 +76,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
 }
 
 export const apiClient = {
-    get: <T>(path: string, params?: RequestOptions['params']) =>
-        request<T>(path, { method: 'GET', params }),
+    get: <T>(path: string, params?: RequestOptions['params']) => request<T>(path, { method: 'GET', params }),
     post: <T>(path: string, body?: unknown) => request<T>(path, { method: 'POST', body }),
     patch: <T>(path: string, body?: unknown) => request<T>(path, { method: 'PATCH', body }),
     delete: <T>(path: string) => request<T>(path, { method: 'DELETE' }),
