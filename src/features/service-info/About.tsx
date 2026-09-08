@@ -16,7 +16,7 @@ export function About() {
                 <h1 className="text-3xl font-bold text-white mb-3">About Double Market</h1>
                 <p className="text-gray-400 max-w-2xl mx-auto">
                     A modern prediction market platform where users can trade on the future
-                    of crypto, finance, and technology.
+                    of crypto, finance, technology, and so on.
                 </p>
             </div>
 
@@ -27,10 +27,9 @@ export function About() {
                     Our Mission
                 </h2>
                 <p className="text-gray-300 leading-relaxed">
-                    To democratize access to prediction markets and enable anyone to
-                    participate in forecasting the future. We believe that collective
-                    intelligence can provide valuable insights into emerging trends
-                    and events.
+                    To democratize the control of financial properties, we operate in open source & with bare minimum commision.
+                    Current, finance service is designed only central institutions can constantly make profits. 
+                    We aims to make a breakthrough in the structure from the Prediction Market, which is still a developing field of finance.
                 </p>
             </div>
 
@@ -70,9 +69,9 @@ export function About() {
                     <div className="p-2 rounded-lg bg-yellow-500/20 w-fit mb-3">
                         <Award className="w-5 h-5 text-yellow-400" />
                     </div>
-                    <h3 className="text-white font-semibold mb-2">Rewards & Incentives</h3>
+                    <h3 className="text-white font-semibold mb-2">Profits</h3>
                     <p className="text-sm text-gray-400">
-                        Earn rewards for accurate predictions and active participation.
+                        Earn profits for accurate predictions and active participation.
                     </p>
                 </div>
             </div>
@@ -111,19 +110,19 @@ export function About() {
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="bg-white/5  rounded-2xl border border-white/10 p-6 text-center">
-                    <p className="text-2xl font-bold text-blue-400">$2.4M+</p>
+                    <p className="text-2xl font-bold text-blue-400">collecting data..</p>
                     <p className="text-xs text-gray-400 mt-1">Total Volume</p>
                 </div>
                 <div className="bg-white/5  rounded-2xl border border-white/10 p-6 text-center">
-                    <p className="text-2xl font-bold text-purple-400">15K+</p>
+                    <p className="text-2xl font-bold text-purple-400">collecting data..</p>
                     <p className="text-xs text-gray-400 mt-1">Active Traders</p>
                 </div>
                 <div className="bg-white/5  rounded-2xl border border-white/10 p-6 text-center">
-                    <p className="text-2xl font-bold text-green-400">98.7%</p>
+                    <p className="text-2xl font-bold text-green-400">99.8%</p>
                     <p className="text-xs text-gray-400 mt-1">Uptime</p>
                 </div>
                 <div className="bg-white/5  rounded-2xl border border-white/10 p-6 text-center">
-                    <p className="text-2xl font-bold text-yellow-400">3.2s</p>
+                    <p className="text-2xl font-bold text-yellow-400">2.5s</p>
                     <p className="text-xs text-gray-400 mt-1">Avg. Trade Speed</p>
                 </div>
             </div>
@@ -145,19 +144,19 @@ export function About() {
                     </div>
                     <div className="flex items-start gap-2">
                         <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-sm text-gray-300">24/7 customer support</span>
+                        <span className="text-sm text-gray-300">24/7 support</span>
                     </div>
                     <div className="flex items-start gap-2">
                         <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-sm text-gray-300">Mobile-friendly interface</span>
+                        <span className="text-sm text-gray-300">Simple interface</span>
                     </div>
                     <div className="flex items-start gap-2">
                         <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-sm text-gray-300">Advanced analytics tools</span>
+                        <span className="text-sm text-gray-300">Trends analysis</span>
                     </div>
                     <div className="flex items-start gap-2">
                         <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-sm text-gray-300">Educational resources for beginners</span>
+                        <span className="text-sm text-gray-300">Variety of prediction topics</span>
                     </div>
                 </div>
             </div>

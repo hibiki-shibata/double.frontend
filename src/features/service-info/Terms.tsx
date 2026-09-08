@@ -26,8 +26,7 @@ export function Terms() {
                             1. Acceptance of Terms
                         </h2>
                         <p className="text-sm leading-relaxed">
-                            By using Double Market, you agree to these terms. If you don't agree, please
-                            don't use our services. We may update these terms occasionally - changes will
+                            By using Double Market, you agree to these terms. We may update these terms occasionally - changes will
                             be posted on this page.
                         </p>
                     </section>
@@ -127,7 +126,7 @@ export function Terms() {
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-gray-500">
                             <div className="flex items-center gap-2">
                                 <Mail className="w-4 h-4" />
-                                <span>Questions? Contact us at <a href="mailto:legal@double.market" className="text-blue-400 hover:underline">legal@double.market</a></span>
+                                <span>Questions? Contact us at <a href="https://hibiki-shibata.github.io/" className="text-blue-400 hover:underline">Maintainer portal</a></span>
                             </div>
                             <span>© {new Date().getFullYear()} Double Market</span>
                         </div>

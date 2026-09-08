@@ -28,7 +28,7 @@ export function Privacy() {
             <ul className="space-y-2 text-sm">
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-                <span>Email address and account credentials</span>
+                <span>Email address and user names</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
@@ -36,11 +36,7 @@ export function Privacy() {
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-                <span>Device and usage information</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-                <span>Communication preferences</span>
+                <span>Bank information</span>
               </li>
             </ul>
           </section>
@@ -53,7 +49,7 @@ export function Privacy() {
             <ul className="space-y-2 text-sm">
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                <span>Process and manage your bets and transactions</span>
+                <span>Process and manage your bets, transactions and transfer</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
@@ -76,9 +72,10 @@ export function Privacy() {
               Data Security
             </h2>
             <p className="text-sm leading-relaxed">
-              We implement industry-standard security measures to protect your data, 
-              including encryption, access controls, and regular security audits. 
+              We implement standard security measures to protect your data, 
+              including encryption, access controls, and so on. 
               We never sell your personal information to third parties.
+              Our service run on Open source, we are always welcoming your contribution for our security & service enhancement.
             </p>
           </section>
 
@@ -90,12 +87,10 @@ export function Privacy() {
             <ul className="space-y-2 text-sm">
               <li>• Access and update your personal information</li>
               <li>• Request deletion of your account and data</li>
-              <li>• Opt-out of marketing communications</li>
-              <li>• Data portability (export your data)</li>
             </ul>
             <p className="mt-3 text-sm text-gray-400">
-              Contact us at <a href="mailto:privacy@double.market" className="text-blue-400 hover:underline">privacy@double.market</a> 
-              to exercise these rights.
+              Contact me as a service maintainer at <a href="https://hibiki-shibata.github.io/" className="text-blue-400 hover:underline">Profile portal </a> 
+               for question.
             </p>
           </section>
 
