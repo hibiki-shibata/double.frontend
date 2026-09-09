@@ -10,9 +10,9 @@ type MenuItems = {
 
 const accountMenuItems: MenuItems[] = [
     { Icon: User, label: "Profile", href: "/settings" },
-    { Icon: Wallet, label: "Wallet", href: "/settings" },
-    { Icon: History, label: "History", href: "/settings" },
-    { Icon: SettingsIcon, label: "Settings", href: "/settings" },
+    { Icon: Wallet, label: "Wallet", href: "/settings1" },
+    { Icon: History, label: "History", href: "/settings2" },
+    { Icon: SettingsIcon, label: "Settings", href: "/settings3" },
 ]
 
 const menuItems: MenuItems[] = [
@@ -56,7 +56,7 @@ export function Header() {
                     {/* Desktop Center Navigation */}
                     <nav className='hidden md:flex items-center gap-6'>
                         {menuItems.map((item: MenuItems) => (
-                            <a href={item.href} className='text-sm text-gray-300 hover:text-white transition-colors'>
+                            <a key={item.href} href={item.href} className='text-sm text-gray-300 hover:text-white transition-colors'>
                                 {item.label}
                             </a>
                         ))}

@@ -1,4 +1,4 @@
-export type MarketStatus = 'OPEN' | 'CLOSED' | 'SETTLED' | 'CANCELLED';
+export type MarketStatus = 'OPEN' | 'CLOSED' | 'SETTLED' | 'CANCELLED'
 
 export type Market = {
     id: string;
@@ -9,11 +9,6 @@ export type Market = {
     settledAt?: string;
     createdAt: string;
     predictions: Predictions[]
-}
-
-export type MarketListParams = {
-    page?: string;
-    limit?: number;
 }
 
 export type Predictions = {

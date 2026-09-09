@@ -1,9 +1,5 @@
-/**
- * Thin, typed fetch wrapper. All feature `api.ts` files go through this —
- * never call fetch() directly in a component or hook.
- */
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api';
+// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api';
+const API_BASE_URL = 'http://localhost:3000/api';
 
 export class ApiError extends Error {
     public readonly status: number;
@@ -24,7 +20,6 @@ export class ApiError extends Error {
     }
 }
 
-// Swap this out for your real auth store (e.g. zustand selector) at the app root.
 let tokenProvider: () => string | null = () => null;
 export function setAuthTokenProvider(fn: () => string | null): void {
     tokenProvider = fn;

@@ -1,23 +1,13 @@
 import { MarketCard } from './MarketCard';
-import type { Market } from '../types';
-
-interface Props {
-    markets: Market[];
-    onSelect?: (marketId: string) => void;
-}
+import { useMarketList } from '../hooks';
+import { EmptyState, ErrorState, LoadingState } from '../../../components/StatusState';
 
 export function MarketList() {
-    const markets: Market[] = []
+    const { data: markets = [], isLoading, isError } = useMarketList()
 
-    if (markets.length === 0) {
-        return (
-            <div className='h-screen'>
-                <p className="flex items-center justify-center text-white h-full">
-                    No markets to show:(
-                    We will add more markets soon
-                </p>
-            </div>)
-    }
+    if (isLoading) return <LoadingState message="Loading market list.." />;
+    if (isError) return <ErrorState message="Failed to load market list:(" />;
+    if (!markets || markets.length === 0) return <EmptyState message="No markets to show: We will add more markets soon" />
 
     return (
         <div className='max-w-7xl mx-auto'>

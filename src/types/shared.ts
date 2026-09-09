@@ -1,10 +1,10 @@
-export interface Page<T> {
-  items: T[];
-  nextCursor: string | null;
-}
+// export type Page<T> = {
+//   items: T[];
+//   nextCursor: string | null;
+// }
 
-export interface CursorPaginationParams {
-  cursor?: string;
+export type PaginationParam = {
+  page?: string;
   limit?: number;
 }
 
