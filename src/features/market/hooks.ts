@@ -1,24 +1,25 @@
 import { useQuery } from '@tanstack/react-query'
-import { marketApi } from './api'
+import { apiClient } from '../../lib/apiClient'
 import type { PaginationParam } from '../../types/shared'
+import type { Market } from './types'
 
 export const marketKeys = {
-  list: (params: PaginationParam) => ['marketList', params] as const,
-  detail: (marketId: string) => ['markets', marketId] as const,
+    list: (paginationParam: PaginationParam) => ['marketList', paginationParam] as const,
+    detail: (marketId: string) => ['market', marketId] as const,
 }
 
-export function useMarketList(params: PaginationParam = {}) {
-  return useQuery({
-    queryKey: marketKeys.list(params),
-    queryFn: () => marketApi.list(params),
-    // refetchInterval: 50000,
-  })
+export function useMarketList(paginationParam: PaginationParam = {}) {
+    return useQuery({
+        queryKey: marketKeys.list(paginationParam),
+        queryFn: () => apiClient.get<Market[]>('/market/list', paginationParam),
+        // refetchInterval: 50000,
+    })
 }
 
 export function useMarket(marketId: string) {
-  return useQuery({
-    queryKey: marketKeys.detail(marketId),
-    queryFn: () => marketApi.getById(marketId),
-    enabled: Boolean(marketId),
-  })
+    return useQuery({
+        queryKey: marketKeys.detail(marketId),
+        queryFn: () => apiClient.get<Market>(`/market/${marketId}`),
+        enabled: Boolean(marketId),
+    })
 }

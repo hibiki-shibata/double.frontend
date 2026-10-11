@@ -2,7 +2,6 @@ import type { Market } from '../types';
 import { Users, DollarSign, Clock, ArrowRight } from 'lucide-react';
 import { useNavigate } from "react-router";
 
-
 const STATUS_STYLES: Record<string, string> = {
   OPEN: 'bg-green-200 text-green-700',
   CLOSED: 'bg-amber-200 text-amber-800',

@@ -13,10 +13,10 @@ export function About() {
                 <div className="inline-flex p-3 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-xl shadow-blue-500/20 mb-4">
                     <Rocket className="w-10 h-10 text-white" />
                 </div>
-                <h1 className="text-3xl font-bold text-white mb-3">About Double Market</h1>
+                <h1 className="text-3xl font-bold text-white mb-3">About Double</h1>
                 <p className="text-gray-400 max-w-2xl mx-auto">
-                    A modern prediction market platform where users can trade on the future
-                    of crypto, finance, technology, and so on.
+                    Currently a free Prediction Market Platform where people can trade on the imminent future
+                    events. But we're promising to be a democratized Financial Super Platform for people!
                 </p>
             </div>
 
@@ -24,12 +24,12 @@ export function About() {
             <div className="bg-white/5  rounded-2xl border border-white/10 p-8">
                 <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                     <Target className="w-5 h-5 text-blue-400" />
-                    Our Mission
+                    Mission
                 </h2>
                 <p className="text-gray-300 leading-relaxed">
-                    To democratize the control of financial properties, we operate in open source & with bare minimum commision.
-                    Current, finance service is designed only central institutions can constantly make profits. 
-                    We aims to make a breakthrough in the structure from the Prediction Market, which is still a developing field of finance.
+                    Democratize our Finance in 100% open source, the highest security at the lowest costs, by your hands!
+                    <br></br>
+                    {/* Let's end the era of centric instituion keep taking advantage of us ! */}
                 </p>
             </div>
 
@@ -39,9 +39,9 @@ export function About() {
                     <div className="p-2 rounded-lg bg-blue-500/20 w-fit mb-3">
                         <TrendingUp className="w-5 h-5 text-blue-400" />
                     </div>
-                    <h3 className="text-white font-semibold mb-2">Real-time Trading</h3>
+                    <h3 className="text-white font-semibold mb-2">Transparency</h3>
                     <p className="text-sm text-gray-400">
-                        Trade on live markets with real-time price updates and instant execution.
+                        Designed to be transparent, which is a key for democratized Finance platform.
                     </p>
                 </div>
 
@@ -49,9 +49,9 @@ export function About() {
                     <div className="p-2 rounded-lg bg-green-500/20 w-fit mb-3">
                         <Shield className="w-5 h-5 text-green-400" />
                     </div>
-                    <h3 className="text-white font-semibold mb-2">Secure & Transparent</h3>
+                    <h3 className="text-white font-semibold mb-2">Highest Security</h3>
                     <p className="text-sm text-gray-400">
-                        All transactions are secure, transparent, and verifiable on-chain.
+                        Security is priotized more than anything to protect our Financial democracy.
                     </p>
                 </div>
 
@@ -59,9 +59,10 @@ export function About() {
                     <div className="p-2 rounded-lg bg-purple-500/20 w-fit mb-3">
                         <Users className="w-5 h-5 text-purple-400" />
                     </div>
-                    <h3 className="text-white font-semibold mb-2">Community Driven</h3>
+                    <h3 className="text-white font-semibold mb-2">Democracy</h3>
                     <p className="text-sm text-gray-400">
-                        Join a growing community of traders and forecasters from around the world.
+                        We want every single of you to join us protecting the platform!
+                        Ideas, Ops, Security, Dev anything to make it better.
                     </p>
                 </div>
 
@@ -69,9 +70,9 @@ export function About() {
                     <div className="p-2 rounded-lg bg-yellow-500/20 w-fit mb-3">
                         <Award className="w-5 h-5 text-yellow-400" />
                     </div>
-                    <h3 className="text-white font-semibold mb-2">Profits</h3>
+                    <h3 className="text-white font-semibold mb-2">Benefits</h3>
                     <p className="text-sm text-gray-400">
-                        Earn profits for accurate predictions and active participation.
+                        Designed to be benefitial for everyone equally. NOT like classic Finance where centric instituion take our advantages.
                     </p>
                 </div>
             </div>
@@ -115,7 +116,7 @@ export function About() {
                 </div>
                 <div className="bg-white/5  rounded-2xl border border-white/10 p-6 text-center">
                     <p className="text-2xl font-bold text-purple-400">collecting data..</p>
-                    <p className="text-xs text-gray-400 mt-1">Active Traders</p>
+                    <p className="text-xs text-gray-400 mt-1">Active User</p>
                 </div>
                 <div className="bg-white/5  rounded-2xl border border-white/10 p-6 text-center">
                     <p className="text-2xl font-bold text-green-400">99.8%</p>
@@ -128,7 +129,7 @@ export function About() {
             </div>
 
             {/* Why Choose Us */}
-            <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10  rounded-2xl border border-white/10 p-8">
+            {/* <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10  rounded-2xl border border-white/10 p-8">
                 <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                     <Sparkles className="w-5 h-5 text-yellow-400" />
                     Why Choose Double Market?
@@ -159,7 +160,7 @@ export function About() {
                         <span className="text-sm text-gray-300">Variety of prediction topics</span>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }
