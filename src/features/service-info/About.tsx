@@ -39,7 +39,7 @@ export function About() {
                     <div className="p-2 rounded-lg bg-blue-500/20 w-fit mb-3">
                         <TrendingUp className="w-5 h-5 text-blue-400" />
                     </div>
-                    <h3 className="text-white font-semibold mb-2">Transparency</h3>
+                    <h3 className="text-white font-semibold mb-2">Clear Transparency</h3>
                     <p className="text-sm text-gray-400">
                         Designed to be transparent, which is a key for democratized Finance platform.
                     </p>
@@ -70,7 +70,7 @@ export function About() {
                     <div className="p-2 rounded-lg bg-yellow-500/20 w-fit mb-3">
                         <Award className="w-5 h-5 text-yellow-400" />
                     </div>
-                    <h3 className="text-white font-semibold mb-2">Benefits</h3>
+                    <h3 className="text-white font-semibold mb-2">Equal Benefits</h3>
                     <p className="text-sm text-gray-400">
                         Designed to be benefitial for everyone equally. NOT like classic Finance where centric instituion take our advantages.
                     </p>
