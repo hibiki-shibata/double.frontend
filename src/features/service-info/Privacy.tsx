@@ -28,11 +28,19 @@ export function Privacy() {
             <ul className="space-y-2 text-sm">
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-                <span>Email address and user names</span>
+                <span>Email address</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-                <span>Betting history and transaction data</span>
+                <span>UserName</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+                <span>Betting History</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+                <span>Transaction History</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
@@ -53,15 +61,7 @@ export function Privacy() {
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                <span>Provide customer support and respond to inquiries</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                <span>Improve our platform and user experience</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                <span>Comply with legal and regulatory requirements</span>
+                <span>Comply with legal/regulatory requirements</span>
               </li>
             </ul>
           </section>
@@ -72,10 +72,10 @@ export function Privacy() {
               Data Security
             </h2>
             <p className="text-sm leading-relaxed">
-              We implement standard security measures to protect your data, 
-              including encryption, access controls, and so on. 
-              We never sell your personal information to third parties.
-              Our service run on Open source, we are always welcoming your contribution for our security & service enhancement.
+              Applied industrial standard security measures to protect your data, 
+              including encryption and access controls. 
+              we never sell any personal information to third parties.
+              The platform is an open source, we needs your contributions for our security enhancement.
             </p>
           </section>
 

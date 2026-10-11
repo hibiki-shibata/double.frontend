@@ -26,7 +26,7 @@ export function Terms() {
                             1. Acceptance of Terms
                         </h2>
                         <p className="text-sm leading-relaxed">
-                            By using Double Market, you agree to these terms. We may update these terms occasionally - changes will
+                            By using Doubl platform, you agree to these terms. We may update these terms occasionally - changes will
                             be posted on this page.
                         </p>
                     </section>
@@ -36,35 +36,23 @@ export function Terms() {
                             <Users className="w-5 h-5 text-green-400" />
                             2. Eligibility
                         </h2>
-                        <ul className="space-y-2 text-sm">
-                            <li>• You must be at least 18 years old</li>
-                            <li>• You must comply with all applicable laws in your jurisdiction</li>
-                            <li>• You must not be located in a restricted jurisdiction</li>
-                            <li>• You must provide accurate and complete information</li>
+                        <ul className="flex space-y-2 text-sm">
+                            <li className="flex items-start gap-2">
+                                <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                                <span>Anyone on the planet</span>
+                            </li>
                         </ul>
                     </section>
 
                     <section>
                         <h2 className="text-xl font-semibold text-white mb-3 flex items-center gap-2">
                             <DollarSign className="w-5 h-5 text-yellow-400" />
-                            3. Account and Bets
+                            3. Accountability
                         </h2>
                         <ul className="space-y-2 text-sm">
                             <li className="flex items-start gap-2">
                                 <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                                <span>You're responsible for maintaining account security</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                                <span>All bets are final once placed and confirmed</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                                <span>We may cancel or void bets at our discretion</span>
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                                <span>We reserve the right to limit or suspend accounts</span>
+                                <span>You're responsible for maintaining account security & asset control</span>
                             </li>
                         </ul>
                     </section>
@@ -76,9 +64,9 @@ export function Terms() {
                         </h2>
                         <ul className="space-y-2 text-sm">
                             <li>• Don't manipulate or exploit the platform</li>
-                            <li>• Don't harass or abuse other users</li>
+                            <li>• Don't harass, abuse other users</li>
                             <li>• Don't use bots or automated tools</li>
-                            <li>• Don't engage in illegal or fraudulent activity</li>
+                            <li>• Don't engage in any harmfull activity</li>
                         </ul>
                     </section>
 
@@ -88,9 +76,14 @@ export function Terms() {
                             5. Market Resolution
                         </h2>
                         <ul className="space-y-2 text-sm">
-                            <li>• Markets resolve according to predetermined criteria</li>
-                            <li>• We may delay resolution for verification</li>
-                            <li>• All decisions regarding market outcomes are final</li>
+                            <li className="flex items-start gap-2">
+                                <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                                <span>Markets resolve according to predetermined criteria</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <CheckCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                                <span>We may delay resolution for verification</span>
+                            </li>
                         </ul>
                     </section>
 
@@ -102,9 +95,7 @@ export function Terms() {
                         <div className="space-y-2 text-sm bg-red-500/5 border border-red-500/20 rounded-lg p-4">
                             <p className="font-medium text-red-400">Important Limitations:</p>
                             <ul className="list-disc pl-4 space-y-1">
-                                <li>Platform provided "as is" without warranties</li>
                                 <li>We're not liable for losses from using the platform</li>
-                                <li>We don't guarantee the accuracy of market data</li>
                                 <li>We may suspend service for maintenance or emergencies</li>
                             </ul>
                         </div>
