@@ -11,7 +11,7 @@ export type Market = {
     // predictions: Predictions[]
 }
 
-export type Predictions = {
+export type Prediction = {
     name: string;
     totalParticipants: number;
     betSum: bigint;

@@ -1,4 +1,4 @@
-import type { Market, Predictions } from '../types';
+import type { Market, Prediction } from '../types';
 import { Users, DollarSign, Clock, ArrowRight } from 'lucide-react';
 import { useNavigate } from "react-router";
 
@@ -15,7 +15,7 @@ interface Props {
 
 export function MarketCard({ market }: Props) {
   // Mock data - replace with actual fetch
-  const predictions: Predictions[] = [
+  const predictions: Prediction[] = [
     { name: "Yes", totalParticipants: 1234, betSum: BigInt(4500000000000000000) },
     { name: "No", totalParticipants: 567, betSum: BigInt(2100000000000000000) },
   ]

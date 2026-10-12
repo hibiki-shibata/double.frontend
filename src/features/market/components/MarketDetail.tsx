@@ -2,7 +2,7 @@
 import { ArrowLeft, Clock, Calendar, Users, Award, BarChart3 } from 'lucide-react';
 import { useMemo, useCallback, useState } from 'react';
 import { CheckoutPanel } from './CheckoutPanel';
-import type { Market, MarketStatus, Predictions } from '../types';
+import type { Market, MarketStatus, Prediction } from '../types';
 
 const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
     OPEN: { color: 'bg-green-500', label: 'Open' },
@@ -19,7 +19,7 @@ export function MarketDetail() {
     const [showCheckout, setShowCheckout] = useState(false);
 
     // Mock data - replace with actual fetch
-    const predictions: Predictions[] = [
+    const predictions: Prediction[] = [
         { name: "Yes", totalParticipants: 1234, betSum: BigInt(4500000000000000000) },
         { name: "No", totalParticipants: 567, betSum: BigInt(2100000000000000000) },
     ]

@@ -1,5 +1,5 @@
 import { MarketCard } from './MarketCard';
-import { useMarketList } from '../hooks';
+import { useMarketList } from '../hooks/marketHook';
 import { EmptyState, ErrorState, LoadingState } from '../../../components/StatusState';
 
 export function MarketList() {
