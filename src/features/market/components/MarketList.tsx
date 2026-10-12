@@ -5,10 +5,6 @@ import { EmptyState, ErrorState, LoadingState } from '../../../components/Status
 export function MarketList() {
     const { data: markets = [], isLoading, isError } = useMarketList()
 
-    if (isLoading) return <LoadingState message="Loading market list.." />;
-    if (isError) return <ErrorState message="Failed to load market list:(" />;
-    if (!markets || markets.length === 0) return <EmptyState message="No markets to show: We will add more markets soon:)" />
-
     return (
         <div className='max-w-7xl mx-auto'>
             <div className='pt-5 pb-6 border-b border-gray-200 dark:border-gray-700'>
@@ -24,10 +20,13 @@ export function MarketList() {
                             <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75'></span>
                             <span className='relative inline-flex rounded-full h-2 w-2 bg-green-500'></span>
                         </span>
-                        812 in volume - Live
+                        Live
                     </span>
                 </div>
             </div>
+            {isLoading && <LoadingState message="Loading market list.." />}
+            {isError && <ErrorState message="Failed to load market list:(" />}
+            {(!markets || markets.length === 0) && <LoadingState message="Loading market list.." />}
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {markets.map((market) => (
                     <MarketCard key={market.id} market={market} />

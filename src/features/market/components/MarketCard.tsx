@@ -1,4 +1,4 @@
-import type { Market } from '../types';
+import type { Market, Predictions } from '../types';
 import { Users, DollarSign, Clock, ArrowRight } from 'lucide-react';
 import { useNavigate } from "react-router";
 
@@ -10,13 +10,18 @@ const STATUS_STYLES: Record<string, string> = {
 }
 
 interface Props {
-  market: Market;
+  market: Market
 }
 
 export function MarketCard({ market }: Props) {
+  // Mock data - replace with actual fetch
+  const predictions: Predictions[] = [
+    { name: "Yes", totalParticipants: 1234, betSum: BigInt(4500000000000000000) },
+    { name: "No", totalParticipants: 567, betSum: BigInt(2100000000000000000) },
+  ]
   const navigateTo = useNavigate()
-  const totalBets = market.predictions?.reduce((sum, p) => sum + Number(p.betSum), 0) || 0;
-  const totalParticipants = market.predictions?.reduce((sum, p) => sum + p.totalParticipants, 0) || 0;
+  const totalBets = predictions?.reduce((sum, p) => sum + Number(p.betSum), 0) || 0;
+  const totalParticipants = predictions?.reduce((sum, p) => sum + p.totalParticipants, 0) || 0;
   const volumeFormatted = (totalBets / 1e18).toFixed(2);
 
   const handleClick = () => {
@@ -74,7 +79,7 @@ export function MarketCard({ market }: Props) {
           <div className="flex items-center gap-1.5 ml-auto">
             <div className="flex -space-x-2">
               {/* Show top 3 prediction options as small dots */}
-              {market.predictions?.slice(0, 3).map((p, i) => (
+              {predictions?.slice(0, 3).map((p, i) => (
                 <div
                   key={i}
                   className={`w-2 h-2 rounded-full border border-slate-800 ${i === 0 ? 'bg-blue-400' :
@@ -83,9 +88,9 @@ export function MarketCard({ market }: Props) {
                     }`}
                 />
               ))}
-              {market.predictions?.length > 3 && (
+              {predictions?.length > 3 && (
                 <span className="text-[10px] text-gray-500 ml-1">
-                  +{market.predictions.length - 3}
+                  +{predictions.length - 3}
                 </span>
               )}
             </div>
@@ -97,7 +102,7 @@ export function MarketCard({ market }: Props) {
           <div className="flex items-center gap-2">
             <Clock className="w-3.5 h-3.5 text-gray-500" />
             <span className="text-xs text-gray-500">
-              {new Date(market.closeTime).toLocaleDateString('en-US', {
+              {new Date(market.closeAt).toLocaleDateString('en-US', {
                 month: 'short',
                 day: 'numeric',
                 hour: '2-digit',
@@ -118,12 +123,12 @@ export function MarketCard({ market }: Props) {
         </div>
 
         {/* Progress bar for total bets (optional) */}
-        {market.predictions && market.predictions.length > 0 && (
+        {predictions && predictions.length > 0 && (
           <div className="mt-3 h-1 bg-white/5 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full transition-all duration-1000"
               style={{
-                width: `${Math.min((Number(market.predictions[0]?.betSum || 0) / totalBets) * 100, 100)}%`
+                width: `${Math.min((Number(predictions[0]?.betSum || 0) / totalBets) * 100, 100)}%`
               }}
             />
           </div>

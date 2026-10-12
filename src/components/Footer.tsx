@@ -19,7 +19,7 @@ export function Footer() {
                             </li>
                             <li>
                                 <a href="https://hibiki-shibata.github.io/" target='_blank' className="text-sm text-gray-400 hover:text-white">
-                                    Service Owner Profile
+                                    Maintainer profile
                                 </a>
                             </li>
                         </ul>
@@ -27,8 +27,8 @@ export function Footer() {
 
                 </div>
                 <p className="text-sm mt-7 text-gray-400">
-                    Hi! I'm Hibiki, maintainer of Double! I'm always welcome your contribution on the development.
-                    Feel free to reach out to me:)
+                    We always welcome your contribution on the development.
+                    Feel free to reach out:)
                 </p>
 
                 {/* Bottom Bar */}

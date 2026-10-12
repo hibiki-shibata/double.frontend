@@ -2,27 +2,15 @@
 import { ArrowLeft, Clock, Calendar, Users, Award, BarChart3 } from 'lucide-react';
 import { useMemo, useCallback, useState } from 'react';
 import { CheckoutPanel } from './CheckoutPanel';
+import type { Market, MarketStatus, Predictions } from '../types';
 
-type MarketResponse = {
-    id: string;
-    title: string;
-    status: "PAYOUT" | "CANCELLED" | "UPCOMING" | "OPEN" | "RESOLVED" | "CLOSED";
-    closeAt: string;
-    createdAt: string;
-    predictions: {
-        name: string;
-        totalParticipants: number;
-        betSum: bigint;
-    }[];
-}
-
-const STATUS_CONFIG = {
+const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
     OPEN: { color: 'bg-green-500', label: 'Open' },
     CLOSED: { color: 'bg-red-500', label: 'Closed' },
-    UPCOMING: { color: 'bg-blue-500', label: 'Upcoming' },
-    RESOLVED: { color: 'bg-purple-500', label: 'Resolved' },
-    PAYOUT: { color: 'bg-yellow-500', label: 'Payout' },
+    SETTLED: { color: 'bg-purple-500', label: 'Resolved' },
     CANCELLED: { color: 'bg-gray-500', label: 'Cancelled' },
+    // UPCOMING: { color: 'bg-blue-500', label: 'Upcoming' },
+    // PAYOUT: { color: 'bg-yellow-500', label: 'Payout' },
 } as const;
 
 export function MarketDetail() {
@@ -31,29 +19,30 @@ export function MarketDetail() {
     const [showCheckout, setShowCheckout] = useState(false);
 
     // Mock data - replace with actual fetch
-    const market: MarketResponse = useMemo(() => ({
-        id: '1',
-        title: "Will Ethereum reach $5,000 by end of 2024?",
+    const predictions: Predictions[] = [
+        { name: "Yes", totalParticipants: 1234, betSum: BigInt(4500000000000000000) },
+        { name: "No", totalParticipants: 567, betSum: BigInt(2100000000000000000) },
+    ]
+    // Mocked
+    const market: Market = {
+        id: "123",
+        title: "RandomRandom",
+        description: "Description right here",
         status: "OPEN",
         closeAt: "2024-12-31T23:59:59Z",
         createdAt: "2024-01-01T00:00:00Z",
-        predictions: [
-            { name: "Yes", totalParticipants: 1234, betSum: BigInt(4500000000000000000) },
-            { name: "No", totalParticipants: 567, betSum: BigInt(2100000000000000000) },
-        ]
-    }), []);
+    }
 
     // Memoize expensive calculations
     const calculatedData = useMemo(() => {
-        const totalBets = market.predictions.reduce((sum, p) => sum + Number(p.betSum), 0);
-        const totalParticipants = market.predictions.reduce((sum, p) => sum + p.totalParticipants, 0);
+        const totalBets = predictions.reduce((sum, p) => sum + Number(p.betSum), 0)
+        const totalParticipants = predictions.reduce((sum, p) => sum + p.totalParticipants, 0)
 
-        const predictionsWithPercentage = market.predictions.map(p => {
-            const percentage = totalBets > 0 ? (Number(p.betSum) / totalBets) * 100 : 0;
-            return { ...p, percentage };
-        });
-
-        const maxPercentage = Math.max(...predictionsWithPercentage.map(p => p.percentage));
+        const predictionsWithPercentage = predictions.map(p => {
+            const percentage = totalBets > 0 ? (Number(p.betSum) / totalBets) * 100 : 0
+            return { ...p, percentage }
+        })
+        const maxPercentage = Math.max(...predictionsWithPercentage.map(p => p.percentage))
 
         return {
             totalBets,
@@ -61,8 +50,8 @@ export function MarketDetail() {
             predictions: predictionsWithPercentage,
             maxPercentage,
             totalBetsFormatted: (totalBets / 1e18).toFixed(2),
-        };
-    }, [market]);
+        }
+    }, [predictions])
 
     // Memoize formatters
     const formatDate = useCallback((date: string) => {
@@ -72,15 +61,15 @@ export function MarketDetail() {
             year: 'numeric',
             hour: '2-digit',
             minute: '2-digit'
-        });
-    }, []);
+        })
+    }, [])
 
     const formatBetAmount = useCallback((amount: bigint) => {
         return (Number(amount) / 1e18).toFixed(2);
     }, []);
 
     const statusConfig = STATUS_CONFIG[market.status];
-    const isOpen = market.status === 'OPEN';
+    const isOpen = status === 'OPEN';
 
     const toggleCheckout = () => {
         setShowCheckout(!showCheckout);
@@ -199,8 +188,8 @@ export function MarketDetail() {
                     <div>
                         <CheckoutPanel
                             isLoggedIn={isLoggedIn}
-                            marketStatus={market.status}
-                            predictions={market.predictions}
+                            marketStatus={status}
+                            predictions={predictions}
                             onVote={(prediction, amount) => {
                                 console.log('Vote:', { prediction, amount });
                                 // Handle vote submission

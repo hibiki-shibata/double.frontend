@@ -5,10 +5,10 @@ export type Market = {
     title: string;
     description: string;
     status: MarketStatus;
-    closeTime: string;
+    closeAt: string;
     settledAt?: string;
     createdAt: string;
-    predictions: Predictions[]
+    // predictions: Predictions[]
 }
 
 export type Predictions = {
