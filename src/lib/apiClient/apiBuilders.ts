@@ -1,12 +1,12 @@
 import { getAccessToken } from "../auth";
-
-const BFF_URI = 'http://localhost:3000/api';
+import { coreConfig } from "../../config/coreConfig"
 
 export function buildReqURI(
     path: string,
     reqQueryParam?: Record<string, unknown>
 ): string {
-    const uri = new URL(BFF_URI + path, window.location.origin)
+    const uri = new URL(coreConfig.BFF_URI + path, window.location.origin)
+    // const uri = new URL(path, window.location.origin) // For msw test
     // set query param like localhost:3000?=name=hibiki
     if (reqQueryParam) {
         for (const [key, value] of Object.entries(reqQueryParam)) {

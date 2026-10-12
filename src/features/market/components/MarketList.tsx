@@ -7,13 +7,13 @@ export function MarketList() {
 
     if (isLoading) return <LoadingState message="Loading market list.." />;
     if (isError) return <ErrorState message="Failed to load market list:(" />;
-    if (!markets || markets.length === 0) return <EmptyState message="No markets to show: We will add more markets soon" />
+    if (!markets || markets.length === 0) return <EmptyState message="No markets to show: We will add more markets soon:)" />
 
     return (
         <div className='max-w-7xl mx-auto'>
             <div className='pt-5 pb-6 border-b border-gray-200 dark:border-gray-700'>
                 <h1 className='text-3xl font-bold text-gray-900 dark:text-white tracking-tight'>
-                    Trading Markets
+                    Predictions
                 </h1>
                 <div className='flex items-center gap-3 mt-1'>
                     <p className='text-gray-600 dark:text-gray-400 font-medium'>

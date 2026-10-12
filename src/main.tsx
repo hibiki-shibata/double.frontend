@@ -11,6 +11,12 @@ import { About } from './features/service-info/About'
 import { Auth } from './features/auth/components/Auth'
 import { AccountSettings } from './features/user-profile/components/UserSettings'
 import { ProtectedRoute } from './components/Protected'
+import { worker } from './mock/browser.ts'
+import { coreConfig } from './config/coreConfig.ts'
+
+if (coreConfig.RUNTIME_ENV !== 'prod') {
+  worker.start()
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

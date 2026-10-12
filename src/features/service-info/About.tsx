@@ -1,8 +1,8 @@
 // pages/About.tsx
 import {
     Rocket, TrendingUp, Shield, Zap,
-    Users, Award, Sparkles, Target,
-    CheckCircle,
+    Users, Award, Target,
+    // Sparkles, CheckCircle,
 } from 'lucide-react';
 
 export function About() {

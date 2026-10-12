@@ -73,3 +73,7 @@ export default defineConfig([
 ])
 
 ```
+
+
+# TO DO List
+1. Implement request coalescing - prevent multiple request try refreshing token at the same time
