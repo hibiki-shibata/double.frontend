@@ -3,6 +3,9 @@ import { ArrowLeft, Clock, Calendar, Users, Award, BarChart3 } from 'lucide-reac
 import { useMemo, useCallback, useState } from 'react';
 import { CheckoutPanel } from './CheckoutPanel';
 import type { Market, MarketStatus, Prediction } from '../types';
+import { useMarket } from '../hooks/marketHook';
+import { usePredictions } from '../hooks/predictionHook';
+import { useNavigate } from 'react-router';
 
 const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
     OPEN: { color: 'bg-green-500', label: 'Open' },
@@ -14,24 +17,38 @@ const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
 } as const;
 
 export function MarketDetail() {
+    let navigate = useNavigate();
+
+    const marketId = "TEST TEST"
+    const { data: market, isLoading: marketIsLoading, isError: marketIsError } = useMarket(marketId)
+    const { data: predictions = [], isLoading: predictionsIsLoading, isError: predictionsIsError } = usePredictions(marketId)
+
+    if (!market) return <div>No data to show market</div>
+    if (!predictions) return <div>No data to show prediction</div>
+    if (marketIsError) return <div>Market Is Error</div>
+    if (marketIsLoading) return <div>Market Is Loading</div>
+    if (predictionsIsError) return <div>Prediction Is Error</div>
+    if (predictionsIsLoading) return <div>Prediction Is Loading</div>
+
     // const { id } = useParams();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [showCheckout, setShowCheckout] = useState(false);
+    // const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const isLoggedIn = false
+    const [showCheckout, setShowCheckout] = useState(false)
 
     // Mock data - replace with actual fetch
-    const predictions: Prediction[] = [
-        { name: "Yes", totalParticipants: 1234, betSum: BigInt(4500000000000000000) },
-        { name: "No", totalParticipants: 567, betSum: BigInt(2100000000000000000) },
-    ]
+    // const predictions: Prediction[] = [
+    //     { name: "Yes", totalParticipants: 1234, betSum: BigInt(4500000000000000000) },
+    //     { name: "No", totalParticipants: 567, betSum: BigInt(2100000000000000000) },
+    // ]
     // Mocked
-    const market: Market = {
-        id: "123",
-        title: "RandomRandom",
-        description: "Description right here",
-        status: "OPEN",
-        closeAt: "2024-12-31T23:59:59Z",
-        createdAt: "2024-01-01T00:00:00Z",
-    }
+    // const market: Market = {
+    //     id: "123",
+    //     title: "RandomRandom",
+    //     description: "Description right here",
+    //     status: "OPEN",
+    //     closeAt: "2024-12-31T23:59:59Z",
+    //     createdAt: "2024-01-01T00:00:00Z",
+    // }
 
     // Memoize expensive calculations
     const calculatedData = useMemo(() => {
