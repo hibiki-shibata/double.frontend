@@ -43,7 +43,7 @@ export const handlers = [
     }),
 
     // Prediction
-    http.get('/prediction/', ({ request }) => {
+    http.get('http://localhost:3000/api/v1/prediction/', ({ request }) => {
         const url = new URL(request.url)
         const marketId = url.searchParams.get('marketId')
 
@@ -51,21 +51,17 @@ export const handlers = [
 
         for (let i = 0; i < 3; i++) {
             mockedResponse.push(
-                { name: i % 2 ? "Yes" : "No", totalParticipants: i * 313, betSum: BigInt(i * 999999999999999) },
+                {
+                    name: i % 2 ? "Yes" : "No",
+                    totalParticipants: i * 313,
+                    // Convert BigInt to string to allow JSON serialization
+                    betSum: (BigInt(i * 999999999999999)).toString()
+                },
             )
         }
 
-
-        return HttpResponse.json([
-            {
-                id: '1',
-                marketId: marketId || 'unknown',
-                title: 'Mock Prediction Title',
-                probability: 0.85,
-                // Add other properties matching your Prediction type
-            },
-        ])
-    }),
+        return HttpResponse.json(mockedResponse)
+    })
 
     // http.get('http://localhost:3000/api/v1/market/', async () => {
     //     await delay(150); // Optional: simulate network latency
