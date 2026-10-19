@@ -1,9 +1,14 @@
 import { MarketCard } from './MarketCard';
 import { useMarketList } from '../hooks/marketHook';
 import { EmptyState, ErrorState, LoadingState } from '../../../components/StatusState';
+import type { PaginationParam } from '../../../types/shared';
 
+const defaultPage: PaginationParam = {
+    page: 1,
+    limit: 2
+}
 export function MarketList() {
-    const { data: markets = [], isLoading, isError } = useMarketList()
+    const { data: markets = [], isLoading, isError } = useMarketList(defaultPage)
 
     return (
         <div className='max-w-7xl mx-auto'>

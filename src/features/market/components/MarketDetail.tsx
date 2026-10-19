@@ -6,7 +6,7 @@ import type { Market, MarketStatus, Prediction } from '../types';
 import { useMarket } from '../hooks/marketHook';
 import { usePredictions } from '../hooks/predictionHook';
 // import { useNavigate } from 'react-router';
-import { useParams, Navigate } from "react-router";
+import { useParams, Navigate, Link } from "react-router";
 
 const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
     OPEN: { color: 'bg-green-500', label: 'Open' },
@@ -106,7 +106,7 @@ export function MarketDetail() {
                 className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-150 mb-6"
             >
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-150" />
-                <a href='/'>Back to Markets</a>
+                <Link to='/'>Back to Markets</Link>
             </div>
 
             {/* Main Card */}

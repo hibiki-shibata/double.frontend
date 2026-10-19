@@ -4,7 +4,7 @@
 // }
 
 export type PaginationParam = {
-  page?: string;
+  page?: number;
   limit?: number;
 }
 

@@ -25,7 +25,7 @@ createRoot(document.getElementById('root')!).render(
         {/* App acts as a layout with shared components (Header, Footer) */}
         <Route element={<App />}>
           {/* Index route for the main page */}
-          <Route index path="*" element={<MarketList />} />
+          <Route index element={<MarketList />} />
 
           {/* Nested routes */}
           <Route path="market/:marketId" element={<MarketDetail />} />
