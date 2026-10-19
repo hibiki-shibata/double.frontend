@@ -105,7 +105,7 @@ export function MarketDetail() {
             <div
                 className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-150 mb-6"
             >
-                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-150" />
+                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-150" />                
                 <Link to='/'>Back to Markets</Link>
             </div>
 

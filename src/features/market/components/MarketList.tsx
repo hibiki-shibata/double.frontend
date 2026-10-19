@@ -2,13 +2,23 @@ import { MarketCard } from './MarketCard';
 import { useMarketList } from '../hooks/marketHook';
 import { EmptyState, ErrorState, LoadingState } from '../../../components/StatusState';
 import type { PaginationParam } from '../../../types/shared';
+import { useParams, useSearchParams } from 'react-router';
 
-const defaultPage: PaginationParam = {
-    page: 1,
-    limit: 2
-}
+
 export function MarketList() {
-    const { data: markets = [], isLoading, isError } = useMarketList(defaultPage)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const paginationParam: PaginationParam = { 
+        page: Number(searchParams.get('page')), 
+        limit: Number(searchParams.get('limit')) 
+    }
+
+    const { data: markets = [], isLoading, isError } = useMarketList(paginationParam)
+
+    function changePageTo(newPage: number, limit: number): void {
+        setSearchParams({ page: String(newPage), limit: String(limit) });
+    }
+
+    if(!paginationParam.page || !paginationParam.limit) changePageTo(20, 100)
 
     return (
         <div className='max-w-7xl mx-auto'>
