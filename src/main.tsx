@@ -28,7 +28,7 @@ createRoot(document.getElementById('root')!).render(
           <Route index path="*" element={<MarketList />} />
 
           {/* Nested routes */}
-          <Route path="market/*" element={<MarketDetail />} />
+          <Route path="market/:marketId" element={<MarketDetail />} />
           <Route path="privacy" element={<Privacy />} />
           <Route path="terms" element={<Terms />} />
           <Route path="about" element={<About />} />
