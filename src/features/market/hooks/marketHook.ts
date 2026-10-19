@@ -8,7 +8,8 @@ export function useMarketList(paginationParam: PaginationParam = {}) {
     return useQuery({
         queryKey: ["marketList", paginationParam],
         queryFn: () => apiClient.get<Market[]>('/market/list', paginationParam),
-        // refetchInterval: 50000,
+        refetchInterval: 50000,
+        staleTime: 100000
     })
 }
 

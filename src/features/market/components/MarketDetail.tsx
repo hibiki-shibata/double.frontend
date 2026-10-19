@@ -23,6 +23,9 @@ export function MarketDetail() {
 
     const [showCheckout, setShowCheckout] = useState(false)
     const isLoggedIn = false
+    if (marketId == undefined) {
+        return <Navigate to="/" replace />;
+    }
 
     const { data: market, isLoading: marketIsLoading, isError: marketIsError } = useMarket(marketId)
     const { data: predictions = [], isLoading: predictionsIsLoading, isError: predictionsIsError } = usePredictions(marketId)
@@ -30,7 +33,7 @@ export function MarketDetail() {
     // const { id } = useParams();
     // const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-    
+
     // Mock data - replace with actual fetch
     // const predictions: Prediction[] = [
     //     { name: "Yes", totalParticipants: 1234, betSum: BigInt(4500000000000000000) },
@@ -86,10 +89,6 @@ export function MarketDetail() {
         setShowCheckout(!showCheckout);
     }
 
-        if (marketId == undefined) {
-        return <Navigate to="/" replace />;
-    }
-
     // 2. Check loading and error states FIRST, before checking data existence
     if (marketIsLoading || predictionsIsLoading) return <div>Loading...</div>;
     if (marketIsError) return <div>Market Is Error</div>;
@@ -99,7 +98,7 @@ export function MarketDetail() {
     if (!predictions) return <div>No data to show prediction</div>;
 
     const statusConfig = STATUS_CONFIG[market.status];
-    const isOpen = status === 'OPEN';   
+    const isOpen = status === 'OPEN';
 
     return (
         <>
