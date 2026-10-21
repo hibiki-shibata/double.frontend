@@ -4,12 +4,15 @@ import type { PaginationParam } from '../../../types/shared'
 import type { Market } from '../types'
 
 
-export function useMarketList(paginationParam: PaginationParam = {}) {
+export function useMarketList(paginationParam: PaginationParam) {
+    const page = paginationParam.page ?? 1
+    const limit = paginationParam.limit ?? 10
+
     return useQuery({
-        queryKey: ["marketList", paginationParam],
-        queryFn: () => apiClient.get<Market[]>('/market/list', paginationParam),
-        // refetchInterval: 50000,
-        staleTime: 10000,
+        queryKey: ["marketList", page, limit],
+        queryFn: () => apiClient.get<Market[]>('/market/list', { page, limit }),
+        refetchInterval: 7000,
+        staleTime: 10000
     })
 }
 
@@ -18,5 +21,7 @@ export function useMarket(marketId: string) {
         queryKey: ["marketId", marketId],
         queryFn: () => apiClient.get<Market>(`/market/${marketId}`),
         enabled: Boolean(marketId),
+        refetchInterval: 7000,
+        staleTime: 10000
     })
 }

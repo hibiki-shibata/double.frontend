@@ -14,33 +14,39 @@ import { ProtectedRoute } from './components/Protected'
 import { worker } from './mock/browser.ts'
 import { coreConfig } from './config/coreConfig.ts'
 
-if (coreConfig.RUNTIME_ENV !== 'prod') {
-  worker.start()
+async function executeBeforeServerStarts() {
+  if (coreConfig.RUNTIME_ENV !== 'prod') {
+    await worker.start()
+  }
 }
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        {/* App acts as a layout with shared components (Header, Footer) */}
-        <Route element={<App />}>
-          {/* Index route for the main page */}
-          <Route index path="*" element={<MarketList />} />
+executeBeforeServerStarts().then(() => {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <BrowserRouter>
+        <Routes>
+          {/* App acts as a layout with shared components (Header, Footer) */}
+          <Route element={<App />}>
+            {/* Index route for the main page */}
+            <Route index element={<MarketList />} />
 
-          {/* Nested routes */}
-          <Route path="market/*" element={<MarketDetail />} />
-          <Route path="privacy" element={<Privacy />} />
-          <Route path="terms" element={<Terms />} />
-          <Route path="about" element={<About />} />
+            {/* Nested routes */}
+            <Route path="market/:marketId" element={<MarketDetail />} />
+            <Route path="privacy" element={<Privacy />} />
+            <Route path="terms" element={<Terms />} />
+            <Route path="about" element={<About />} />
 
-          {/* Protected route */}
-          <Route element={<ProtectedRoute />} >
-            <Route path="settings" element={<AccountSettings />} />
+            {/* Protected route */}
+            <Route element={<ProtectedRoute />} >
+              <Route path="settings" element={<AccountSettings />} />
+            </Route>
           </Route>
-        </Route>
 
-        <Route path="auth" element={<Auth />} />
-      </Routes>
-    </BrowserRouter>
-  </StrictMode>
+          <Route path="auth" element={<Auth />} />
+        </Routes>
+      </BrowserRouter>
+    </StrictMode>
+  )
+}
 )
+
