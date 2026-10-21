@@ -4,13 +4,18 @@ import { ErrorState, LoadingState } from '../../../components/StatusState';
 import { useSearchParams } from 'react-router';
 
 
-export function MarketList() {  
+export function MarketList() {
     const [searchParams, setSearchParams] = useSearchParams()
-    const changePageTo = (newPage: number, limit: number) => setSearchParams({ page: String(newPage), limit: String(limit) });
-    const page = Number((searchParams.get('page') ?? 1))
-    const limit = Number(searchParams.get('limit') ?? 20)
-    changePageTo(page, limit)  
-    const { data: markets = [], isLoading, isError } = useMarketList({page, limit})
+    const changePageTo = (newPage: number, limit: number) => setSearchParams({ page: String(newPage), limit: String(limit) })
+
+    const currentPage = Number((searchParams.get('page') ?? 1))
+    const currentLimit = Number(searchParams.get('limit') ?? 20)
+
+    // Sync URI
+    changePageTo(currentPage, currentLimit)
+
+    // Fetch market data
+    const { data: markets = [], isLoading, isError } = useMarketList({ page: currentPage, limit: currentLimit })
 
     return (
         <div className='max-w-7xl mx-auto'>
@@ -39,6 +44,28 @@ export function MarketList() {
                     <MarketCard key={market.id} market={market} />
                 ))}
             </div>
+            <nav aria-label="Pagination" className="flex gap-4 items-center">
+                {/* Back Button */}
+                <button
+                    type="button"
+                    disabled={currentPage <= 1}
+                    // onClick={() => handlePageChange(currentPage - 1)}
+                    className="px-2 py-1 border rounded disabled:opacity-50"
+                >
+                    Previous
+                </button>
+
+                <span>Page {currentPage}</span>
+
+                {/* Next Button */}
+                <button
+                    type="button"
+                    // onClick={() => handlePageChange(currentPage + 1)}
+                    className="px-2 py-1 border rounded"
+                >
+                    Next
+                </button>
+            </nav>
         </div>
     )
 }
