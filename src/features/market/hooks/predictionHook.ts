@@ -8,5 +8,6 @@ export function usePredictions(marketId: string) {
         queryKey: ["predictions", marketId],
         queryFn: () => apiClient.get<Prediction[]>('/prediction/', { marketId }),
         // refetchInterval: 50000,
+        staleTime: 10000,
     })
 }
