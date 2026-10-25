@@ -21,7 +21,7 @@ export function MarketDetail() {
     // let navigate = useNavigate()
     let { marketId } = useParams()
 
-    const [showCheckout, setShowCheckout] = useState(false)
+    const [showCheckout, setShowCheckout] = useState(true)
     const isLoggedIn = false
     if (marketId == undefined) {
         return <Navigate to="/" replace />;
@@ -32,22 +32,6 @@ export function MarketDetail() {
 
     // const { id } = useParams();
     // const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-
-    // Mock data - replace with actual fetch
-    // const predictions: Prediction[] = [
-    //     { name: "Yes", totalParticipants: 1234, betSum: BigInt(4500000000000000000) },
-    //     { name: "No", totalParticipants: 567, betSum: BigInt(2100000000000000000) },
-    // ]
-    // Mocked
-    // const market: Market = {
-    //     id: "123",
-    //     title: "RandomRandom",
-    //     description: "Description right here",
-    //     status: "OPEN",
-    //     closeAt: "2024-12-31T23:59:59Z",
-    //     createdAt: "2024-01-01T00:00:00Z",
-    // }
 
     // Memoize expensive calculations
     const calculatedData = useMemo(() => {
@@ -102,10 +86,8 @@ export function MarketDetail() {
 
     return (
         <>
-            <div
-                className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-150 mb-6"
-            >
-                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-150" />                
+            <div className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-150 mb-6">
+                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-150" />
                 <Link to='/'>Back to Markets</Link>
             </div>
 
@@ -228,7 +210,9 @@ export function MarketDetail() {
 }
 
 // Separate component to prevent re-renders of all predictions
-const PredictionCard = ({ prediction, isLeading, formatBetAmount }: { prediction: any, isLeading: boolean, formatBetAmount: (num: bigint) => string }) => {
+function PredictionCard(
+    { prediction, isLeading, formatBetAmount }: { prediction: any, isLeading: boolean, formatBetAmount: (num: bigint) => string }
+) {
     return (
         <div className="group bg-white/5 hover:bg-white/10 rounded-xl p-4 transition-colors duration-150 border border-white/5 hover:border-white/20">
             <div className="flex items-center justify-between mb-2">
