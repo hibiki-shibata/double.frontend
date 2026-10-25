@@ -13,14 +13,14 @@ export function MarketList() {
     const currentLimit = Number(searchParams.get('limit') ?? 20)
 
     // Sync URI
-    changePageTo(currentPage, currentLimit)
+    // changePageTo(currentPage, currentLimit)
 
     // Fetch market data
     const { data: markets = [], isLoading, isError } = useMarketList({ page: currentPage, limit: currentLimit })
 
-    const hasMore = markets.length === currentLimit;
-
+    // Pagination button
     const handlePageChange = (newPage: number) => {
+        console.log(newPage)
         if (newPage < 1) return;
         changePageTo(newPage, currentLimit);
         window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll back to top on page change
@@ -75,7 +75,6 @@ export function MarketList() {
                 {/* Next Button */}
                 <button
                     type="button"
-                    disabled={!hasMore}
                     onClick={() => handlePageChange(currentPage + 1)}
                     className="relative inline-flex items-center gap-1 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >

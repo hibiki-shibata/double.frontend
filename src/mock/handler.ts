@@ -5,7 +5,7 @@ export const handlers = [
     http.get('http://localhost:3000/api/v1/market/list', async () => {
         await delay(150); // Optional: simulate network latency
         const mockedResponse = []
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 30; i++) {
             mockedResponse.push(
                 {
                     id: i.toString(),
@@ -53,7 +53,7 @@ export const handlers = [
         
         const mockedResponse = []
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
             mockedResponse.push(
                 {
                     name: i % 2 ? "Yes" : "No",
