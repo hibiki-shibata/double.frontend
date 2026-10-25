@@ -121,35 +121,12 @@ export function MarketDetail() {
                     </div>
 
                     {/* Stats Grid - Using memoized values */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-white/5 rounded-xl border border-white/5 mb-8">
-                        <div>
-                            <p className="text-xs text-gray-400">Participants</p>
-                            <p className="text-lg font-semibold text-white flex items-center gap-1">
-                                <Users className="w-4 h-4 text-blue-400" />
-                                {calculatedData.totalParticipants.toLocaleString()}
-                            </p>
-                        </div>
-                        <div>
-                            <p className="text-xs text-gray-400">Total Bets</p>
-                            <p className="text-lg font-semibold text-white flex items-center gap-1">
-                                <BarChart3 className="w-4 h-4 text-purple-400" />
-                                ${calculatedData.totalBetsFormatted}M
-                            </p>
-                        </div>
-                        <div>
-                            <p className="text-xs text-gray-400">Predictions</p>
-                            <p className="text-lg font-semibold text-white">
-                                {calculatedData.predictions.length}
-                            </p>
-                        </div>
-                        <div>
-                            <p className="text-xs text-gray-400">Closes</p>
-                            <p className="text-lg font-semibold text-white flex items-center gap-1">
-                                <Calendar className="w-4 h-4 text-orange-400" />
-                                {formatDate(market.closeAt)}
-                            </p>
-                        </div>
-                    </div>
+                    <PredictionStaticGrid
+                        calculatedData={calculatedData}
+                        market={market}
+                        formatDate={formatDate}
+                    />
+
 
                     {/* Predictions - Using memoized data */}
                     <div>
@@ -208,6 +185,45 @@ export function MarketDetail() {
         </>
     );
 }
+
+
+function PredictionStaticGrid(
+    { calculatedData, market, formatDate }: { calculatedData: any, market: any, formatDate: (time: string) => any }
+) {
+    return (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-white/5 rounded-xl border border-white/5 mb-8">
+            <div>
+                <p className="text-xs text-gray-400">Participants</p>
+                <p className="text-lg font-semibold text-white flex items-center gap-1">
+                    <Users className="w-4 h-4 text-blue-400" />
+                    {calculatedData.totalParticipants.toLocaleString()}
+                </p>
+            </div>
+            <div>
+                <p className="text-xs text-gray-400">Total Bets</p>
+                <p className="text-lg font-semibold text-white flex items-center gap-1">
+                    <BarChart3 className="w-4 h-4 text-purple-400" />
+                    ${calculatedData.totalBetsFormatted}M
+                </p>
+            </div>
+            <div>
+                <p className="text-xs text-gray-400">Predictions</p>
+                <p className="text-lg font-semibold text-white">
+                    {calculatedData.predictions.length}
+                </p>
+            </div>
+            <div>
+                <p className="text-xs text-gray-400">Closes</p>
+                <p className="text-lg font-semibold text-white flex items-center gap-1">
+                    <Calendar className="w-4 h-4 text-orange-400" />
+                    {formatDate(market.closeAt)}
+                </p>
+            </div>
+        </div>
+    )
+}
+
+
 
 // Separate component to prevent re-renders of all predictions
 function PredictionCard(
