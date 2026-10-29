@@ -17,33 +17,26 @@ const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
     // PAYOUT: { color: 'bg-yellow-500', label: 'Payout' },
 } as const;
 
+// Todo
+// Add: auth context
 export function MarketDetail() {
-    // let navigate = useNavigate()
     let { marketId } = useParams()
 
     const [showCheckout, setShowCheckout] = useState(true)
     const isLoggedIn = false
-    if (marketId == undefined) {
-        return <Navigate to="/" replace />;
-    }
+    if (marketId == undefined) return <Navigate to="/" replace />;
 
     const { data: market, isLoading: marketIsLoading, isError: marketIsError } = useMarket(marketId)
     const { data: predictions = [], isLoading: predictionsIsLoading, isError: predictionsIsError } = usePredictions(marketId)
 
-    // const { id } = useParams();
-    // const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-    // Memoize expensive calculations
-    const calculatedData = useMemo(() => {
-        const totalBets = predictions.reduce((sum, p) => sum + Number(p.betSum), 0)
-        const totalParticipants = predictions.reduce((sum, p) => sum + p.totalParticipants, 0)
-
-        const predictionsWithPercentage = predictions.map(p => {
+    const calculatedPredictionData = useMemo(() => { // useMemo for mitigate expensive prediction metadata formating process
+        const totalBets = predictions.reduce((sum, p) => sum + Number(p.betSum), 0) // Sum up the each prediction's investment sum
+        const totalParticipants = predictions.reduce((sum, p) => sum + p.totalParticipants, 0) // Sum up the each prediction's participants  sum
+        const predictionsWithPercentage = predictions.map(p => { // Calculate percentage from raw prediction data
             const percentage = totalBets > 0 ? (Number(p.betSum) / totalBets) * 100 : 0
             return { ...p, percentage }
         })
         const maxPercentage = Math.max(...predictionsWithPercentage.map(p => p.percentage))
-
         return {
             totalBets,
             totalParticipants,
@@ -69,20 +62,17 @@ export function MarketDetail() {
     }, []);
 
 
-    const toggleCheckout = () => {
-        setShowCheckout(!showCheckout);
-    }
+    const toggleCheckout = () => setShowCheckout(!showCheckout);
 
-    // 2. Check loading and error states FIRST, before checking data existence
-    if (marketIsLoading || predictionsIsLoading) return <div>Loading...</div>;
-    if (marketIsError) return <div>Market Is Error</div>;
-    if (predictionsIsError) return <div>Prediction Is Error</div>;
-    // 3. Then check if data actually exists
-    if (!market) return <div>No data to show market</div>;
-    if (!predictions) return <div>No data to show prediction</div>;
 
-    const statusConfig = STATUS_CONFIG[market.status];
-    const isOpen = status === 'OPEN';
+    // Loading/Error case handling
+    if (marketIsLoading || predictionsIsLoading) return <div>Loading...</div>
+    if (marketIsError || predictionsIsError) return <div>Market or Prediction is Error during load</div>
+
+    // No data case handling
+    if (!market || !predictions) return <div>No data to show</div>
+    // set status-based variable - change css 
+    const statusConfig = STATUS_CONFIG[market.status]
 
     return (
         <>
@@ -114,7 +104,7 @@ export function MarketDetail() {
                             <div className="text-right">
                                 <p className="text-xs text-gray-400">Total Volume</p>
                                 <p className="text-lg font-bold">
-                                    ${calculatedData.totalBetsFormatted}M
+                                    ${calculatedPredictionData.totalBetsFormatted}M
                                 </p>
                             </div>
                         </div>
@@ -122,7 +112,7 @@ export function MarketDetail() {
 
                     {/* Stats Grid - Using memoized values */}
                     <PredictionStaticGrid
-                        calculatedData={calculatedData}
+                        calculatedPredictionData={calculatedPredictionData}
                         market={market}
                         formatDate={formatDate}
                     />
@@ -135,9 +125,9 @@ export function MarketDetail() {
                             Predictions
                         </h2>
                         <div className="space-y-3">
-                            {calculatedData.predictions.map((prediction, index) => {
-                                const isLeading = prediction.percentage === calculatedData.maxPercentage &&
-                                    calculatedData.maxPercentage > 0;
+                            {calculatedPredictionData.predictions.map((prediction, index) => {
+                                const isLeading = prediction.percentage === calculatedPredictionData.maxPercentage &&
+                                    calculatedPredictionData.maxPercentage > 0;
 
                                 return (
                                     <PredictionCard
@@ -152,7 +142,7 @@ export function MarketDetail() {
                     </div>
 
                     {/* Action Button */}
-                    {isOpen && (
+                    {(market.status === 'OPEN') && (
                         <div className="mt-8 pt-6 border-t border-white/10">
                             <button
                                 onClick={toggleCheckout}
@@ -161,7 +151,7 @@ export function MarketDetail() {
                                 {showCheckout ? 'Close Bet' : 'Place Your Bet'}
                             </button>
                             <p className="text-xs text-gray-400 mt-3">
-                                ⚡ {calculatedData.totalParticipants.toLocaleString()} participants already placed their bets
+                                ⚡ {calculatedPredictionData.totalParticipants.toLocaleString()} participants already placed their bets
                             </p>
                         </div>
                     )}
@@ -188,7 +178,7 @@ export function MarketDetail() {
 
 
 function PredictionStaticGrid(
-    { calculatedData, market, formatDate }: { calculatedData: any, market: any, formatDate: (time: string) => any }
+    { calculatedPredictionData, market, formatDate }: { calculatedPredictionData: any, market: any, formatDate: (time: string) => any }
 ) {
     return (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-white/5 rounded-xl border border-white/5 mb-8">
@@ -196,20 +186,20 @@ function PredictionStaticGrid(
                 <p className="text-xs text-gray-400">Participants</p>
                 <p className="text-lg font-semibold text-white flex items-center gap-1">
                     <Users className="w-4 h-4 text-blue-400" />
-                    {calculatedData.totalParticipants.toLocaleString()}
+                    {calculatedPredictionData.totalParticipants.toLocaleString()}
                 </p>
             </div>
             <div>
                 <p className="text-xs text-gray-400">Total Bets</p>
                 <p className="text-lg font-semibold text-white flex items-center gap-1">
                     <BarChart3 className="w-4 h-4 text-purple-400" />
-                    ${calculatedData.totalBetsFormatted}M
+                    ${calculatedPredictionData.totalBetsFormatted}M
                 </p>
             </div>
             <div>
                 <p className="text-xs text-gray-400">Predictions</p>
                 <p className="text-lg font-semibold text-white">
-                    {calculatedData.predictions.length}
+                    {calculatedPredictionData.predictions.length}
                 </p>
             </div>
             <div>
