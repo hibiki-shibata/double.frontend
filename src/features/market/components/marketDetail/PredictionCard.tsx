@@ -4,13 +4,13 @@ export function PredictionCard(
     { prediction, isLeading, setSelectedPrediction, showCheckoutPanel }:
         { prediction: any, isLeading: boolean, setSelectedPrediction: () => void, showCheckoutPanel: () => void }
 ) {
-    
+
     const formatBetAmount = useCallback((amount: bigint) => {
         return (Number(amount) / 1e18).toFixed(2);
     }, [])
 
     return (
-        <div className="group bg-white/5 hover:bg-white/10 rounded-xl p-4 transition-colors duration-150 border border-white/5 hover:border-white/20"
+        <div className="group bg-white/5 hover:bg-white/10 rounded-xl p-4 transition-colors duration-150 border border-white/5 hover:border-white/20 active:bg-white/9"
             onClick={() => {
                 setSelectedPrediction()
                 showCheckoutPanel()

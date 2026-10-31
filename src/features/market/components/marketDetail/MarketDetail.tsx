@@ -65,7 +65,7 @@ export function MarketDetail() {
     if (marketIsError || predictionsIsError) return <div>Market or Prediction is Error during load</div>
 
     // No data case handling
-    if (!market || !predictions) return <div>No data to show</div>
+    if (!market || !predictions) return <div>No sufficient data to show</div>
     // set status-based variable - change css 
     const statusConfig = STATUS_CONFIG[market.status]
 

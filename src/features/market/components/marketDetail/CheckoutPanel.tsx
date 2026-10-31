@@ -1,8 +1,8 @@
 // components/CheckoutPanel.tsx
 import React, { useState } from 'react';
-import { Link } from 'react-router';
-import { Users, Clock, CheckCircle } from 'lucide-react';
+import { Clock, CheckCircle } from 'lucide-react';
 import type { Prediction } from '../../types';
+import { NavSigninCard } from './NavSigninCard';
 
 interface CheckoutPanelProps {
     isMarketOpen: boolean
@@ -31,27 +31,7 @@ export function CheckoutPanel({
         <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6">
             {/* Guard 1: User Not Logged In */}
             {!isLoggedIn && (
-                <div className="text-center py-4">
-                    <div className="w-16 h-16 rounded-full bg-blue-500/20 flex items-center justify-center mx-auto mb-4">
-                        <Users className="w-8 h-8 text-blue-400" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-white mb-2">Join the Prediction</h3>
-                    <p className="text-sm text-gray-400 mb-6">
-                        Sign in to bet on this market and start earning rewards
-                    </p>
-                    <Link
-                        to="/auth"
-                        className="block w-full py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium rounded-xl hover:opacity-90 transition-opacity  active:opacity-80"
-                    >
-                        Sign in to bet
-                    </Link>
-                    <p className="text-xs text-gray-500 mt-3">
-                        Don't have an account?{' '}
-                        <Link to="/auth" className="text-blue-400 hover:underline">
-                            Sign up
-                        </Link>
-                    </p>
-                </div>
+                <NavSigninCard />
             )}
 
             {/* Guard 2: Market Closed */}

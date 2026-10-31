@@ -40,6 +40,9 @@ executeBeforeServerStarts().then(() => {
             <Route element={<ProtectedRoute />} >
               <Route path="settings" element={<AccountSettings />} />
             </Route>
+
+            {/* fallback */}
+            <Route path='*' element={<MarketList />} />
           </Route>
 
           <Route path="auth" element={<Auth />} />
