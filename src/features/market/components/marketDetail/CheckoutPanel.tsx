@@ -1,7 +1,7 @@
 // components/CheckoutPanel.tsx
 import { useState } from 'react'
 import { Clock, CheckCircle } from 'lucide-react'
-import type { BetPayload, Prediction } from '../../types'
+import type { Prediction } from '../../types'
 import { NavSigninCard } from './NavSigninCard'
 import { usePlaceBet } from '../../hooks/placeBetHook'
 
@@ -16,7 +16,8 @@ export function CheckoutPanel(
     const isLoggedIn = true
 
 
-    async function handlePlaceBet(): Promise<void> {
+    async function handlePlaceBet(e: React.FormEvent<HTMLFormElement>): Promise<void> {
+        e.preventDefault()
         try {
             await placeBet({ predictionId: selectedPrediction.id, amount: Number(betAmount) })
             setBetAmount('')

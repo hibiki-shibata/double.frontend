@@ -89,6 +89,16 @@ export const handlers = [
         return HttpResponse.json(mockedResponse);
     }),
 
+
+    http.post('http://localhost:3000/api/v1/bet', async ({ request }) => {
+        const body = (await request.json()) as { name: string };
+        // Return a mock Market object
+        return HttpResponse.json(
+            { id: String(Date.now()), name: body.name },
+            { status: 201 }
+        );
+    }),
+
     // // 2. Mock POST request
     // http.post('/api/users', async ({ request }) => {
     //     const body = (await request.json()) as { name: string };
