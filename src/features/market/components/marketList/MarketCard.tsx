@@ -1,4 +1,4 @@
-import type { Market, Prediction } from '../types';
+import type { Market, Prediction } from '../../types';
 import { Users, DollarSign, Clock, ArrowRight } from 'lucide-react';
 import { useNavigate } from "react-router";
 

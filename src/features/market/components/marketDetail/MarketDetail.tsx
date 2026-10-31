@@ -2,11 +2,12 @@
 import { ArrowLeft, Clock, Calendar, Users, Award, BarChart3 } from 'lucide-react';
 import { useMemo, useCallback, useState } from 'react';
 import { CheckoutPanel } from './CheckoutPanel';
-import type { Market, MarketStatus, Prediction } from '../types';
-import { useMarket } from '../hooks/marketHook';
-import { usePredictions } from '../hooks/predictionHook';
+import type { Market, MarketStatus, Prediction } from '../../types';
+import { useMarket } from '../../hooks/marketHook';
+import { usePredictions } from '../../hooks/predictionHook';
 // import { useNavigate } from 'react-router';
 import { useParams, Navigate, Link } from "react-router";
+import { PredictionCard } from './PredictionCard';
 
 const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
     OPEN: { color: 'bg-green-500', label: 'Open' },
@@ -17,33 +18,27 @@ const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
     // PAYOUT: { color: 'bg-yellow-500', label: 'Payout' },
 } as const;
 
+// Todo
+// Add: auth context
 export function MarketDetail() {
-    // let navigate = useNavigate()
     let { marketId } = useParams()
 
-    const [showCheckout, setShowCheckout] = useState(true)
-    const isLoggedIn = false
-    if (marketId == undefined) {
-        return <Navigate to="/" replace />;
-    }
+    const [showCheckout, setShowCheckout] = useState<boolean>(false)
+    const [selectedPrediction, setSelectedPrediction] = useState<Prediction>()
+    if (marketId == undefined) return <Navigate to="/" replace /> // Navigating to Market list page
 
+    // Fetching all data market needs
     const { data: market, isLoading: marketIsLoading, isError: marketIsError } = useMarket(marketId)
     const { data: predictions = [], isLoading: predictionsIsLoading, isError: predictionsIsError } = usePredictions(marketId)
 
-    // const { id } = useParams();
-    // const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-    // Memoize expensive calculations
-    const calculatedData = useMemo(() => {
-        const totalBets = predictions.reduce((sum, p) => sum + Number(p.betSum), 0)
-        const totalParticipants = predictions.reduce((sum, p) => sum + p.totalParticipants, 0)
-
-        const predictionsWithPercentage = predictions.map(p => {
+    const calculatedPredictionData = useMemo(() => { // useMemo for mitigate expensive prediction metadata formating process
+        const totalBets = predictions.reduce((sum, p) => sum + Number(p.betSum), 0) // Sum up the each prediction's investment sum
+        const totalParticipants = predictions.reduce((sum, p) => sum + p.totalParticipants, 0) // Sum up the each prediction's participants  sum
+        const predictionsWithPercentage = predictions.map(p => { // Calculate percentage from raw prediction data
             const percentage = totalBets > 0 ? (Number(p.betSum) / totalBets) * 100 : 0
             return { ...p, percentage }
         })
         const maxPercentage = Math.max(...predictionsWithPercentage.map(p => p.percentage))
-
         return {
             totalBets,
             totalParticipants,
@@ -64,25 +59,15 @@ export function MarketDetail() {
         })
     }, [])
 
-    const formatBetAmount = useCallback((amount: bigint) => {
-        return (Number(amount) / 1e18).toFixed(2);
-    }, []);
 
+    // Loading/Error case handling
+    if (marketIsLoading || predictionsIsLoading) return <div>Loading...</div>
+    if (marketIsError || predictionsIsError) return <div>Market or Prediction is Error during load</div>
 
-    const toggleCheckout = () => {
-        setShowCheckout(!showCheckout);
-    }
-
-    // 2. Check loading and error states FIRST, before checking data existence
-    if (marketIsLoading || predictionsIsLoading) return <div>Loading...</div>;
-    if (marketIsError) return <div>Market Is Error</div>;
-    if (predictionsIsError) return <div>Prediction Is Error</div>;
-    // 3. Then check if data actually exists
-    if (!market) return <div>No data to show market</div>;
-    if (!predictions) return <div>No data to show prediction</div>;
-
-    const statusConfig = STATUS_CONFIG[market.status];
-    const isOpen = status === 'OPEN';
+    // No data case handling
+    if (!market || !predictions) return <div>No data to show</div>
+    // set status-based variable - change css 
+    const statusConfig = STATUS_CONFIG[market.status]
 
     return (
         <>
@@ -112,7 +97,9 @@ export function MarketDetail() {
                         <div className="flex items-center gap-4">
                             <div className="text-right">
                                 <p className="text-xs text-gray-400">Total Volume</p>
-                                <p className="text-lg font-bold">${calculatedData.totalBetsFormatted}M</p>
+                                <p className="text-lg font-bold">
+                                    ${calculatedPredictionData.totalBetsFormatted}M
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -123,20 +110,20 @@ export function MarketDetail() {
                             <p className="text-xs text-gray-400">Participants</p>
                             <p className="text-lg font-semibold text-white flex items-center gap-1">
                                 <Users className="w-4 h-4 text-blue-400" />
-                                {calculatedData.totalParticipants.toLocaleString()}
+                                {calculatedPredictionData.totalParticipants.toLocaleString()}
                             </p>
                         </div>
                         <div>
                             <p className="text-xs text-gray-400">Total Bets</p>
                             <p className="text-lg font-semibold text-white flex items-center gap-1">
                                 <BarChart3 className="w-4 h-4 text-purple-400" />
-                                ${calculatedData.totalBetsFormatted}M
+                                ${calculatedPredictionData.totalBetsFormatted}M
                             </p>
                         </div>
                         <div>
                             <p className="text-xs text-gray-400">Predictions</p>
                             <p className="text-lg font-semibold text-white">
-                                {calculatedData.predictions.length}
+                                {calculatedPredictionData.predictions.length}
                             </p>
                         </div>
                         <div>
@@ -155,100 +142,39 @@ export function MarketDetail() {
                             <Award className="w-5 h-5 text-yellow-400" />Predictions
                         </h2>
                         <div className="space-y-3">
-                            {calculatedData.predictions.map((prediction, index) => {
-                                const isLeading = prediction.percentage === calculatedData.maxPercentage &&
-                                    calculatedData.maxPercentage > 0
+                            {calculatedPredictionData.predictions.map((prediction, index) => {
+                                const isLeading = prediction.percentage === calculatedPredictionData.maxPercentage &&
+                                    calculatedPredictionData.maxPercentage > 0;
                                 return (
+                                    // <button >
                                     <PredictionCard
                                         key={index}
                                         prediction={prediction}
+                                        setSelectedPrediction={() => setSelectedPrediction(prediction)}
                                         isLeading={isLeading}
-                                        formatBetAmount={formatBetAmount}
+                                        showCheckoutPanel={() => setShowCheckout(true)}
                                     />
+                                    // </button>
                                 );
                             })}
                         </div>
                     </div>
-
-                    {/* Action Button */}
-                    {isOpen && (
-                        <div className="mt-8 pt-6 border-t border-white/10">
-                            <button
-                                onClick={toggleCheckout}
-                                className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl font-semibold text-white hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-150 hover:scale-[1.02] active:scale-95"
-                            >
-                                {showCheckout ? 'Close Bet' : 'Place Your Bet'}
-                            </button>
-                            <p className="text-xs text-gray-400 mt-3">
-                                ⚡ {calculatedData.totalParticipants.toLocaleString()} participants already placed their bets
-                            </p>
-                        </div>
-                    )}
                 </div>
 
                 {/* Checkout Panel - Only visible when showCheckout is true */}
-                {showCheckout && (
+                {(showCheckout && selectedPrediction) && (
                     <div>
                         <CheckoutPanel
-                            isLoggedIn={isLoggedIn}
-                            marketStatus={status}
-                            predictions={predictions}
-                            onVote={(prediction, amount) => {
-                                console.log('Vote:', { prediction, amount });
-                                // Handle vote submission
-                            }}
+                            // isLoggedIn={isLoggedIn}
+                            isMarketOpen={market.status === 'OPEN'}
+                            selectedPrediction={selectedPrediction}
+                            closeCheckoutPanel={() => setShowCheckout(false)}
                         />
+                        <div className="mt-8 pt-6 border-t border-white/10">
+                        </div>
                     </div>
                 )}
             </div>
         </>
     );
 }
-
-
-// Separate component to prevent re-renders of all predictions
-function PredictionCard(
-    { prediction, isLeading, formatBetAmount }: { prediction: any, isLeading: boolean, formatBetAmount: (num: bigint) => string }
-) {
-    return (
-        <div className="group bg-white/5 hover:bg-white/10 rounded-xl p-4 transition-colors duration-150 border border-white/5 hover:border-white/20">
-            <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-3">
-                    <span className="text-sm font-medium text-white">
-                        {prediction.name}
-                    </span>
-                    {isLeading && (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 font-medium">
-                            Leading
-                        </span>
-                    )}
-                </div>
-                <div className="text-right">
-                    <span className="text-sm font-semibold text-white">
-                        {prediction.percentage.toFixed(1)}%
-                    </span>
-                    <span className="text-xs text-gray-400 ml-2">
-                        ({prediction.totalParticipants} participants)
-                    </span>
-                </div>
-            </div>
-
-            {/* Progress Bar - Static width, no transition */}
-            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-                <div
-                    className={`h-full rounded-full ${isLeading
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-500'
-                        : 'bg-gray-500'
-                        }`}
-                    style={{ width: `${prediction.percentage}%` }}
-                />
-            </div>
-
-            <div className="mt-2 flex justify-end">
-                <span className="text-xs text-gray-400">
-                    ${formatBetAmount(prediction.betSum)} in bets
-                </span>
-            </div>
-        </div>
-    );
-};
