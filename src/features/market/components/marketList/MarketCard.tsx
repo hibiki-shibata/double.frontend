@@ -10,11 +10,7 @@ const STATUS_STYLES: Record<string, string> = {
   CANCELLED: 'bg-red-200 text-red-700',
 }
 
-interface Props {
-  market: Market
-}
-
-export function MarketCard({ market }: Props) {
+export function MarketCard({ market }: { market: Market }) {
   const navigateTo = useNavigate()
 
   const { data: predictions = [], isLoading: predictionsIsLoading, isError: predictionsIsError } = usePredictions(market.id)
@@ -59,7 +55,14 @@ export function MarketCard({ market }: Props) {
         </p>
 
         {/* Stats row */}
-        <div className="mt-3 flex items-center gap-4">
+        {predictionsIsLoading && (
+          <div>Still Loading Data...</div>
+        )}
+        {predictionsIsError && (
+          <div>Error occured during fetching prediction data</div>
+        )}
+
+        {!predictionsIsLoading && !predictionsIsError && (<div className="mt-3 flex items-center gap-4">
           <div className="flex items-center gap-1.5">
             <Users className="w-3.5 h-3.5 text-blue-400" />
             <span className="text-xs text-gray-400 font-medium">
@@ -91,7 +94,7 @@ export function MarketCard({ market }: Props) {
               )}
             </div>
           </div>
-        </div>
+        </div>)}
 
         {/* Footer with time and trade button */}
         <div className="mt-3 flex items-center justify-between pt-3 border-t border-white/5">

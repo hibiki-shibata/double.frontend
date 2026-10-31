@@ -7,6 +7,7 @@ import { useMarket } from '../../hooks/marketHook';
 import { usePredictions } from '../../hooks/predictionHook';
 import { useParams, Navigate, Link } from "react-router";
 import { PredictionCard } from './PredictionCard';
+import { usePlaceBet } from '../../hooks/placeBetHook';
 
 const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
     OPEN: { color: 'bg-green-500', label: 'Open' },
@@ -36,7 +37,7 @@ export function MarketDetail() {
             const percentage = totalBets > 0 ? (Number(p.betSum) / totalBets) * 100 : 0
             return { ...p, percentage }
         })
-        const maxPercentage = Math.max(...predictionsWithPercentage.map(p => p.percentage))
+        const maxPercentage: number = Math.max(...predictionsWithPercentage.map(p => p.percentage))
         return {
             totalBets,
             totalParticipants,

@@ -1,50 +1,38 @@
 // components/CheckoutPanel.tsx
 import { useState } from 'react'
 import { Clock, CheckCircle } from 'lucide-react'
-import type { Prediction } from '../../types'
+import type { BetPayload, Prediction } from '../../types'
 import { NavSigninCard } from './NavSigninCard'
+import { usePlaceBet } from '../../hooks/placeBetHook'
 
 export function CheckoutPanel(
-    { isMarketOpen, selectedPrediction, closeCheckoutPanel, }: { isMarketOpen: boolean, selectedPrediction: Prediction, closeCheckoutPanel: () => void }
+    { isMarketOpen, selectedPrediction, closeCheckoutPanel }:
+        { isMarketOpen: boolean, selectedPrediction: Prediction, closeCheckoutPanel: () => void }
 ) {
+    const { placeBet, isSuccess: placeBetIsSuccess, isLoading: placeBetIsLoading, error: placeBetError } = usePlaceBet()
     // Bet final checkout states
     const [betAmount, setBetAmount] = useState<string>('')
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [isError, setError] = useState<string | null>(null)
-    const [isSuccess, setIsSuccess] = useState<boolean>(false)
     // Replace later
     const isLoggedIn = true
 
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        setError(null)
-        setIsSuccess(false)
-
-        // Format and check the amount is positive number
-        const amount = Number(betAmount)
-        if (isNaN(amount) || amount <= 0) return alert('Please enter a valid positive number.')
-
-
-        // Sumit bet & State Management
-        setIsLoading(true);
+    async function handlePlaceBet(): Promise<void> {
         try {
-            // await onPlaceBet(amount, selectedPrediction.id);
-            setIsSuccess(true);
-            setBetAmount('');
+            await placeBet({ predictionId: selectedPrediction.id, amount: Number(betAmount) })
+            setBetAmount('')
         } catch (err: unknown) {
-            setError(err instanceof Error ? err.message : 'Failed to submit bet.');
-        } finally {
-            setIsLoading(false);
+            alert('Failed to submit your bet\n' + err)
         }
     }
-
 
     return (
         <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6">
             {/* User Not Logged In case */}
             {!isLoggedIn && (
                 <NavSigninCard />
+            )}
+            {placeBetError && (
+                <div>Failed to bet</div>
             )}
 
             {/* Market Closed case */}
@@ -59,7 +47,7 @@ export function CheckoutPanel(
             )}
 
             {/* Success State */}
-            {isLoggedIn && isSuccess && (
+            {isLoggedIn && placeBetIsSuccess && (
                 <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 text-center">
                     <CheckCircle className="w-8 h-8 text-green-400 mx-auto mb-2" />
                     <p className="text-sm font-medium text-green-400">bet submitted!</p>
@@ -68,20 +56,20 @@ export function CheckoutPanel(
             )}
 
             {/* Error State */}
-            {isLoggedIn && isError && (
+            {isLoggedIn && placeBetError && (
                 <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 text-center">
                     <CheckCircle className="w-8 h-8 text-green-400 mx-auto mb-2" />
                     <p className="text-sm font-medium text-red-400">Failed to submit your bet</p>
-                    <p className="text-xs text-gray-400 mt-1">Messsage: {isError} </p>
+                    <p className="text-xs text-gray-400 mt-1">Messsage: {placeBetError} </p>
                 </div>
             )}
 
             {/* Default State: Active Voting Form */}
-            {isLoggedIn && !isSuccess && (
+            {isLoggedIn && !placeBetIsSuccess && (
                 <>
                     <p className="text-sm text-gray-400 mb-4 mt-1">Review your bet details before submit</p>
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={handlePlaceBet} className="space-y-4">
                         {/* Prediction Selection */}
                         <div className="space-y-1.5">
                             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400">
@@ -113,10 +101,10 @@ export function CheckoutPanel(
                         {/* Submit Button */}
                         <button
                             type="submit"
-                            disabled={!selectedPrediction || !betAmount || isLoading}
+                            disabled={!selectedPrediction || !betAmount || placeBetIsLoading}
                             className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {isLoading ? (
+                            {placeBetIsLoading ? (
                                 <span className="flex items-center justify-center gap-2">
                                     <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />

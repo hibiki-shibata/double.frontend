@@ -8,7 +8,6 @@ export type Market = {
     closeAt: string;
     settledAt?: string;
     createdAt: string;
-    // predictions: Predictions[]
 }
 
 export type Prediction = {
@@ -16,4 +15,9 @@ export type Prediction = {
     name: string;
     totalParticipants: number;
     betSum: bigint;
+}
+
+export type BetPayload = {
+    predictionId: string
+    amount: number
 }
