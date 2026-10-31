@@ -1,58 +1,78 @@
 // components/CheckoutPanel.tsx
-import React, { useState } from 'react';
-import { Clock, CheckCircle } from 'lucide-react';
-import type { Prediction } from '../../types';
-import { NavSigninCard } from './NavSigninCard';
+import { useState } from 'react'
+import { Clock, CheckCircle } from 'lucide-react'
+import type { Prediction } from '../../types'
+import { NavSigninCard } from './NavSigninCard'
 
-interface CheckoutPanelProps {
-    isMarketOpen: boolean
-    selectedPrediction: Prediction;
-    closeCheckoutPanel: () => void;
-}
-
-export function CheckoutPanel({
-    isMarketOpen,
-    selectedPrediction,
-    closeCheckoutPanel,
-}: CheckoutPanelProps) {
-    const [betAmount, setBetAmount] = useState<string>('');
-    const isSuccess = false
-    const isSubmitting = false
-    const isLoggedIn = false
+export function CheckoutPanel(
+    { isMarketOpen, selectedPrediction, closeCheckoutPanel, }: { isMarketOpen: boolean, selectedPrediction: Prediction, closeCheckoutPanel: () => void }
+) {
+    // Bet final checkout states
+    const [betAmount, setBetAmount] = useState<string>('')
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isError, setError] = useState<string | null>(null)
+    const [isSuccess, setIsSuccess] = useState<boolean>(false)
+    // Replace later
+    const isLoggedIn = true
 
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!selectedPrediction || !betAmount) return;
-        // implement later
-    };
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        setError(null)
+        setIsSuccess(false)
+
+        // Format and check the amount is positive number
+        const amount = Number(betAmount)
+        if (isNaN(amount) || amount <= 0) return alert('Please enter a valid positive number.')
+
+
+        // Sumit bet & State Management
+        setIsLoading(true);
+        try {
+            // await onPlaceBet(amount, selectedPrediction.id);
+            setIsSuccess(true);
+            setBetAmount('');
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : 'Failed to submit bet.');
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
 
     return (
         <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6">
-            {/* Guard 1: User Not Logged In */}
+            {/* User Not Logged In case */}
             {!isLoggedIn && (
                 <NavSigninCard />
             )}
 
-            {/* Guard 2: Market Closed */}
+            {/* Market Closed case */}
             {isLoggedIn && !isMarketOpen && (
                 <div className="text-center py-4">
                     <div className="w-16 h-16 rounded-full bg-gray-500/20 flex items-center justify-center mx-auto mb-4">
                         <Clock className="w-8 h-8 text-gray-400" />
                     </div>
                     <h3 className="text-lg font-semibold text-white mb-2">Market Closed</h3>
-                    <p className="text-sm text-gray-400">
-                        This market is no longer accepting bets
-                    </p>
+                    <p className="text-sm text-gray-400">This market is no longer accepting bets</p>
                 </div>
             )}
 
-            {/* Guard 3: Success State */}
+            {/* Success State */}
             {isLoggedIn && isSuccess && (
                 <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 text-center">
                     <CheckCircle className="w-8 h-8 text-green-400 mx-auto mb-2" />
                     <p className="text-sm font-medium text-green-400">bet submitted!</p>
                     <p className="text-xs text-gray-400 mt-1">Your prediction has been recorded</p>
+                </div>
+            )}
+
+            {/* Error State */}
+            {isLoggedIn && isError && (
+                <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 text-center">
+                    <CheckCircle className="w-8 h-8 text-green-400 mx-auto mb-2" />
+                    <p className="text-sm font-medium text-red-400">Failed to submit your bet</p>
+                    <p className="text-xs text-gray-400 mt-1">Messsage: {isError} </p>
                 </div>
             )}
 
@@ -93,10 +113,10 @@ export function CheckoutPanel({
                         {/* Submit Button */}
                         <button
                             type="submit"
-                            disabled={!selectedPrediction || !betAmount || isSubmitting}
+                            disabled={!selectedPrediction || !betAmount || isLoading}
                             className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {isSubmitting ? (
+                            {isLoading ? (
                                 <span className="flex items-center justify-center gap-2">
                                     <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
@@ -117,7 +137,6 @@ export function CheckoutPanel({
                 <button
                     onClick={closeCheckoutPanel}
                     className='hover:scale-104 active:scale-100 font-semibold'
-                // className="w-full sm:w-auto px-3 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl font-semibold text-white hover:scale-102 active:scale-95"
                 >
                     Close
                 </button>

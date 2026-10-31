@@ -2,10 +2,9 @@
 import { ArrowLeft, Clock, Calendar, Users, Award, BarChart3 } from 'lucide-react';
 import { useMemo, useCallback, useState } from 'react';
 import { CheckoutPanel } from './CheckoutPanel';
-import type { Market, MarketStatus, Prediction } from '../../types';
+import type { MarketStatus, Prediction } from '../../types';
 import { useMarket } from '../../hooks/marketHook';
 import { usePredictions } from '../../hooks/predictionHook';
-// import { useNavigate } from 'react-router';
 import { useParams, Navigate, Link } from "react-router";
 import { PredictionCard } from './PredictionCard';
 
@@ -18,8 +17,6 @@ const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
     // PAYOUT: { color: 'bg-yellow-500', label: 'Payout' },
 } as const;
 
-// Todo
-// Add: auth context
 export function MarketDetail() {
     let { marketId } = useParams()
 
@@ -27,10 +24,11 @@ export function MarketDetail() {
     const [selectedPrediction, setSelectedPrediction] = useState<Prediction>()
     if (marketId == undefined) return <Navigate to="/" replace /> // Navigating to Market list page
 
-    // Fetching all data market needs
+    // Fetching market and prediction needs
     const { data: market, isLoading: marketIsLoading, isError: marketIsError } = useMarket(marketId)
     const { data: predictions = [], isLoading: predictionsIsLoading, isError: predictionsIsError } = usePredictions(marketId)
 
+    // Calculate Static data, using market and prediction
     const calculatedPredictionData = useMemo(() => { // useMemo for mitigate expensive prediction metadata formating process
         const totalBets = predictions.reduce((sum, p) => sum + Number(p.betSum), 0) // Sum up the each prediction's investment sum
         const totalParticipants = predictions.reduce((sum, p) => sum + p.totalParticipants, 0) // Sum up the each prediction's participants  sum
@@ -60,14 +58,9 @@ export function MarketDetail() {
     }, [])
 
 
-    // Loading/Error case handling
-    if (marketIsLoading || predictionsIsLoading) return <div>Loading...</div>
-    if (marketIsError || predictionsIsError) return <div>Market or Prediction is Error during load</div>
+    if ((!market || !predictions)) return <Link to="/" />
 
-    // No data case handling
-    if (!market || !predictions) return <div>No sufficient data to show</div>
-    // set status-based variable - change css 
-    const statusConfig = STATUS_CONFIG[market.status]
+    const statusConfig = STATUS_CONFIG[market?.status ?? "CLOSED"]
 
     return (
         <>
@@ -75,6 +68,13 @@ export function MarketDetail() {
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-150" />
                 <Link to='/'>Back to Markets</Link>
             </div>
+            {(marketIsLoading || predictionsIsLoading) && (
+                <div>Loading market and prediciton data...</div>
+            )}
+            {(marketIsError || predictionsIsError) && (
+                <div>Market or Prediction is Error during load</div>
+            )}
+
 
             {/* Main Card */}
             <div className={`grid gap-6 ${showCheckout ? 'max-w-7xl mx-auto grid-cols-1 lg:grid-cols-2' : 'max-w-6xl mx-auto grid-cols-1'}`}>
@@ -90,16 +90,12 @@ export function MarketDetail() {
                                     <Clock className="w-3 h-3" />Created {formatDate(market.createdAt)}
                                 </span>
                             </div>
-                            <h1 className="text-2xl sm:text-3xl font-bold">
-                                {market.title}
-                            </h1>
+                            <h1 className="text-2xl sm:text-3xl font-bold">{market.title}</h1>
                         </div>
                         <div className="flex items-center gap-4">
                             <div className="text-right">
                                 <p className="text-xs text-gray-400">Total Volume</p>
-                                <p className="text-lg font-bold">
-                                    ${calculatedPredictionData.totalBetsFormatted}M
-                                </p>
+                                <p className="text-lg font-bold">${calculatedPredictionData.totalBetsFormatted}M</p>
                             </div>
                         </div>
                     </div>
@@ -129,8 +125,7 @@ export function MarketDetail() {
                         <div>
                             <p className="text-xs text-gray-400">Closes</p>
                             <p className="text-lg font-semibold text-white flex items-center gap-1">
-                                <Calendar className="w-4 h-4 text-orange-400" />
-                                {formatDate(market.closeAt)}
+                                <Calendar className="w-4 h-4 text-orange-400" />{formatDate(market.closeAt)}
                             </p>
                         </div>
                     </div>
@@ -139,14 +134,12 @@ export function MarketDetail() {
                     {/* Predictions - Using memoized data */}
                     <div>
                         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                            <Award className="w-5 h-5 text-yellow-400" />Predictions
-                        </h2>
+                            <Award className="w-5 h-5 text-yellow-400" />Predictions</h2>
                         <div className="space-y-3">
                             {calculatedPredictionData.predictions.map((prediction, index) => {
                                 const isLeading = prediction.percentage === calculatedPredictionData.maxPercentage &&
                                     calculatedPredictionData.maxPercentage > 0;
                                 return (
-                                    // <button >
                                     <PredictionCard
                                         key={index}
                                         prediction={prediction}
@@ -154,26 +147,22 @@ export function MarketDetail() {
                                         isLeading={isLeading}
                                         showCheckoutPanel={() => setShowCheckout(true)}
                                     />
-                                    // </button>
-                                );
+                                )
                             })}
                         </div>
                     </div>
                 </div>
 
                 {/* Checkout Panel - Only visible when showCheckout is true */}
-                {(showCheckout && selectedPrediction) && (
-                    <div>
+                <div>
+                    {(showCheckout && selectedPrediction) && (
                         <CheckoutPanel
-                            // isLoggedIn={isLoggedIn}
                             isMarketOpen={market.status === 'OPEN'}
                             selectedPrediction={selectedPrediction}
                             closeCheckoutPanel={() => setShowCheckout(false)}
                         />
-                        <div className="mt-8 pt-6 border-t border-white/10">
-                        </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </>
     );

@@ -1,6 +1,7 @@
 import type { Market, Prediction } from '../../types';
 import { Users, DollarSign, Clock, ArrowRight } from 'lucide-react';
 import { useNavigate } from "react-router";
+import { usePredictions } from '../../hooks/predictionHook';
 
 const STATUS_STYLES: Record<string, string> = {
   OPEN: 'bg-green-200 text-green-700',
@@ -14,31 +15,26 @@ interface Props {
 }
 
 export function MarketCard({ market }: Props) {
-  // Mock data - replace with actual fetch
-  const predictions: Prediction[] = [
-    { name: "Yes", totalParticipants: 1234, betSum: BigInt(4500000000000000000) },
-    { name: "No", totalParticipants: 567, betSum: BigInt(2100000000000000000) },
-  ]
   const navigateTo = useNavigate()
+
+  const { data: predictions = [], isLoading: predictionsIsLoading, isError: predictionsIsError } = usePredictions(market.id)
+
   const totalBets = predictions?.reduce((sum, p) => sum + Number(p.betSum), 0) || 0;
   const totalParticipants = predictions?.reduce((sum, p) => sum + p.totalParticipants, 0) || 0;
   const volumeFormatted = (totalBets / 1e18).toFixed(2);
 
-  const handleClick = () => {
-    navigateTo(`/market/${market.id}`);
-  };
 
   return (
     <button
       type="button"
-      onClick={() => handleClick()}
+      onClick={() => navigateTo(`/market/${market.id}`)}
       className="group rounded-xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 p-5 text-left hover:border-blue-400/50  relative overflow-hidden"
     >
       {/* Subtle gradient overlay on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/5 group-hover:to-purple-500/5 transition-all duration-500" />
+      < div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/5 group-hover:to-purple-500/5 transition-all duration-500" />
 
       {/* Animated shimmer effect */}
-      <div className="absolute -inset-full group-hover:inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:translate-x-full transition-all duration-1000 ease-out" />
+      < div className="absolute -inset-full group-hover:inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:translate-x-full transition-all duration-1000 ease-out" />
 
       <div className="relative z-10">
         {/* Header with status badge */}
@@ -134,6 +130,6 @@ export function MarketCard({ market }: Props) {
           </div>
         )}
       </div>
-    </button>
+    </button >
   );
 }

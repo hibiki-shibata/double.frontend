@@ -44,18 +44,19 @@ export const handlers = [
 
     // Mock fetch Prediction
     // http.get('http://localhost:3000/api/v1/:marketId/predictions', ({ request }) => {
-        // const url = new URL(request.url)
-        // const marketId = url.searchParams.get('marketId')
+    // const url = new URL(request.url)
+    // const marketId = url.searchParams.get('marketId')
     http.get('http://localhost:3000/api/v1/market/:marketId/predictions', ({ params }) => {
         const { marketId } = params
         // const random = Math.random()
         console.log("Received prediction req for marketId:" + marketId)
-        
+
         const mockedResponse = []
 
         for (let i = 0; i < 2; i++) {
             mockedResponse.push(
                 {
+                    id: Math.random(),
                     name: i % 2 ? "Yes" : "No",
                     totalParticipants: i * 313,
                     // Convert BigInt to string to allow JSON serialization
