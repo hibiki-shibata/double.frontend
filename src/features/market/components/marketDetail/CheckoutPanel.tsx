@@ -1,20 +1,18 @@
 // components/CheckoutPanel.tsx
 import { useState } from 'react'
 import { Clock, CheckCircle } from 'lucide-react'
-import type { Prediction } from '../../types'
+import type { Market, Prediction } from '../../types'
 import { NavSigninCard } from './NavSigninCard'
-import { usePlaceBet } from '../../hooks/placeBetHook'
+import { usePlaceBet } from '../../hooks/betHook'
 
 export function CheckoutPanel(
-    { isMarketOpen, selectedPrediction, closeCheckoutPanel }:
-        { isMarketOpen: boolean, selectedPrediction: Prediction, closeCheckoutPanel: () => void }
+    { market, selectedPrediction, closeCheckoutPanel }: { market: Market, selectedPrediction: Prediction, closeCheckoutPanel: () => void }
 ) {
-    const { placeBet, isSuccess: placeBetIsSuccess, isLoading: placeBetIsLoading, error: placeBetError } = usePlaceBet()
-    // Bet final checkout states
-    const [betAmount, setBetAmount] = useState<string>('')
     // Replace later
     const isLoggedIn = true
 
+    const { placeBet, isSuccess: placeBetIsSuccess, isLoading: placeBetIsLoading, error: placeBetError } = usePlaceBet(market.id)
+    const [betAmount, setBetAmount] = useState<string>('')
 
     async function handlePlaceBet(e: React.FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault()
@@ -37,7 +35,7 @@ export function CheckoutPanel(
             )}
 
             {/* Market Closed case */}
-            {isLoggedIn && !isMarketOpen && (
+            {isLoggedIn && (market.status !== 'OPEN') && (
                 <div className="text-center py-4">
                     <div className="w-16 h-16 rounded-full bg-gray-500/20 flex items-center justify-center mx-auto mb-4">
                         <Clock className="w-8 h-8 text-gray-400" />

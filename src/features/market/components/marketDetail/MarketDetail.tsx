@@ -7,7 +7,6 @@ import { useMarket } from '../../hooks/marketHook';
 import { usePredictions } from '../../hooks/predictionHook';
 import { useParams, Navigate, Link } from "react-router";
 import { PredictionCard } from './PredictionCard';
-import { usePlaceBet } from '../../hooks/placeBetHook';
 
 const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
     OPEN: { color: 'bg-green-500', label: 'Open' },
@@ -158,7 +157,7 @@ export function MarketDetail() {
                 <div>
                     {(showCheckout && selectedPrediction) && (
                         <CheckoutPanel
-                            isMarketOpen={market.status === 'OPEN'}
+                            market={market}
                             selectedPrediction={selectedPrediction}
                             closeCheckoutPanel={() => setShowCheckout(false)}
                         />
