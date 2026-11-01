@@ -1,11 +1,11 @@
-import { MarketCard } from './MarketCard';
-import { useMarketList } from '../../hooks/marketHook';
-import { ErrorState, LoadingState } from '../../../../components/StatusState';
+import { MarketCard } from '../../features/market/components/list/MarketCard';
+import { useMarketList } from '../../features/market/hooks/marketHook';
+import { ErrorState, LoadingState } from '../../components/StatusState';
 import { useSearchParams } from 'react-router';
-import { PaginationCard } from './PaginationCard';
+import { PaginationCard } from '../../features/market/components/list/PaginationCard';
 
 
-
+// Index page
 export function MarketList() {
     const [searchParams, setSearchParams] = useSearchParams()
     const changePageTo = (newPage: number, limit: number) => setSearchParams({ page: String(newPage), limit: String(limit) })

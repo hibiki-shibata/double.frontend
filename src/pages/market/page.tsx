@@ -1,12 +1,12 @@
 // MarketDetail.tsx
 import { ArrowLeft, Clock, Calendar, Users, Award, BarChart3 } from 'lucide-react';
 import { useMemo, useCallback, useState } from 'react';
-import { CheckoutPanel } from './CheckoutPanel';
-import type { MarketStatus, Prediction } from '../../types';
-import { useMarket } from '../../hooks/marketHook';
-import { usePredictions } from '../../hooks/predictionHook';
+import { CheckoutPanel } from '../../features/market/components/detail/CheckoutPanel';
+import type { MarketStatus, Prediction } from '../../features/market/types';
+import { useMarket } from '../../features/market/hooks/marketHook';
+import { usePredictions } from '../../features/market/hooks/predictionHook';
 import { useParams, Navigate, Link } from "react-router";
-import { PredictionCard } from './PredictionCard';
+import { PredictionCard } from '../../features/market/components/detail/PredictionCard';
 
 const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
     OPEN: { color: 'bg-green-500', label: 'Open' },
