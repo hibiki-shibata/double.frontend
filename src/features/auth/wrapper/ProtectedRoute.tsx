@@ -1,6 +1,6 @@
 // components/ProtectedRoute.jsx
 import { Navigate, Outlet, useLocation } from 'react-router';
-import { useAuth } from '../../features/auth/contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 export function ProtectedRoute() {
     const { user, isAuthenticated } = useAuth()

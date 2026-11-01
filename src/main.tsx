@@ -10,9 +10,9 @@ import { Terms } from './pages/terms/page.tsx'
 import { About } from './pages/about/page.tsx'
 import { Auth } from './pages/auth/page.tsx'
 import { AccountSettings } from './features/user-profile/components/UserSettings'
-import { ProtectedRoute } from './common/components/Protected.tsx'
-import { worker } from './mock/browser.ts'
+import { ProtectedRoute } from './features/auth/wrapper/ProtectedRoute.tsx'
 import { coreConfig } from './common/config/coreConfig.ts'
+import { worker } from './mock/browser.ts'
 
 async function executeBeforeServerStarts() {
   if (coreConfig.RUNTIME_ENV !== 'prod') {
