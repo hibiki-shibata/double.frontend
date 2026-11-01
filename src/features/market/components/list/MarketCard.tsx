@@ -24,8 +24,13 @@ export function MarketCard({ market }: { market: Market }) {
   return (
     <button
       type="button"
-      onClick={() => navigateTo(`/market/${market.id}`)}
-      className="group rounded-xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 p-5 text-left hover:border-blue-400/50  relative overflow-hidden"
+      onClick={(e) => {
+        console.log("clicked")
+        e.preventDefault()
+        navigateTo(`/market/${market.id}`)
+        console.log('navigated')
+      }}
+      className="group rounded-xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 p-5 text-left hover:border-blue-400/50 relative overflow-hidden"
     >
       {/* Subtle gradient overlay on hover */}
       < div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/5 group-hover:to-purple-500/5 transition-all duration-500" />

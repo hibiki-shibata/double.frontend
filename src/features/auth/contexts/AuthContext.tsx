@@ -35,13 +35,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async function login(crdential: LoginCredential): Promise<void> {
         // 1. Fetch access token
         // 2. Fetch user data
-        // 3. set access token
-        // 4. setUser(data.user)
-        // setAccessToken()
+        // 3. setAccessToken(accessToken)
+        // 4. setUser(user)
     }
 
     async function logout(): Promise<void> {
-        // Send logout request to remove refreshToken from httpOnly cookie
+        // 1. Send logout request to remove refreshToken from httpOnly cookie
         setUser(null)
         setAccessToken(null)
     }
