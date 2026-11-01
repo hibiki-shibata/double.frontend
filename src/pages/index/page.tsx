@@ -1,6 +1,6 @@
 import { MarketCard } from '../../features/market/components/list/MarketCard';
 import { useMarketList } from '../../features/market/hooks/marketHook';
-import { ErrorState, LoadingState } from '../../components/StatusState';
+import { ErrorState, LoadingState } from '../../common/components/StatusState';
 import { useSearchParams } from 'react-router';
 import { PaginationCard } from '../../features/market/components/list/PaginationCard';
 

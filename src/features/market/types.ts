@@ -17,7 +17,7 @@ export type Prediction = {
     betSum: bigint;
 }
 
-export type BetPayload = {
+export type PlaceBetPayload = {
     predictionId: string
     amount: number
 }

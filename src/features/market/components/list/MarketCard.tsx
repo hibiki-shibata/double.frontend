@@ -15,8 +15,8 @@ export function MarketCard({ market }: { market: Market }) {
 
   const { data: predictions = [], isLoading: predictionsIsLoading, isError: predictionsIsError } = usePredictions(market.id)
 
-  const totalBets = predictions?.reduce((sum, p) => sum + Number(p.betSum), 0) || 0;
-  const totalParticipants = predictions?.reduce((sum, p) => sum + p.totalParticipants, 0) || 0;
+  const totalBets = predictions?.reduce((sum: number, p: Prediction) => sum + Number(p.betSum), 0) || 0;
+  const totalParticipants = predictions?.reduce((sum: number, p: Prediction) => sum + p.totalParticipants, 0) || 0;
   const volumeFormatted = (totalBets / 1e18).toFixed(2);
 
 
@@ -78,7 +78,7 @@ export function MarketCard({ market }: { market: Market }) {
           <div className="flex items-center gap-1.5 ml-auto">
             <div className="flex -space-x-2">
               {/* Show top 3 prediction options as small dots */}
-              {predictions?.slice(0, 3).map((p, i) => (
+              {predictions?.slice(0, 3).map((p: any, i: number) => (
                 <div
                   key={i}
                   className={`w-2 h-2 rounded-full border border-slate-800 ${i === 0 ? 'bg-blue-400' :

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { apiClient } from '../../../lib/apiClient/apiClient'
+import { apiClient } from '../../../common/lib/apiClient/apiClient'
 import type { Prediction } from '../types'
 
 
