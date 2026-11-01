@@ -1,8 +1,8 @@
 // pages/Auth.tsx
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { GoogleLogin } from './GoogleLogin';
-import { UsernameAndPassword } from './UsernameAndPassword';
+import { GoogleLogin } from '../../features/auth/components/GoogleLogin';
+import { UsernameAndPassword } from '../../features/auth/components/UsernameAndPassword';
 
 
 export function Auth() {

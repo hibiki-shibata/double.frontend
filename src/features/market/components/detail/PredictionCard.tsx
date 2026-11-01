@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { formatMoney } from "../../../../common/lib/money";
 
 type Props = {
