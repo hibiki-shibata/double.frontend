@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { apiClient } from '../../../common/lib/apiClient/apiClient'
-import type { Prediction } from '../types'
+import type { Prediction } from '../types/prediction.type'
 
 
 export function usePredictions(marketId: string) {

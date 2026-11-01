@@ -1,7 +1,7 @@
 import type { Market } from "../../types/market.type";
 import type { Prediction } from "../../types/prediction.type";
 import { Users, DollarSign, Clock, ArrowRight } from 'lucide-react';
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { usePredictions } from '../../hooks/predictionHook';
 
 const STATUS_STYLES: Record<string, string> = {

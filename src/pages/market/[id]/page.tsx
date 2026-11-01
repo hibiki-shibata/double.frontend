@@ -1,12 +1,14 @@
 // MarketDetail.tsx
-import { ArrowLeft, Clock, Calendar, Users, Award, BarChart3 } from 'lucide-react';
 import { useMemo, useCallback, useState } from 'react';
-import { CheckoutPanel } from '../../features/market/components/detail/CheckoutPanel';
-import type { MarketStatus, Prediction } from '../../features/market/types';
-import { useMarket } from '../../features/market/hooks/marketHook';
-import { usePredictions } from '../../features/market/hooks/predictionHook';
 import { useParams, Navigate, Link } from "react-router";
-import { PredictionCard } from '../../features/market/components/detail/PredictionCard';
+import { ArrowLeft, Clock, Calendar, Users, Award, BarChart3 } from 'lucide-react';
+import type { MarketStatus } from '../../../features/market/types/market.type';
+import type { Prediction } from '../../../features/market/types/prediction.type';
+import { PredictionCard } from '../../../features/market/components/detail/PredictionCard';
+import { CheckoutPanel } from '../../../features/market/components/detail/CheckoutPanel';
+import { useMarket } from '../../../features/market/hooks/marketHook';
+import { usePredictions } from '../../../features/market/hooks/predictionHook';
+
 
 const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
     OPEN: { color: 'bg-green-500', label: 'Open' },
@@ -58,7 +60,7 @@ export function MarketDetail() {
     }, [])
 
 
-    if ((!market || !predictions)) return <Link to="/" />
+    if ((!market || !predictions)) return <Navigate to="/" replace />
 
     const statusConfig = STATUS_CONFIG[market?.status ?? "CLOSED"]
 

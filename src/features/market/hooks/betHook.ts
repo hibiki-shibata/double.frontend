@@ -1,5 +1,5 @@
 import { apiClient } from '../../../common/lib/apiClient/apiClient';
-import type { PlaceBetPayload } from '../types';
+import type { PlaceBetPayload } from '../types/bet.type';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 
