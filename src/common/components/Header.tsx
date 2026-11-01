@@ -10,9 +10,9 @@ type MenuItems = {
 
 const accountMenuItems: MenuItems[] = [
     { Icon: User, label: "Profile", href: "/settings" },
-    { Icon: Wallet, label: "Wallet", href: "/settings1" },
-    { Icon: History, label: "History", href: "/settings2" },
-    { Icon: SettingsIcon, label: "Settings", href: "/settings3" },
+    { Icon: Wallet, label: "Wallet", href: "/settings" },
+    { Icon: History, label: "History", href: "/settings" },
+    { Icon: SettingsIcon, label: "Settings", href: "/settings" },
 ]
 
 const menuItems: MenuItems[] = [
