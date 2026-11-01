@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { Link } from "react-router"
 
-export function UsernameAndPassword(
-    { isSignupMode }: { isSignupMode: boolean }
-) {
+type Props = { isSignupMode: boolean }
+
+export function UsernameAndPassword({ isSignupMode }: Props) {
     const [showPassword, setShowPassword] = useState(false)
 
     return (
@@ -80,7 +80,8 @@ export function UsernameAndPassword(
                 <div className="flex items-start gap-2 text-sm">
                     <input type="checkbox" className="mt-0.5 rounded border-white/10 bg-white/5 text-blue-500" />
                     <span className="text-gray-400">
-                        I agree to the <Link to="/terms" className="text-blue-400 hover:underline">Terms</Link> and <Link to="/privacy" className="text-blue-400 hover:underline">Privacy Policy</Link>
+                        I agree to the
+                        <Link to="/terms" className="text-blue-400 hover:underline"> Terms</Link> and <Link to="/privacy" className="text-blue-400 hover:underline">Privacy Policy</Link>
                     </span>
                 </div>
             )}

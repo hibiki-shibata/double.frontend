@@ -3,6 +3,7 @@ import { Users, DollarSign, Clock, ArrowRight } from 'lucide-react';
 import type { Market } from "../../types/market.type";
 import type { Prediction } from "../../types/prediction.type";
 import { usePredictions } from '../../hooks/predictionHook';
+import { LoadingState } from "../../../../common/components/StatusState";
 
 const STATUS_STYLES: Record<string, string> = {
   OPEN: 'bg-green-200 text-green-700',
@@ -55,12 +56,8 @@ export function MarketCard({ market }: { market: Market }) {
         </p>
 
         {/* Stats row */}
-        {predictionsIsLoading && (
-          <div>Still Loading Data...</div>
-        )}
-        {predictionsIsError && (
-          <div>Error occured during fetching prediction data</div>
-        )}
+        {predictionsIsLoading && <LoadingState message="Loading prediction data" />}
+        {predictionsIsError && <div>Error occured during fetching prediction data</div>}
 
         {!predictionsIsLoading && !predictionsIsError && (<div className="mt-3 flex items-center gap-4">
           <div className="flex items-center gap-1.5">

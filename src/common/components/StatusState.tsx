@@ -6,7 +6,7 @@ interface StatusStateProps {
 
 export function LoadingState({ message = 'Loading...' }: Partial<StatusStateProps>) {
     return (
-        <div className="h-screen flex items-center justify-center">
+        <div className="my-4 flex items-center justify-center">
             <p className="text-white">{message}</p>
             <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
@@ -18,7 +18,7 @@ export function LoadingState({ message = 'Loading...' }: Partial<StatusStateProp
 
 export function ErrorState({ message = 'Failed to load:(' }: Partial<StatusStateProps>) {
     return (
-        <div className="h-screen flex items-center justify-center">
+        <div className="flex items-center justify-center">
             <p className="text-white">{message}</p>
         </div>
     );
@@ -26,7 +26,7 @@ export function ErrorState({ message = 'Failed to load:(' }: Partial<StatusState
 
 export function EmptyState({ message = 'No data to display' }: Partial<StatusStateProps>) {
     return (
-        <div className="h-screen flex items-center justify-center text-center">
+        <div className="flex items-center justify-center text-center">
             <p className="text-white whitespace-pre-line">{message}</p>
         </div>
     );

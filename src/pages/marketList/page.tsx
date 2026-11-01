@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router';
 import { MarketCard } from '../../features/market/components/list/MarketCard';
 import { PaginationCard } from '../../features/market/components/list/PaginationCard';
 import { useMarketList } from '../../features/market/hooks/marketHook';
-import { ErrorState, LoadingState } from '../../common/components/StatusState';
+import { EmptyState, ErrorState, LoadingState } from '../../common/components/StatusState';
 
 
 // Index page
@@ -44,9 +44,17 @@ export function MarketList() {
                     </span>
                 </div>
             </div>
-            {isLoading && <LoadingState message="Loading market list.." />}
-            {isError && <ErrorState message="Failed to load market list:(" />}
-            {(!markets || markets.length === 0) && <LoadingState message="Loading market list.." />}
+            {isLoading &&
+                <div className='h-screen'>
+                    <LoadingState message="Loading market list.." />
+                </div>
+            }
+            {isError && (
+                <div className='h-screen'>
+                    <ErrorState message="Failed to load market list:(" />
+                </div>
+            )}
+            {((markets.length === 0) && !isLoading) && <EmptyState message="No Market exist" />}
             <div className="mt-6 grid grid-cols-1 gap-x-5 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
                 {markets.map((market) => (
                     <MarketCard key={market.id} market={market} />

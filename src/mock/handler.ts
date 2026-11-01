@@ -3,35 +3,30 @@ import { http, HttpResponse, delay } from 'msw';
 export const handlers = [
     // 1. Mock Market List
     http.get('http://localhost:3000/api/v1/market/list', async () => {
-        await delay(150); // Optional: simulate network latency
+        await delay(750); // Optional: simulate network latency
         const mockedResponse = []
         for (let i = 0; i < 30; i++) {
-            mockedResponse.push(
-                {
-                    id: i.toString(),
-                    title: "Would u bet the release of this test " + i + " goes well?",
-                    status: i % 2 ? "OPEN" : "CLOSED",
-                    closeAt: "2024-12-31T23:59:59Z",
-                    createdAt: "2024-01-01T00:00:00Z",
-                    // predictions: [
-                    //     { name: "Yes", totalParticipants: 1234, betSum: "4500000000000000000" },
-                    //     { name: "No", totalParticipants: 567, betSum: "2100000000000000000" },
-                    // ]
-                }
-            )
+            mockedResponse.push({
+                id: i.toString(),
+                title: i + ". Would u bet Hibiki's prediction market will success?",
+                status: i % 7 ? "OPEN" : "CLOSED",
+                closeAt: "2024-12-31T23:59:59Z",
+                createdAt: "2024-01-01T00:00:00Z",
+            })
         }
         return HttpResponse.json(mockedResponse);
     }),
 
     // Mock market fetch
-    http.get('http://localhost:3000/api/v1/market/:marketId', ({ params }) => {
+    http.get('http://localhost:3000/api/v1/market/:marketId', async ({ params }) => {
+        await delay(250)
         const { marketId } = params
-        const random = Math.random()
+        const random = Math.floor(Math.random() * 10)
 
         // Return a mock Market object
         return HttpResponse.json({
             id: marketId,
-            title: "Would u bet the release of this test " + random + " goes well?",
+            title: marketId + " Would u bet the release of this test goes well?",
             status: random % 2 ? "OPEN" : "CLOSED",
             closeAt: "2024-12-31T23:59:59Z",
             createdAt: "2024-01-01T00:00:00Z",
@@ -46,7 +41,8 @@ export const handlers = [
     // http.get('http://localhost:3000/api/v1/:marketId/predictions', ({ request }) => {
     // const url = new URL(request.url)
     // const marketId = url.searchParams.get('marketId')
-    http.get('http://localhost:3000/api/v1/market/:marketId/predictions', ({ params }) => {
+    http.get('http://localhost:3000/api/v1/market/:marketId/predictions', async ({ params }) => {
+        await delay(1150)
         const { marketId } = params
         // const random = Math.random()
         console.log("Received prediction req for marketId:" + marketId)
@@ -57,7 +53,7 @@ export const handlers = [
             mockedResponse.push(
                 {
                     id: Math.random(),
-                    name: i % 2 ? "Yes" : "No",
+                    name: i % 2 ? "Yes, it will succcess" : "No, it will fails",
                     totalParticipants: i * 313,
                     // Convert BigInt to string to allow JSON serialization
                     betSum: (BigInt(i * 999999999999999)).toString()
