@@ -25,7 +25,7 @@ executeBeforeServerStarts().then(() => {
     <StrictMode>
       <BrowserRouter>
         <Routes>
-          {/* Giving Provider */}
+          {/* Injecting Provider */}
           <Route element={<App />}>
 
             {/* Public routes */}
