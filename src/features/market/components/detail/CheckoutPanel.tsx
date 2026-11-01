@@ -1,12 +1,19 @@
 // components/CheckoutPanel.tsx
 import { useState } from 'react'
 import { Clock, CheckCircle } from 'lucide-react'
-import type { Market, Prediction } from '../../types'
+import type { Market } from '../../types/market.type'
+import type { Prediction } from '../../types/prediction.type'
 import { NavSigninCard } from './NavSigninCard'
 import { usePlaceBet } from '../../hooks/betHook'
 
+type Props = {
+    market: Market,
+    selectedPrediction: Prediction,
+    closeCheckoutPanel: () => void
+}
+
 export function CheckoutPanel(
-    { market, selectedPrediction, closeCheckoutPanel }: { market: Market, selectedPrediction: Prediction, closeCheckoutPanel: () => void }
+    { market, selectedPrediction, closeCheckoutPanel }: Props
 ) {
     // Replace later
     const isLoggedIn = true

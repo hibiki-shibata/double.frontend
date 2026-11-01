@@ -9,15 +9,3 @@ export type Market = {
     settledAt?: string;
     createdAt: string;
 }
-
-export type Prediction = {
-    id: string;
-    name: string;
-    totalParticipants: number;
-    betSum: bigint;
-}
-
-export type PlaceBetPayload = {
-    predictionId: string
-    amount: number
-}

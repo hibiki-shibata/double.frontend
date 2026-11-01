@@ -1,14 +1,16 @@
 import { useCallback } from "react";
+import { formatMoney } from "../../../../common/lib/money";
+
+type Props = {
+    prediction: any,
+    isLeading: boolean,
+    setSelectedPrediction: () => void,
+    showCheckoutPanel: () => void
+}
 
 export function PredictionCard(
-    { prediction, isLeading, setSelectedPrediction, showCheckoutPanel }:
-        { prediction: any, isLeading: boolean, setSelectedPrediction: () => void, showCheckoutPanel: () => void }
+    { prediction, isLeading, setSelectedPrediction, showCheckoutPanel }: Props
 ) {
-
-    const formatBetAmount = useCallback((amount: bigint) => {
-        return (Number(amount) / 1e18).toFixed(2);
-    }, [])
-
     return (
         <div className="group bg-white/5 hover:bg-white/10 rounded-xl p-4 transition-colors duration-150 border border-white/5 hover:border-white/20 active:bg-white/9"
             onClick={() => {
@@ -46,7 +48,7 @@ export function PredictionCard(
 
             <div className="mt-2 flex justify-end">
                 <span className="text-xs text-gray-400">
-                    ${formatBetAmount(prediction.betSum)} in bets
+                    ${formatMoney(prediction.betSum, 'usd')} in bets
                 </span>
             </div>
         </div>

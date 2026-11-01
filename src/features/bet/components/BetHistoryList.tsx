@@ -1,4 +1,4 @@
-import { formatMoney } from '../../../lib/money';
+import { formatMoney } from "../../../common/lib/money";
 import type { Bet } from '../types';
 
 const STATUS_STYLES: Record<string, string> = {

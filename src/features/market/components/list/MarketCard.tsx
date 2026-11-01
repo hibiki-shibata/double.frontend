@@ -1,4 +1,5 @@
-import type { Market, Prediction } from '../../types';
+import type { Market } from "../../types/market.type";
+import type { Prediction } from "../../types/prediction.type";
 import { Users, DollarSign, Clock, ArrowRight } from 'lucide-react';
 import { useNavigate } from "react-router";
 import { usePredictions } from '../../hooks/predictionHook';
@@ -18,7 +19,6 @@ export function MarketCard({ market }: { market: Market }) {
   const totalBets = predictions?.reduce((sum: number, p: Prediction) => sum + Number(p.betSum), 0) || 0;
   const totalParticipants = predictions?.reduce((sum: number, p: Prediction) => sum + p.totalParticipants, 0) || 0;
   const volumeFormatted = (totalBets / 1e18).toFixed(2);
-
 
   return (
     <button

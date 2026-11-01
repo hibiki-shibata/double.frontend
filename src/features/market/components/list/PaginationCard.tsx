@@ -1,4 +1,11 @@
-export function PaginationCard({ currentPage, toPage }: { currentPage: number, toPage: (pageNumber: number) => void }) {
+type Props = {
+    currentPage: number,
+    toPage: (pageNumber: number) => void
+}
+
+export function PaginationCard(
+    { currentPage, toPage }: Props
+) {
     return (
         <nav aria-label="Pagination" className="flex items-center justify-between border-t border-gray-200 dark:border-gray-700 px-4 sm:px-0 pt-6 mt-8">
             {/* Previous Button */}
