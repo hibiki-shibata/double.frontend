@@ -78,7 +78,7 @@ export function MarketCard({ market }: { market: Market }) {
           <div className="flex items-center gap-1.5 ml-auto">
             <div className="flex -space-x-2">
               {/* Show top 3 prediction options as small dots */}
-              {predictions?.slice(0, 3).map((p: any, i: number) => (
+              {predictions?.slice(0, 3).map((_p: any, i: number) => (
                 <div
                   key={i}
                   className={`w-2 h-2 rounded-full border border-slate-800 ${i === 0 ? 'bg-blue-400' :
