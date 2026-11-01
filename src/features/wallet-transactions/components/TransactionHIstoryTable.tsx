@@ -1,4 +1,4 @@
-import { formatMoney } from '../../../lib/money';
+import { formatMoney } from "../../../common/lib/money";
 import type { WalletTransaction } from '../types';
 
 interface Props {
