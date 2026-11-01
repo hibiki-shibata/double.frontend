@@ -25,27 +25,24 @@ executeBeforeServerStarts().then(() => {
     <StrictMode>
       <BrowserRouter>
         <Routes>
-          {/* App acts as a layout with shared components (Header, Footer) */}
+          {/* Giving Provider */}
           <Route element={<App />}>
-            {/* Index Page */}
-            <Route index element={<Navigate to="/marketList" replace />} />
 
             {/* Public routes */}
+            <Route index element={<Navigate to="/marketList" replace />} />
             <Route path="marketList" element={<MarketList />} />
             <Route path="market/:marketId" element={<MarketDetail />} />
             <Route path="privacy" element={<Privacy />} />
             <Route path="terms" element={<Terms />} />
             <Route path="about" element={<About />} />
+            <Route path='*' element={<Navigate to="/marketList" replace />} />
 
-            {/* Protected route */}
+            {/* Protected routes */}
             <Route element={<ProtectedRoute />} >
               <Route path="settings" element={<AccountSettings />} />
             </Route>
 
-            {/* Fallback */}
-            <Route path='*' element={<Navigate to="/marketList" replace />} />
           </Route>
-
           <Route path="auth" element={<Auth />} />
         </Routes>
       </BrowserRouter>
