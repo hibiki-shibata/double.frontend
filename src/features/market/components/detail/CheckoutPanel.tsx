@@ -5,6 +5,7 @@ import type { Market } from '../../types/market.type'
 import type { Prediction } from '../../types/prediction.type'
 import { NavSigninCard } from './NavSigninCard'
 import { usePlaceBet } from '../../hooks/betHook'
+import { useAuth } from '../../../auth/contexts/AuthContext'
 
 type Props = {
     market: Market,
@@ -16,7 +17,7 @@ export function CheckoutPanel(
     { market, selectedPrediction, closeCheckoutPanel }: Props
 ) {
     // Replace later
-    const isLoggedIn = true
+    const { isAuthenticated } = useAuth()
 
     const { placeBet, isSuccess: placeBetIsSuccess, isLoading: placeBetIsLoading, error: placeBetError } = usePlaceBet(market.id)
     const [betAmount, setBetAmount] = useState<string>('')
@@ -34,7 +35,7 @@ export function CheckoutPanel(
     return (
         <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6">
             {/* User Not Logged In case */}
-            {!isLoggedIn && (
+            {!isAuthenticated && (
                 <NavSigninCard />
             )}
             {placeBetError && (
@@ -42,7 +43,7 @@ export function CheckoutPanel(
             )}
 
             {/* Market Closed case */}
-            {isLoggedIn && (market.status !== 'OPEN') && (
+            {isAuthenticated && (market.status !== 'OPEN') && (
                 <div className="text-center py-4">
                     <div className="w-16 h-16 rounded-full bg-gray-500/20 flex items-center justify-center mx-auto mb-4">
                         <Clock className="w-8 h-8 text-gray-400" />
@@ -53,7 +54,7 @@ export function CheckoutPanel(
             )}
 
             {/* Success State */}
-            {isLoggedIn && placeBetIsSuccess && (
+            {isAuthenticated && placeBetIsSuccess && (
                 <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 text-center">
                     <CheckCircle className="w-8 h-8 text-green-400 mx-auto mb-2" />
                     <p className="text-sm font-medium text-green-400">bet submitted!</p>
@@ -62,7 +63,7 @@ export function CheckoutPanel(
             )}
 
             {/* Error State */}
-            {isLoggedIn && placeBetError && (
+            {isAuthenticated && placeBetError && (
                 <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 text-center">
                     <CheckCircle className="w-8 h-8 text-green-400 mx-auto mb-2" />
                     <p className="text-sm font-medium text-red-400">Failed to submit your bet</p>
@@ -71,7 +72,7 @@ export function CheckoutPanel(
             )}
 
             {/* Default State: Active Voting Form */}
-            {isLoggedIn && !placeBetIsSuccess && (
+            {isAuthenticated && !placeBetIsSuccess && (
                 <>
                     <p className="text-sm text-gray-400 mb-4 mt-1">Review your bet details before submit</p>
 

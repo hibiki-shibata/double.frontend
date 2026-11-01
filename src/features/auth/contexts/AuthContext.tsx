@@ -41,8 +41,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     async function logout(): Promise<void> {
-        setUser(null);
-        setAccessToken(null);
+        // Send logout request to remove refreshToken from httpOnly cookie
+        setUser(null)
+        setAccessToken(null)
     }
 
     return (
@@ -57,11 +58,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         >
             {children}
         </AuthContext.Provider>
-    );
+    )
 }
 
-// To read the injected providerƒ
-export function useAuth() {
+// Auth context hook
+export function useAuth(): AuthContextType {
     const context = useContext(AuthContext);
     if (!context) {
         throw new Error('useAuth must be used within an AuthProvider');

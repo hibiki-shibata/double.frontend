@@ -1,6 +1,7 @@
 import { History, LogOut, SettingsIcon, User, Wallet, type LucideIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { useAuth } from '../../features/auth/contexts/AuthContext';
 
 type MenuItems = {
     Icon?: LucideIcon,
@@ -22,22 +23,15 @@ const menuItems: MenuItems[] = [
 
 
 export function Header() {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const navigate = useNavigate();
+    const { user, isAuthenticated, logout } = useAuth()
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+    const navigateTo = useNavigate()
 
     const handleLogout = async () => {
-        // await logout();
-        navigate('/');
-        setIsDropdownOpen(false);
-    }
-
-    // example delete later
-    const user = {
-        id: "1",
-        name: "hibiki shibata",
-        emailAddress: "hibiki@example.com",
+        await logout()
+        setIsDropdownOpen(false)
+        navigateTo('/')
     }
 
 
@@ -63,7 +57,7 @@ export function Header() {
                     </nav>
 
                     <div className="flex items-center gap-3">
-                        {isLoggedIn ? (
+                        {(isAuthenticated && user) ? (
                             <>
                                 {/* Desktop User Menu */}
                                 <div className="hidden sm:relative sm:flex sm:items-center">
@@ -159,7 +153,7 @@ export function Header() {
                                 </div>
                             </a>
                         ))}
-                        {isLoggedIn && (
+                        {isAuthenticated && (
                             <button
                                 onClick={() => {
                                     handleLogout()

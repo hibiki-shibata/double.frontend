@@ -86,14 +86,51 @@ export const handlers = [
     }),
 
 
+    // Mock fetch user 
+    http.get('http://localhost:3000/api/v1/user/me', async () => {
+        await delay(350); // Optional: simulate network latency
+        return HttpResponse.json({
+            id: "1",
+            name: "hibiki shibata",
+            emailAddress: "hibiki@example.com",
+        });
+    }),
+
+
+    // Place Bet
     http.post('http://localhost:3000/api/v1/bet', async ({ request }) => {
+        await delay(550); // Optional: simulate network latency
         const body = (await request.json()) as { name: string };
         // Return a mock Market object
         return HttpResponse.json(
             { id: String(Date.now()), name: body.name },
             { status: 201 }
-        );
+        )
     }),
+
+
+    // Get user data
+    http.post('http://localhost:3000/api/v1/auth/login', ({ request }) => {
+        console.log("login request: " + request)
+        return HttpResponse.json(
+            { accessToken: "mocked-access-token-for-login" },
+        )
+    }),
+
+    http.post('http://localhost:3000/api/v1/auth/signup', ({ request }) => {
+        console.log("signup request: " + request)
+        return HttpResponse.json(
+            { accessToken: "mocked-access-token-for-signup" },
+        )
+    }),
+
+    // http.post('http://localhost:3000/api/v1/auth/refreshToken', ({ request }) => {
+    //     return HttpResponse.STATUS_CODES_WITHOUT_BODY
+    // })
+
+    // http.post('http://localhost:3000/api/v1/auth/logout', ({ request }) => {
+
+    // })
 
     // // 2. Mock POST request
     // http.post('/api/users', async ({ request }) => {
