@@ -1,10 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router'
 import App from './App.tsx'
 import './index.css'
-import { MarketList } from './pages/index/page.tsx'
-import { MarketDetail } from './pages/market/page.tsx'
+import { MarketList } from './pages/marketList/page.tsx'
+import { MarketDetail } from './pages/market/[id]/page.tsx'
 import { Privacy } from './pages/privacy/page.tsx'
 import { Terms } from './pages/terms/page.tsx'
 import { About } from './pages/about/page.tsx'
@@ -27,10 +27,11 @@ executeBeforeServerStarts().then(() => {
         <Routes>
           {/* App acts as a layout with shared components (Header, Footer) */}
           <Route element={<App />}>
-            {/* Index route for the main page */}
-            <Route index element={<MarketList />} />
+            {/* Index Page */}
+            <Route index element={<Navigate to="/marketList" replace />} />
 
-            {/* Nested routes */}
+            {/* Public routes */}
+            <Route path="marketList" element={<MarketList />} />
             <Route path="market/:marketId" element={<MarketDetail />} />
             <Route path="privacy" element={<Privacy />} />
             <Route path="terms" element={<Terms />} />
@@ -41,8 +42,8 @@ executeBeforeServerStarts().then(() => {
               <Route path="settings" element={<AccountSettings />} />
             </Route>
 
-            {/* fallback */}
-            <Route path='*' element={<MarketList />} />
+            {/* Fallback */}
+            <Route path='*' element={<Navigate to="/marketList" replace />} />
           </Route>
 
           <Route path="auth" element={<Auth />} />
