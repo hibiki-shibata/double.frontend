@@ -130,9 +130,7 @@ export function MarketCard({ market }: { market: Market }) {
           <div className="mt-3 h-1 bg-white/5 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full transition-all duration-1000"
-              style={{
-                width: `${Math.min((Number(predictions[0]?.betSum || 0) / calculatedPredictionData.totalBets) * 100, 100)}%`
-              }}
+              style={{ width: `${Math.min((Number(predictions[0]?.betSum || 0) / calculatedPredictionData.totalBets) * 100, 100)}%` }}
             />
           </div>
         )}
