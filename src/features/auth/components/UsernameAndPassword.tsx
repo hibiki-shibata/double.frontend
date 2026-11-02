@@ -1,23 +1,71 @@
 import { useState } from "react"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { useAuth } from "../contexts/AuthContext"
 
 type Props = { isSignupMode: boolean }
 
 export function UsernameAndPassword({ isSignupMode }: Props) {
+    const navigate = useNavigate()
+    const { login, signup, isLoading } = useAuth()
+
+    const [username, setUsername] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
-    const { login } = useAuth()
+    const [error, setError] = useState<string | null>(null)
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        setError(null)
+
+        // Basic client-side validation
+        if (isSignupMode) {
+            if (!username.trim()) {
+                setError("Please enter your name.")
+                return
+            }
+            if (password !== confirmPassword) {
+                setError("Passwords do not match.")
+                return
+            }
+        }
+
+        if (!email.trim() || !password.trim()) {
+            setError("Please fill in all required fields.")
+            return
+        }
+
+        try {
+            if (isSignupMode) {
+                await signup({ username, password })
+            } else {
+                await login({ username, password })
+            }
+            // Redirect to dashboard/market upon success
+            navigate('/')
+        } catch (err: any) {
+            setError(err?.message || "Authentication failed. Please check your credentials.")
+        }
+    }
 
     return (
-        <form className="space-y-4" onSubmit={(e) =>
-            e.preventDefault()
-        }>
+        <form className="space-y-4" onSubmit={handleSubmit}>
+            {error && (
+                <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
+                    {error}
+                </div>
+            )}
+
             {isSignupMode && (
                 <div>
                     <label className="block text-sm text-gray-300 mb-1">Name</label>
                     <input
                         type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         placeholder="John Doe"
+                        required={isSignupMode}
                         className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-sm"
                     />
                 </div>
@@ -27,7 +75,10 @@ export function UsernameAndPassword({ isSignupMode }: Props) {
                 <label className="block text-sm text-gray-300 mb-1">Email</label>
                 <input
                     type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
+                    required
                     className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-sm"
                 />
             </div>
@@ -37,13 +88,16 @@ export function UsernameAndPassword({ isSignupMode }: Props) {
                 <div className="relative">
                     <input
                         type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••"
+                        required
                         className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-sm pr-10"
                     />
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors cursor-pointer"
                     >
                         {showPassword ? (
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -64,25 +118,28 @@ export function UsernameAndPassword({ isSignupMode }: Props) {
                     <label className="block text-sm text-gray-300 mb-1">Confirm Password</label>
                     <input
                         type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                         placeholder="••••••••"
+                        required={isSignupMode}
                         className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-sm"
                     />
                 </div>
             )}
 
-            {!isSignupMode && (
+            {/* {isSignupMode && (
                 <div className="flex items-center justify-between text-sm">
                     <label className="flex items-center gap-2 text-gray-400 cursor-pointer">
                         <input type="checkbox" className="rounded border-white/10 bg-white/5 text-blue-500" />
-                        Remember me
+                        Is 
                     </label>
                     <a href="#" className="text-blue-400 hover:underline">Forgot password?</a>
                 </div>
-            )}
+            )} */}
 
             {isSignupMode && (
                 <div className="flex items-start gap-2 text-sm">
-                    <input type="checkbox" className="mt-0.5 rounded border-white/10 bg-white/5 text-blue-500" />
+                    <input type="checkbox" required className="mt-0.5 rounded border-white/10 bg-white/5 text-blue-500 cursor-pointer" />
                     <span className="text-gray-400">
                         I agree to the
                         <Link to="/terms" className="text-blue-400 hover:underline"> Terms</Link> and <Link to="/privacy" className="text-blue-400 hover:underline">Privacy Policy</Link>
@@ -92,9 +149,17 @@ export function UsernameAndPassword({ isSignupMode }: Props) {
 
             <button
                 type="submit"
-                className="w-full py-2.5 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium rounded-lg hover:opacity-90 transition-opacity text-sm"
+                disabled={isLoading}
+                className="w-full py-2.5 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium rounded-lg hover:opacity-90 active:opacity-80 transition-opacity text-sm disabled:opacity-50 cursor-pointer flex items-center justify-center"
             >
-                {isSignupMode ? 'Create account' : 'Sign in'}
+                {isLoading ? (
+                    <svg className="w-5 h-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                    </svg>
+                ) : (
+                    isSignupMode ? 'Create account' : 'Sign in'
+                )}
             </button>
         </form>
     )
