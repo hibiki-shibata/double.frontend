@@ -26,7 +26,7 @@ export function MarketList() {
     }
 
     return (
-        <div className='max-w-7xl mx-auto mt-10'>
+        <div className='max-w-7xl mx-auto my-10'>
             <div className='pt-5 pb-6 border-b border-gray-200 dark:border-gray-700'>
                 <h1 className='text-3xl font-bold text-gray-900 dark:text-white tracking-tight'>
                     Predictions

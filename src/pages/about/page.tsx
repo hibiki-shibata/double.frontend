@@ -7,7 +7,7 @@ import {
 
 export function About() {
     return (
-        <div className="max-w-4xl mx-auto space-y-8">
+        <div className="max-w-4xl mx-auto space-y-8 my-15">
             {/* Hero Section */}
             <div className="bg-gradient-to-br from-white/5 to-white/10  rounded-2xl border border-white/10 p-8 text-center">
                 <div className="inline-flex p-3 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-xl shadow-blue-500/20 mb-4">
