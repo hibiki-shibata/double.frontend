@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode, } from 'react';
 import type { User } from '../types/user.type';
 import type { AccessToken } from '../types/token.type';
-import type { AuthCredential } from '../types/login.type';
+import type { AuthCredential } from '../types/credential.type';
 import { useLogin, useLogout, useRefreshToken, useSignup } from '../hooks/authHook';
 import { useUser } from '../hooks/userHook';
 import { useNavigate } from 'react-router';

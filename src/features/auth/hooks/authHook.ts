@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import type { AuthCredential } from "../types/login.type";
+import type { AuthCredential } from "../types/credential.type";
 import { apiClient } from "../../../common/lib/apiClient/apiClient";
 import type { AccessToken } from "../types/token.type";
 

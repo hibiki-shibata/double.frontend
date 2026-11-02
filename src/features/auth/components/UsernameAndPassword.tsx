@@ -57,31 +57,32 @@ export function UsernameAndPassword({ isSignupMode }: Props) {
                 </div>
             )}
 
-            {isSignupMode && (
+            {/* {isSignupMode && (
                 <div>
-                    <label className="block text-sm text-gray-300 mb-1">Name</label>
+                    <label className="block text-sm text-gray-300 mb-1">Email</label>
                     <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        placeholder="John Doe"
-                        required={isSignupMode}
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="you@example.com"
+                        required
                         className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-sm"
                     />
                 </div>
-            )}
+            )} */}
 
             <div>
-                <label className="block text-sm text-gray-300 mb-1">Email</label>
+                <label className="block text-sm text-gray-300 mb-1">Username</label>
                 <input
-                    type="email"
+                    type="username"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="double.123"
                     required
                     className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-sm"
                 />
             </div>
+
 
             <div>
                 <label className="block text-sm text-gray-300 mb-1">Password</label>
