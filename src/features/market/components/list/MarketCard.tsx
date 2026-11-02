@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router";
 import { Users, DollarSign, Clock, ArrowRight } from 'lucide-react';
 import type { Market } from "../../types/market.type";
-import type { Prediction } from "../../types/prediction.type";
-import { usePredictions } from '../../hooks/predictionHook';
+import { useCalculatedPredictions, usePredictions, type CalculatedPredictions } from '../../hooks/predictionHook';
 import { LoadingState } from "../../../../common/components/StatusState";
+import { useMemo } from "react";
 
 const STATUS_STYLES: Record<string, string> = {
   OPEN: 'bg-green-200 text-green-700',
@@ -17,9 +17,9 @@ export function MarketCard({ market }: { market: Market }) {
 
   const { data: predictions = [], isLoading: predictionsIsLoading, isError: predictionsIsError } = usePredictions(market.id)
 
-  const totalBets = predictions?.reduce((sum: number, p: Prediction) => sum + Number(p.betSum), 0) || 0;
-  const totalParticipants = predictions?.reduce((sum: number, p: Prediction) => sum + p.totalParticipants, 0) || 0;
-  const volumeFormatted = (totalBets / 1e18).toFixed(2);
+  const calculatedPredictionData: CalculatedPredictions = useMemo(() => { // useMemo for mitigate expensive prediction metadata formating process
+    return useCalculatedPredictions(predictions)
+  }, [predictions])
 
   return (
     <button
@@ -55,9 +55,10 @@ export function MarketCard({ market }: { market: Market }) {
           </span>
         </div>
 
-        {/* Description */}
+        {/* Prediction */}
         <p className="mt-2 text-sm text-gray-400 line-clamp-2 leading-relaxed">
-          {market.description || "No description provided"}
+          <p>majority bet on:</p>
+          {predictions[0]?.name ?? "No bet yet"}
         </p>
 
         {/* Stats row */}
@@ -68,13 +69,14 @@ export function MarketCard({ market }: { market: Market }) {
           <div className="flex items-center gap-1.5">
             <Users className="w-3.5 h-3.5 text-blue-400" />
             <span className="text-xs text-gray-400 font-medium">
-              {totalParticipants.toLocaleString()}
+              {calculatedPredictionData.totalParticipants.toLocaleString()}
             </span>
           </div>
           <div className="flex items-center gap-1.5">
             <DollarSign className="w-3.5 h-3.5 text-green-400" />
             <span className="text-xs text-gray-400 font-medium">
-              ${volumeFormatted}
+              ${calculatedPredictionData.totalBets}
+              {/* ${(calculatedPredictionData.totalBets / 1e18).toFixed(2)} */}
             </span>
           </div>
           <div className="flex items-center gap-1.5 ml-auto">
@@ -129,7 +131,7 @@ export function MarketCard({ market }: { market: Market }) {
             <div
               className="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full transition-all duration-1000"
               style={{
-                width: `${Math.min((Number(predictions[0]?.betSum || 0) / totalBets) * 100, 100)}%`
+                width: `${Math.min((Number(predictions[0]?.betSum || 0) / calculatedPredictionData.totalBets) * 100, 100)}%`
               }}
             />
           </div>

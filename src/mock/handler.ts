@@ -22,18 +22,12 @@ export const handlers = [
         await delay(250)
         const { marketId } = params
         const random = Math.floor(Math.random() * 10)
-
-        // Return a mock Market object
         return HttpResponse.json({
             id: marketId,
             title: marketId + " Would u bet the release of this test goes well?",
             status: random % 2 ? "OPEN" : "CLOSED",
             closeAt: "2024-12-31T23:59:59Z",
             createdAt: "2024-01-01T00:00:00Z",
-            // predictions: [
-            //     { name: "Yes", totalParticipants: 1234, betSum: "4500000000000000000" },
-            //     { name: "No", totalParticipants: 567, betSum: "2100000000000000000" },
-            // ]
         })
     }),
 
@@ -43,44 +37,31 @@ export const handlers = [
     // const marketId = url.searchParams.get('marketId')
     http.get('http://localhost:3000/api/v1/market/:marketId/predictions', async ({ params }) => {
         await delay(1150)
-        const { marketId } = params
-        // const random = Math.random()
-        console.log("Received prediction req for marketId:" + marketId)
-
         const mockedResponse = []
-
-        for (let i = 0; i < 2; i++) {
-            mockedResponse.push(
-                {
-                    id: Math.random(),
-                    name: i % 2 ? "Yes, it will succcess" : "No, it will fails",
-                    totalParticipants: i * 313,
-                    // Convert BigInt to string to allow JSON serialization
-                    betSum: (BigInt(i * 999999999999999)).toString()
-                },
-            )
+        for (let i = 1; i < 3; i++) {
+            mockedResponse.push({
+                id: Math.random(),
+                name: i % 2 ? "Yes, it will succcess" : "No, it will fails",
+                totalParticipants: i * 313,
+                betSum: (BigInt(i * 190192309)).toString() // Convert BigInt to string to allow JSON serialization
+            })
         }
 
         return HttpResponse.json(mockedResponse)
     }),
 
+    // Mock fetch market detail
     http.get('http://localhost:3000/api/v1/market/:marketId', async () => {
         await delay(150); // Optional: simulate network latency
         const mockedResponse = []
         for (let i = 0; i < 10; i++) {
-            mockedResponse.push(
-                {
-                    id: i.toString(),
-                    title: "Would u bet the release of this test " + i + " goes well?",
-                    status: i % 2 ? "OPEN" : "CLOSED",
-                    closeAt: "2024-12-31T23:59:59Z",
-                    createdAt: "2024-01-01T00:00:00Z",
-                    // predictions: [
-                    //     { name: "Yes", totalParticipants: 1234, betSum: "4500000000000000000" },
-                    //     { name: "No", totalParticipants: 567, betSum: "2100000000000000000" },
-                    // ]
-                }
-            )
+            mockedResponse.push({
+                id: i.toString(),
+                title: "Would u bet the release of this test " + i + " goes well?",
+                status: i % 2 ? "OPEN" : "CLOSED",
+                closeAt: "2024-12-31T23:59:59Z",
+                createdAt: "2024-01-01T00:00:00Z",
+            })
         }
         return HttpResponse.json(mockedResponse);
     }),
@@ -101,7 +82,6 @@ export const handlers = [
     http.post('http://localhost:3000/api/v1/bet', async ({ request }) => {
         await delay(550); // Optional: simulate network latency
         const body = (await request.json()) as { name: string };
-        // Return a mock Market object
         return HttpResponse.json(
             { id: String(Date.now()), name: body.name },
             { status: 201 }
@@ -109,19 +89,20 @@ export const handlers = [
     }),
 
 
-    // Get user data
+    // Login
     http.post('http://localhost:3000/api/v1/auth/login', ({ request }) => {
         console.log("login request: " + request)
-        return HttpResponse.json(
-            { accessToken: "mocked-access-token-for-login" },
-        )
+        return HttpResponse.json({
+            accessToken: "mocked-access-token-for-login"
+        })
     }),
 
+    // Signup
     http.post('http://localhost:3000/api/v1/auth/signup', ({ request }) => {
         console.log("signup request: " + request)
-        return HttpResponse.json(
-            { accessToken: "mocked-access-token-for-signup" },
-        )
+        return HttpResponse.json({
+            accessToken: "mocked-access-token-for-signup"
+        })
     }),
 
     // http.post('http://localhost:3000/api/v1/auth/refreshToken', ({ request }) => {
