@@ -1,48 +1,87 @@
 import { createContext, useContext, useState, useEffect, type ReactNode, } from 'react';
 import type { User } from '../types/user.type';
 import type { AccessToken } from '../types/token.type';
-import type { LoginCredential } from '../types/login.type';
+import type { AuthCredential } from '../types/login.type';
+import { useLogin, useLogout, useRefreshToken, useSignup } from '../hooks/authHook';
+import { useUser } from '../hooks/userHook';
 
-interface AuthContextType {
+type AuthContextType = {
     user: User | null;
     accessToken: string | null;
-    isAuthenticated: boolean;
-    login: (credentials: LoginCredential) => Promise<void>;
+    isAuthenticated: boolean
+    isLoading: boolean
+    login: (credentials: AuthCredential) => Promise<void>
+    signup: (credentials: AuthCredential) => Promise<void>
     logout: () => Promise<void>;
+    refreshToken: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 
-// Provider to inject
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null)
     const [accessToken, setAccessToken] = useState<string | null>(null)
-    // const [isInitialLoading, setIsInitialLoading] = useState(true)
 
-    // Restore session on initial load (e.g., checking silently refreshed cookie or storage)
-    // useEffect(() => {
-    //     const storedAccessTOken = localStorage.getItem('access_token');
-    //     const storedUser = localStorage.getItem('auth_user');
+    // Mutations to handle auth reqs
+    const { login, isLoading: isLoginLoading } = useLogin()
+    const { signup, isLoading: isSignupLoading } = useSignup()
+    const { logout, isLoading: isLogoutLoading } = useLogout()
+    const { refreshToken, isLoading: isRefreshTokenLoading } = useRefreshToken()
+    const { fetchUser } = useUser()
 
-    //     if (storedToken && storedUser) {
-    //         setAccessToken(storedToken);
-    //         setUser(JSON.parse(storedUser));
-    //     }
-    //     setIsInitialLoading(false);
-    // }, [])
-
-    async function login(crdential: LoginCredential): Promise<void> {
-        // 1. Fetch access token
-        // 2. Fetch user data
-        // 3. setAccessToken(accessToken)
-        // 4. setUser(user)
-    }
-
-    async function logout(): Promise<void> {
-        // 1. Send logout request to remove refreshToken from httpOnly cookie
+    function clearAuthState() {
         setUser(null)
         setAccessToken(null)
+    }
+
+    useEffect(() => {
+        handleRefreshToken()
+    }, [])
+
+
+    async function handleLogin(loginCredential: AuthCredential) {
+        try {
+            const res: AccessToken = await login(loginCredential)
+            setAccessToken(res.accessToken)
+            setUser(await fetchUser())
+        } catch {
+            clearAuthState()
+            alert("Failed to login")
+        }
+    }
+
+    async function handleSignup(signupCredential: AuthCredential) {
+        try {
+            const res: AccessToken = await signup(signupCredential)
+            setAccessToken(res.accessToken)
+            setUser(await fetchUser())
+        } catch {
+            clearAuthState()
+            alert("Failed to Signup")
+        }
+    }
+
+    async function handleRefreshToken() {
+        try {
+            const res: AccessToken = await refreshToken()
+            setAccessToken(res.accessToken)
+            setUser(await fetchUser())
+        } catch {
+            clearAuthState()
+            alert("Failed to token refresh")
+        }
+    }
+
+    async function handleLogout() {
+        try {
+            await logout()
+            setAccessToken(null)
+            setUser(null)
+        } catch {
+            clearAuthState()
+            alert("Failed to Logout")
+        }
     }
 
     return (
@@ -50,9 +89,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             value={{
                 user: user,
                 accessToken: accessToken,
-                isAuthenticated: Boolean(user),
-                login: login,
-                logout: logout,
+                isAuthenticated: Boolean(user && accessToken),
+                isLoading: (isLoginLoading || isSignupLoading || isLogoutLoading || isRefreshTokenLoading),
+                login: handleLogin,
+                signup: handleSignup,
+                logout: handleLogout,
+                refreshToken: handleRefreshToken
             }}
         >
             {children}
@@ -68,3 +110,71 @@ export function useAuth(): AuthContextType {
     }
     return context;
 }
+
+
+
+
+// // Provider to inject
+// export function AuthProvider({ children }: { children: ReactNode }) {
+//     const [accessToken, setAccessToken] = useState<string | null>(null)
+//     const queryClient = useQueryClient();
+
+//     const { login, isLoading: isLoginLoading } = useLogin();
+//     const { signup, isLoading: isSignupLoading } = useSignup();
+//     const { logout, isLoading: isLogoutLoading } = useLogout();
+//     const { refreshToken, isLoading: isRefreshTokenLoading } = useRefreshToken();
+
+//     // Industrial standard: UseQuery for fetching and caching the user profile
+//     const { data: user, isLoading: isUserLoading, error: userError } = useUser()
+
+//     // Auto-relogin
+//     useEffect(() => {
+//         async function initializeAuth() {
+//             try {
+//                 const res = await refreshToken();
+//                 if (!res?.accessToken) throw new Error('No access token returned');
+
+//                 setAccessToken(res.accessToken)
+//             } catch {
+//                 setAccessToken(null)
+//             }
+//         }
+//         initializeAuth()
+//     }, []);
+
+//     // Clean logout routine that clears tokens and invalidates user cache
+//     const handleLogout = async () => {
+//         await logout()
+//         setAccessToken(null)
+//         await queryClient.setQueryData(['user', 'me'], null)
+//         queryClient.removeQueries({ queryKey: ['user', 'me'] })
+//     };
+
+//     // If a token refresh fails or user fetch fails with unauthorized, wipe token
+//     useEffect(() => {
+//         if (userError) setAccessToken(null);
+//     }, [userError]);
+
+//     const value = {
+//         user: user ?? null,
+//         accessToken,
+//         isAuthenticated: Boolean(accessToken && user),
+//         isLoading: isInitializing || isRefreshTokenLoading || (Boolean(accessToken) && isUserLoading) || isLoginLoading || isSignupLoading || isLogoutLoading,
+//         login,
+//         signup,
+//         logout: handleLogout,
+//         refreshToken,
+//     };
+
+//     return (
+//         <AuthContext.Provider value={value}>
+//             {children}
+//         </AuthContext.Provider>
+//     )
+// }
+
+// export function useAuth() {
+//     const context = useContext(AuthContext);
+//     if (!context) throw new Error('useAuth must be used within an AuthProvider');
+//     return context;
+// };

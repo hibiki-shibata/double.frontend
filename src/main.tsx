@@ -35,6 +35,7 @@ executeBeforeServerStarts().then(() => {
             <Route path="privacy" element={<Privacy />} />
             <Route path="terms" element={<Terms />} />
             <Route path="about" element={<About />} />
+            <Route path="auth" element={<Auth />} />
             <Route path='*' element={<Navigate to="/marketList" replace />} />
 
             {/* Protected routes */}
@@ -43,7 +44,6 @@ executeBeforeServerStarts().then(() => {
             </Route>
 
           </Route>
-          <Route path="auth" element={<Auth />} />
         </Routes>
       </BrowserRouter>
     </StrictMode>

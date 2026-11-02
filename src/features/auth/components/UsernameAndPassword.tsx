@@ -1,13 +1,18 @@
 import { useState } from "react"
 import { Link } from "react-router"
+import { useAuth } from "../contexts/AuthContext"
 
 type Props = { isSignupMode: boolean }
 
 export function UsernameAndPassword({ isSignupMode }: Props) {
     const [showPassword, setShowPassword] = useState(false)
+    const { login } = useAuth()
 
     return (
-        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+        <form className="space-y-4" onSubmit={(e) =>
+            e.preventDefault()
+
+        }>
             {isSignupMode && (
                 <div>
                     <label className="block text-sm text-gray-300 mb-1">Name</label>
