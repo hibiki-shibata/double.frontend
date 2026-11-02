@@ -18,7 +18,7 @@ export function NavSigninCard() {
             <p className="text-xs text-gray-500 mt-3">
                 Don't have an account?{' '}
                 <Link
-                    to="/auth"
+                    to="/auth?isSignup=TRUE"
                     className="text-blue-400 hover:underline">
                     Sign up
                 </Link>
