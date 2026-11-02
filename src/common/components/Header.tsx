@@ -18,22 +18,33 @@ const accountMenuItems: MenuItems[] = [
 
 const menuItems: MenuItems[] = [
     { label: "Market", href: "/" },
-    { label: "About", href: "about" },
+    { label: "About", href: "/about" },
 ]
 
-
 export function Header() {
-    const { user, isAuthenticated, logout } = useAuth()
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+    const { user, isAuthenticated, logout } = useAuth();
+    const navigate = useNavigate();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            setIsDropdownOpen(false);
+            setIsMobileMenuOpen(false);
+            navigate('/auth');
+        } catch (error) {
+            console.error("Failed to log out", error);
+        }
+    };
 
     return (
         <header className='sticky top-0 z-50 border-b border-white/10 bg-slate-900'>
-            <div className=' px-4 sm:px-6 lg:px-30'>
+            <div className='px-4 sm:px-6 lg:px-30'>
                 <div className='flex items-center justify-between h-16'>
                     {/* Logo */}
                     <div className='flex items-center gap-2'>
-                        <div className='w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold'>D</div>
+                        <div className='w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-white'>D</div>
                         <h1 className='text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'>
                             <a href='/'>Double</a>
                         </h1>
@@ -55,10 +66,10 @@ export function Header() {
                                 <div className="hidden sm:relative sm:flex sm:items-center">
                                     <button
                                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                        className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+                                        className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
                                     >
                                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-sm font-medium text-white">
-                                            {user.name.charAt(0)}
+                                            {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
                                         </div>
                                         <span className="text-sm text-gray-300">Account</span>
                                         <svg className={`w-4 h-4 text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -70,25 +81,25 @@ export function Header() {
                                     {isDropdownOpen && (
                                         <div className="absolute right-0 top-full mt-2 w-56 bg-slate-800 rounded-xl border border-white/10 shadow-xl py-1 z-50">
                                             <div className="px-4 py-3 border-b border-white/10">
-                                                <p className="text-sm font-medium text-white">Hibiki Shibata</p>
-                                                <p className="text-xs text-gray-400">hibiki@example.com</p>
+                                                <p className="text-sm font-medium text-white">{user.name}</p>
+                                                <p className="text-xs text-gray-400 truncate">{user.email}</p>
                                             </div>
                                             {accountMenuItems.map((item: MenuItems) => (
-                                                <a key={item.href} href={item.href}>
-                                                    <div
-                                                        onClick={() => setIsDropdownOpen(false)}
-                                                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
-                                                    >
+                                                <a 
+                                                    key={item.href} 
+                                                    href={item.href}
+                                                    onClick={() => setIsDropdownOpen(false)}
+                                                >
+                                                    <div className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
                                                         {item.Icon && <item.Icon className="w-4 h-4" />}
                                                         {item.label}
                                                     </div>
                                                 </a>
-                                            ))
-                                            }
+                                            ))}
 
                                             <button
-                                                onClick={logout}
-                                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors border-t border-white/10"
+                                                onClick={handleLogout}
+                                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors border-t border-white/10 cursor-pointer"
                                             >
                                                 <LogOut className="w-4 h-4" />
                                                 Logout
@@ -97,32 +108,32 @@ export function Header() {
                                     )}
                                 </div>
 
-                                {/* Mobile User Icon */}
+                                {/* Mobile User Icon Toggle */}
                                 <button
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                    className="sm:hidden p-2 rounded-lg transition-colors"
+                                    className="sm:hidden p-2 rounded-lg transition-colors cursor-pointer"
                                 >
                                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-sm font-medium text-white">
-                                        {user.name.charAt(0)}
+                                        {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
                                     </div>
                                 </button>
                             </>
                         ) : (
                             // Auth Buttons (Logged Out)
                             <div className="flex items-center gap-3">
-                                {/* <div className="hidden sm:inline-block px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">
-                                    <a href='/auth'>Log in</a>
-                                </div> */}
-                                <div className="px-4 py-2 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-200 hover:scale-105">
-                                    <a href='/auth'>Sign In</a>
-                                </div>
+                                <a 
+                                    href='/auth'
+                                    className="px-4 py-2 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-200 hover:scale-105"
+                                >
+                                    Sign In
+                                </a>
                             </div>
                         )}
 
-                        {/* Mobile Menu Toggle - Always visible */}
+                        {/* Mobile Menu Toggle */}
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="sm:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
+                            className="sm:hidden p-2 rounded-lg hover:bg-white/10 transition-colors text-gray-300 cursor-pointer"
                         >
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 {isMobileMenuOpen ? (
@@ -139,19 +150,19 @@ export function Header() {
                 {isMobileMenuOpen && (
                     <div className="md:hidden py-4 border-t border-white/10 space-y-3">
                         {menuItems.map((item: MenuItems) => (
-                            <a href={item.href} onClick={() => setIsMobileMenuOpen(false)}>
-                                <div className="block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors">
-                                    {item.label}
-                                </div>
+                            <a 
+                                key={item.href}
+                                href={item.href} 
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
+                            >
+                                {item.label}
                             </a>
                         ))}
                         {isAuthenticated && (
                             <button
-                                onClick={() => {
-                                    logout()
-                                    setIsMobileMenuOpen(false)
-                                }}
-                                className="block w-full text-left px-3 py-2 rounded-lg text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors"
+                                onClick={handleLogout}
+                                className="block w-full text-left px-3 py-2 rounded-lg text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors cursor-pointer"
                             >
                                 Logout
                             </button>
@@ -159,6 +170,6 @@ export function Header() {
                     </div>
                 )}
             </div>
-        </header >
+        </header>
     );
 }
