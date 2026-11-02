@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router'
 import { Header } from './common/components/Header'
 import { Footer } from './common/components/Footer'
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from './features/auth/contexts/AuthContext'
 import { queryClient } from './common/lib/queryClient'
 
