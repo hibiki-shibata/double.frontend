@@ -1,6 +1,6 @@
 import { History, LogOut, SettingsIcon, User, Wallet, type LucideIcon } from 'lucide-react';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { useAuth } from '../../features/auth/contexts/AuthContext';
 
 type MenuItems = {
@@ -114,7 +114,7 @@ export function Header() {
                                     <Link to='/auth'>Log In</Link>
                                 </div>
                                 <div className="px-4 py-2 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-200 hover:scale-105">
-                                    <Link to='/auth'>Sign Up</Link>
+                                    <Link to='/auth?isSignup=TRUE'>Sign Up</Link>
                                 </div>
                             </div>
                         )}

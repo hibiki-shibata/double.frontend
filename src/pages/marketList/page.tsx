@@ -27,8 +27,8 @@ export function MarketList() {
 
     return (
         <div className='max-w-7xl mx-auto my-10'>
-            <div className='pt-5 pb-6 border-b border-gray-200 dark:border-gray-700'>
-                <h1 className='text-3xl font-bold text-gray-900 dark:text-white tracking-tight'>
+            <div className='pt-5 pb-6 border-b border-gray-200 dark:border-gray-700 mx-6 1xl:mx-0'>
+                <h1 className='text-3xl font-bold text-gray-900 dark:text-white tracking-tight '>
                     Predictions
                 </h1>
                 <div className='flex items-center gap-3 mt-1'>

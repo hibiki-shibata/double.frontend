@@ -1,16 +1,20 @@
 // pages/Auth.tsx
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import { GoogleLogin } from '../../features/auth/components/GoogleLogin';
 import { UsernameAndPassword } from '../../features/auth/components/UsernameAndPassword';
 
 
 export function Auth() {
-  const [isSignupMode, setIsSignupMode] = useState<boolean>(false)
+  const [searchParams] = useSearchParams()
 
-  const changeAuthMode = () => {
-    setIsSignupMode(!isSignupMode);
-  };
+  // Initialize state once on mount based on the search param
+  const [isSignupMode, setIsSignupMode] = useState<boolean>(() => {
+    return searchParams.get("isSignup")?.toLowerCase() === 'true'
+  })
+
+  const changeAuthMode = () => setIsSignupMode(!isSignupMode)
+
 
   return (
     <div className="min-h-screen flex items-center justify-center px-0 py-12 bg-slate-900">
@@ -48,7 +52,7 @@ export function Auth() {
             onClick={changeAuthMode}
             className="ml-1 text-blue-400 hover:underline font-medium"
           >
-            {isSignupMode ? 'Sign in' : 'Sign up'}
+            {isSignupMode ? 'Log in' : 'Sign up'}
           </button>
         </p>
 

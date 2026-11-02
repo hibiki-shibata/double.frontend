@@ -9,7 +9,7 @@ export function UsernameAndPassword({ isSignupMode }: Props) {
     const { login, signup, isLoading } = useAuth()
 
     const [username, setUsername] = useState("")
-    const [email, setEmail] = useState("")
+    // const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
@@ -31,7 +31,7 @@ export function UsernameAndPassword({ isSignupMode }: Props) {
             }
         }
 
-        if (!email.trim() || !password.trim()) {
+        if (!password.trim()) {
             setError("Please fill in all required fields.")
             return
         }
@@ -75,7 +75,7 @@ export function UsernameAndPassword({ isSignupMode }: Props) {
                 <label className="block text-sm text-gray-300 mb-1">Username</label>
                 <input
                     type="username"
-                    value={email}
+                    value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="double.123"
                     required
