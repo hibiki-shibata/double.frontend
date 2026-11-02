@@ -110,11 +110,11 @@ export function Header() {
                         ) : (
                             // Auth Buttons (Logged Out)
                             <div className="flex items-center gap-3">
-                                <div className="hidden sm:inline-block px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">
+                                {/* <div className="hidden sm:inline-block px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">
                                     <a href='/auth'>Log in</a>
-                                </div>
+                                </div> */}
                                 <div className="px-4 py-2 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-200 hover:scale-105">
-                                    <a href='/auth'>Sign Up</a>
+                                    <a href='/auth'>Sign In</a>
                                 </div>
                             </div>
                         )}
