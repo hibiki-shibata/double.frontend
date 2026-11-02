@@ -4,6 +4,7 @@ import type { AccessToken } from '../types/token.type';
 import type { AuthCredential } from '../types/login.type';
 import { useLogin, useLogout, useRefreshToken, useSignup } from '../hooks/authHook';
 import { useUser } from '../hooks/userHook';
+import { useNavigate } from 'react-router';
 
 type AuthContextType = {
     user: User | null;
@@ -20,6 +21,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+    const navigateTo = useNavigate()
     const [user, setUser] = useState<User | null>(null)
     const [accessToken, setAccessToken] = useState<string | null>(null)
 
@@ -36,6 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     useEffect(() => {
+        if (!Boolean(user && accessToken)) return
         handleRefreshToken()
     }, [])
 
@@ -45,6 +48,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const res: AccessToken = await login(loginCredential)
             setAccessToken(res.accessToken)
             setUser(await fetchUser())
+            navigateTo('/')
         } catch {
             clearAuthState()
             alert("Failed to login")
@@ -56,6 +60,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const res: AccessToken = await signup(signupCredential)
             setAccessToken(res.accessToken)
             setUser(await fetchUser())
+            navigateTo('/')
         } catch {
             clearAuthState()
             alert("Failed to Signup")
@@ -67,6 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const res: AccessToken = await refreshToken()
             setAccessToken(res.accessToken)
             setUser(await fetchUser())
+            navigateTo('/')
         } catch {
             clearAuthState()
             alert("Failed to token refresh")
@@ -78,6 +84,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             await logout()
             setAccessToken(null)
             setUser(null)
+            navigateTo('/')
         } catch {
             clearAuthState()
             alert("Failed to Logout")

@@ -11,7 +11,6 @@ export function UsernameAndPassword({ isSignupMode }: Props) {
     return (
         <form className="space-y-4" onSubmit={(e) =>
             e.preventDefault()
-
         }>
             {isSignupMode && (
                 <div>

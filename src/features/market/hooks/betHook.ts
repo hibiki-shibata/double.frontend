@@ -1,10 +1,10 @@
 import { apiClient } from '../../../common/lib/apiClient/apiClient';
+import { queryClient } from '../../../common/lib/queryClient';
 import type { PlaceBetPayload } from '../types/bet.type';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 
 export function usePlaceBet(marketId: string) {
-    const queryClient = useQueryClient();
 
     const mutation = useMutation({
         mutationFn: (betPayload: PlaceBetPayload) =>

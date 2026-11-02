@@ -26,14 +26,6 @@ export function Header() {
     const { user, isAuthenticated, logout } = useAuth()
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-    const navigateTo = useNavigate()
-
-    const handleLogout = async () => {
-        await logout()
-        setIsDropdownOpen(false)
-        navigateTo('/')
-    }
-
 
     return (
         <header className='sticky top-0 z-50 border-b border-white/10 bg-slate-900'>
@@ -95,7 +87,7 @@ export function Header() {
                                             }
 
                                             <button
-                                                onClick={handleLogout}
+                                                onClick={logout}
                                                 className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors border-t border-white/10"
                                             >
                                                 <LogOut className="w-4 h-4" />
@@ -156,7 +148,7 @@ export function Header() {
                         {isAuthenticated && (
                             <button
                                 onClick={() => {
-                                    handleLogout()
+                                    logout()
                                     setIsMobileMenuOpen(false)
                                 }}
                                 className="block w-full text-left px-3 py-2 rounded-lg text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors"
