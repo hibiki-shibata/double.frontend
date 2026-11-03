@@ -3,7 +3,7 @@ import { http, HttpResponse, delay } from 'msw';
 export const handlers = [
     // 1. Mock Market List
     http.get('http://localhost:3000/api/v1/market/list', async () => {
-        await delay(750); // Optional: simulate network latency
+        await delay(Math.random() * 2500); // Simulate network latency
         const mockedResponse = []
         for (let i = 0; i < 30; i++) {
             mockedResponse.push({
@@ -19,7 +19,7 @@ export const handlers = [
 
     // Mock market fetch
     http.get('http://localhost:3000/api/v1/market/:marketId', async ({ params }) => {
-        await delay(250)
+        await delay(Math.random() * 2500);
         const { marketId } = params
         const random = Math.floor(Math.random() * 10)
         return HttpResponse.json({
@@ -36,7 +36,7 @@ export const handlers = [
     // const url = new URL(request.url)
     // const marketId = url.searchParams.get('marketId')
     http.get('http://localhost:3000/api/v1/market/:marketId/predictions', async ({ params }) => {
-        await delay(1150)
+        await delay(Math.random() * 2500);
         const mockedResponse = []
         for (let i = 1; i < 3; i++) {
             mockedResponse.push({
@@ -52,7 +52,7 @@ export const handlers = [
 
     // Mock fetch market detail
     http.get('http://localhost:3000/api/v1/market/:marketId', async () => {
-        await delay(150); // Optional: simulate network latency
+        await delay(Math.random() * 2500);
         const mockedResponse = []
         for (let i = 0; i < 10; i++) {
             mockedResponse.push({
@@ -69,7 +69,7 @@ export const handlers = [
 
     // Mock fetch user 
     http.get('http://localhost:3000/api/v1/user/me', async () => {
-        await delay(350); // Optional: simulate network latency
+        await delay(Math.random() * 2500);
         return HttpResponse.json({
             id: "1",
             name: "hibiki shibata",
@@ -77,10 +77,9 @@ export const handlers = [
         });
     }),
 
-
     // Place Bet
     http.post('http://localhost:3000/api/v1/bet', async ({ request }) => {
-        await delay(550); // Optional: simulate network latency
+        await delay(Math.random() * 2500);
         const body = (await request.json()) as { name: string };
         return HttpResponse.json(
             { id: String(Date.now()), name: body.name },
@@ -88,9 +87,9 @@ export const handlers = [
         )
     }),
 
-
     // Login
-    http.post('http://localhost:3000/api/v1/auth/login', ({ request }) => {
+    http.post('http://localhost:3000/api/v1/auth/login', async ({ request }) => {
+        await delay(Math.random() * 2500);
         console.log("login request: " + request)
         return HttpResponse.json({
             accessToken: "mocked-access-token-for-login"
@@ -98,7 +97,8 @@ export const handlers = [
     }),
 
     // Signup
-    http.post('http://localhost:3000/api/v1/auth/signup', ({ request }) => {
+    http.post('http://localhost:3000/api/v1/auth/signup', async ({ request }) => {
+        await delay(Math.random() * 2500)
         console.log("signup request: " + request)
         return HttpResponse.json({
             accessToken: "mocked-access-token-for-signup"

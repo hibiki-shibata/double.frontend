@@ -1,14 +1,20 @@
 // pages/Auth.tsx
 import { useState } from 'react';
-import { Link, useSearchParams } from 'react-router';
+import { Link, Navigate, useSearchParams } from 'react-router';
 import { GoogleLogin } from '../../features/auth/components/GoogleLogin';
 import { UsernameAndPassword } from '../../features/auth/components/UsernameAndPassword';
+import { useAuth } from '../../features/auth/contexts/AuthContext';
+import { ROUTES } from '../../common/config/routes';
 
 
 export function Auth() {
-  const [searchParams] = useSearchParams()
 
-  // Initialize state once on mount based on the search param
+  // Redirect to Maket list when user already logged-in
+  const { isAuthenticated } = useAuth()
+  if (isAuthenticated) return <Navigate to={ROUTES.MARKET_LIST} />
+
+  // Display signin page at initialization
+  const [searchParams] = useSearchParams()
   const [isSignupMode, setIsSignupMode] = useState<boolean>(() => {
     return searchParams.get("isSignup")?.toLowerCase() === 'true'
   })
