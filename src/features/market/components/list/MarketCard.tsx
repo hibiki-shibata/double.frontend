@@ -4,6 +4,7 @@ import type { Market } from "../../types/market.type";
 import { useCalculatedPredictions, usePredictions, type CalculatedPredictions } from '../../hooks/predictionHook';
 import { LoadingState } from "../../../../common/components/StatusState";
 import { useMemo } from "react";
+import { ROUTES } from "../../../../common/config/routes";
 
 const STATUS_STYLES: Record<string, string> = {
   OPEN: 'bg-green-200 text-green-700',
@@ -25,10 +26,8 @@ export function MarketCard({ market }: { market: Market }) {
     <button
       type="button"
       onClick={(e) => {
-        console.log("clicked")
         e.preventDefault()
-        navigateTo(`/market/${market.id}`)
-        console.log('navigated')
+        navigateTo(ROUTES.MARKET_DETAILS({ marketId: market.id }))
       }}
       className="group rounded-xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 p-5 text-left hover:border-blue-400/50 relative overflow-hidden"
     >

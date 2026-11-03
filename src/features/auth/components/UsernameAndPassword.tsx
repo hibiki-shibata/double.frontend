@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router"
 import { useAuth } from "../contexts/AuthContext"
+import { ROUTES } from "../../../common/config/routes"
 
 type Props = { isSignupMode: boolean }
 
@@ -43,7 +44,7 @@ export function UsernameAndPassword({ isSignupMode }: Props) {
                 await login({ username, password })
             }
             // Redirect to dashboard/market upon success
-            navigate('/')
+            navigate(ROUTES.MARKET_LIST)
         } catch (err: any) {
             setError(err?.message || "Authentication failed. Please check your credentials.")
         }

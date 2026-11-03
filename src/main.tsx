@@ -13,9 +13,10 @@ import { AccountSettings } from './features/user-profile/components/UserSettings
 import { ProtectedRoute } from './features/auth/wrapper/ProtectedRoute.tsx'
 import { coreConfig } from './common/config/coreConfig.ts'
 import { worker } from './mock/browser.ts'
+import { ROUTES } from './common/config/routes.ts'
 
 async function executeBeforeServerStarts() {
-  if (coreConfig.RUNTIME_ENV !== 'prod') {
+  if (coreConfig.RUNTIME_ENV.toUpperCase() !== 'PROD') {
     await worker.start()
   }
 }
@@ -25,22 +26,22 @@ executeBeforeServerStarts().then(() => {
     <StrictMode>
       <BrowserRouter>
         <Routes>
-          {/* Injecting Provider */}
+          {/* Provider wrapper */}
           <Route element={<App />}>
 
             {/* Public routes */}
-            <Route index element={<Navigate to="/marketList" replace />} />
-            <Route path="marketList" element={<MarketList />} />
-            <Route path="market/:marketId" element={<MarketDetail />} />
-            <Route path="privacy" element={<Privacy />} />
-            <Route path="terms" element={<Terms />} />
-            <Route path="about" element={<About />} />
-            <Route path="auth/*" element={<Auth />} />
-            <Route path='*' element={<Navigate to="/marketList" replace />} />
+            <Route index element={<Navigate to={ROUTES.MARKET_LIST} replace />} />
+            <Route path={ROUTES.MARKET_LIST} element={<MarketList />} />
+            <Route path={ROUTES.MARKET_DETAILS({})} element={<MarketDetail />} />
+            <Route path={ROUTES.PRIVACY} element={<Privacy />} />
+            <Route path={ROUTES.TERMS} element={<Terms />} />
+            <Route path={ROUTES.ABOUT} element={<About />} />
+            <Route path={ROUTES.AUTH({})} element={<Auth />} />
+            <Route path='*' element={<Navigate to={ROUTES.MARKET_LIST} replace />} />
 
-            {/* Protected routes */}
+            {/* Protected routes - Auth required */}
             <Route element={<ProtectedRoute />} >
-              <Route path="settings" element={<AccountSettings />} />
+              <Route path={ROUTES.SETTINGS} element={<AccountSettings />} />
             </Route>
 
           </Route>
