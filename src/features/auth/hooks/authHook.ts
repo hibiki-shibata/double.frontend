@@ -1,16 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
 import type { AuthCredential } from "../types/credential.type";
-import { apiClient } from "../../../common/lib/apiClient/apiClient";
+import { useApiClient } from "../../../common/lib/apiClient/apiClientHook";
 import type { AccessToken } from "../types/token.type";
 
 export function useLogin() {
+    const { post } = useApiClient()
     const mutation = useMutation({
         mutationFn: (loginCredential: AuthCredential) =>
-            apiClient.post<AccessToken>("/auth/login", loginCredential),
+            post<AccessToken>("/auth/login", loginCredential),
     })
 
     return {
-        login: mutation.mutateAsync,
+        reqLogin: mutation.mutateAsync,
         isLoading: mutation.isPending,
         error: mutation.error instanceof Error ? mutation.error.message : null,
         isSuccess: mutation.isSuccess,
@@ -19,13 +20,15 @@ export function useLogin() {
 
 
 export function useSignup() {
+    const { post } = useApiClient()
+
     const mutation = useMutation({
         mutationFn: (signupCredential: AuthCredential) =>
-            apiClient.post<AccessToken>("/auth/signup", signupCredential),
+            post<AccessToken>("/auth/signup", signupCredential),
     })
 
     return {
-        signup: mutation.mutateAsync,
+        reqSignup: mutation.mutateAsync,
         isLoading: mutation.isPending,
         error: mutation.error instanceof Error ? mutation.error.message : null,
         isSuccess: mutation.isSuccess,
@@ -35,13 +38,14 @@ export function useSignup() {
 
 
 export function useLogout() {
+    const { post } = useApiClient()
     const mutation = useMutation({
         mutationFn: () =>
-            apiClient.post<void>("/auth/logout"),
+            post<void>("/auth/logout"),
     })
 
     return {
-        logout: mutation.mutateAsync,
+        reqLogout: mutation.mutateAsync,
         isLoading: mutation.isPending,
         error: mutation.error instanceof Error ? mutation.error.message : null,
         isSuccess: mutation.isSuccess,
@@ -50,13 +54,14 @@ export function useLogout() {
 
 
 export function useRefreshToken() {
+    const { post } = useApiClient()
     const mutation = useMutation({
         mutationFn: () =>
-            apiClient.post<AccessToken>("/auth/refreshToken"),
+            post<AccessToken>("/auth/refreshToken"),
     })
 
     return {
-        refreshToken: mutation.mutateAsync,
+        reqLefreshToken: mutation.mutateAsync,
         isLoading: mutation.isPending,
         error: mutation.error instanceof Error ? mutation.error.message : null,
         isSuccess: mutation.isSuccess,

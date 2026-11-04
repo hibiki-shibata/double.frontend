@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
-import { apiClient } from '../../../common/lib/apiClient/apiClient'
+import { useApiClient } from '../../../common/lib/apiClient/apiClientHook'
 import type { Prediction } from '../types/prediction.type'
 
 export function usePredictions(marketId: string) {
+    const { get } = useApiClient()
     return useQuery({
         queryKey: ["predictions", marketId],
-        queryFn: () => apiClient.get<Prediction[]>(`/market/${marketId}/predictions`),
+        queryFn: () => get<Prediction[]>(`/market/${marketId}/predictions`),
         refetchInterval: 50000,
         staleTime: 10000,
         enabled: !!marketId

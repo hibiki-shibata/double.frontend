@@ -4,10 +4,10 @@ import type { AccessToken } from '../types/token.type';
 import type { AuthCredential } from '../types/credential.type';
 import { useLogin, useLogout, useRefreshToken, useSignup } from '../hooks/authHook';
 import { useUser } from '../hooks/userHook';
+import { authTokenStore } from '../../../common/lib/authTokenStore';
 
 type AuthContextType = {
     user: User | null;
-    accessToken: string | null;
     isAuthenticated: boolean
     isLoading: boolean
     login: (credentials: AuthCredential) => Promise<void>
@@ -18,68 +18,66 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null)
-    const [accessToken, setAccessToken] = useState<string | null>(null)
 
     // Mutations to handle auth reqs
-    const { login, isLoading: isLoginLoading } = useLogin()
-    const { signup, isLoading: isSignupLoading } = useSignup()
-    const { logout, isLoading: isLogoutLoading } = useLogout()
-    const { refreshToken, isLoading: isRefreshTokenLoading } = useRefreshToken()
+    const { reqLogin, isLoading: isLoginLoading } = useLogin()
+    const { reqSignup, isLoading: isSignupLoading } = useSignup()
+    const { reqLogout, isLoading: isLogoutLoading } = useLogout()
+    const { reqRefreshToken, isLoading: isRefreshTokenLoading } = useRefreshToken()
     const { fetchUser, isLoading: isUserLoading } = useUser()
 
-    function clearAuthState() {
+    const setAuthState = async (accessToken: string) => {
+        authTokenStore.setAccessToken(accessToken)
+        setUser(await fetchUser())
+    }
+
+    const clearAuthState = () => {
         setUser(null)
-        setAccessToken(null)
+        authTokenStore.clear()
     }
 
     useEffect(() => {
-        handleRefreshToken() // Refresh Token every time 
+        refreshToken() // Refresh Token every time 
     }, [])
 
 
-    async function handleLogin(loginCredential: AuthCredential) {
+    async function login(loginCredential: AuthCredential) {
         try {
-            const res: AccessToken = await login(loginCredential)
-            setAccessToken(res.accessToken)
-            setUser(await fetchUser())
+            const res: AccessToken = await reqLogin(loginCredential)
+            setAuthState(res.accessToken)
         } catch {
             clearAuthState()
             alert("Failed to login")
         }
     }
 
-    async function handleSignup(signupCredential: AuthCredential) {
+    async function signup(signupCredential: AuthCredential) {
         try {
-            const res: AccessToken = await signup(signupCredential)
-            setAccessToken(res.accessToken)
-            setUser(await fetchUser())
+            const res: AccessToken = await reqSignup(signupCredential)
+            setAuthState(res.accessToken)
         } catch {
             clearAuthState()
             alert("Failed to Signup")
         }
     }
 
-    async function handleRefreshToken() {
+    async function refreshToken() {
         try {
-            const res: AccessToken = await refreshToken()
-            setAccessToken(res.accessToken)
-            setUser(await fetchUser())
+            const res: AccessToken = await reqRefreshToken()
+            setAuthState(res.accessToken)
         } catch {
             clearAuthState()
             console.error("Failed to refresh token")
         }
     }
 
-    async function handleLogout() {
+    async function logout() {
         try {
-            await logout()
-            setAccessToken(null)
-            setUser(null)
-        } catch {
+            await reqLogout()
             clearAuthState()
+        } catch {
             alert("Failed to Logout")
         }
     }
@@ -88,13 +86,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         <AuthContext.Provider
             value={{
                 user: user,
-                accessToken: accessToken,
-                isAuthenticated: Boolean(user && accessToken),
-                isLoading: (isLoginLoading || isSignupLoading || isLogoutLoading || isRefreshTokenLoading || (Boolean(accessToken) && isUserLoading)),
-                login: handleLogin,
-                signup: handleSignup,
-                logout: handleLogout,
-                refreshToken: handleRefreshToken
+                isAuthenticated: Boolean(user),
+                isLoading: (isLoginLoading || isSignupLoading || isLogoutLoading || isRefreshTokenLoading || (!Boolean(user) && isUserLoading)),
+                login: login,
+                signup: signup,
+                logout: logout,
+                refreshToken: refreshToken
             }}
         >
             {children}
@@ -110,71 +107,3 @@ export function useAuth(): AuthContextType {
     }
     return context;
 }
-
-
-
-
-// // Provider to inject
-// export function AuthProvider({ children }: { children: ReactNode }) {
-//     const [accessToken, setAccessToken] = useState<string | null>(null)
-//     const queryClient = useQueryClient();
-
-//     const { login, isLoading: isLoginLoading } = useLogin();
-//     const { signup, isLoading: isSignupLoading } = useSignup();
-//     const { logout, isLoading: isLogoutLoading } = useLogout();
-//     const { refreshToken, isLoading: isRefreshTokenLoading } = useRefreshToken();
-
-//     // Industrial standard: UseQuery for fetching and caching the user profile
-//     const { data: user, isLoading: isUserLoading, error: userError } = useUser()
-
-//     // Auto-relogin
-//     useEffect(() => {
-//         async function initializeAuth() {
-//             try {
-//                 const res = await refreshToken();
-//                 if (!res?.accessToken) throw new Error('No access token returned');
-
-//                 setAccessToken(res.accessToken)
-//             } catch {
-//                 setAccessToken(null)
-//             }
-//         }
-//         initializeAuth()
-//     }, []);
-
-//     // Clean logout routine that clears tokens and invalidates user cache
-//     const handleLogout = async () => {
-//         await logout()
-//         setAccessToken(null)
-//         await queryClient.setQueryData(['user', 'me'], null)
-//         queryClient.removeQueries({ queryKey: ['user', 'me'] })
-//     };
-
-//     // If a token refresh fails or user fetch fails with unauthorized, wipe token
-//     useEffect(() => {
-//         if (userError) setAccessToken(null);
-//     }, [userError]);
-
-//     const value = {
-//         user: user ?? null,
-//         accessToken,
-//         isAuthenticated: Boolean(accessToken && user),
-//         isLoading: isInitializing || isRefreshTokenLoading || (Boolean(accessToken) && isUserLoading) || isLoginLoading || isSignupLoading || isLogoutLoading,
-//         login,
-//         signup,
-//         logout: handleLogout,
-//         refreshToken,
-//     };
-
-//     return (
-//         <AuthContext.Provider value={value}>
-//             {children}
-//         </AuthContext.Provider>
-//     )
-// }
-
-// export function useAuth() {
-//     const context = useContext(AuthContext);
-//     if (!context) throw new Error('useAuth must be used within an AuthProvider');
-//     return context;
-// };

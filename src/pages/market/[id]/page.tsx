@@ -9,6 +9,7 @@ import { CheckoutPanel } from '../../../features/market/components/detail/Checko
 import { useMarket } from '../../../features/market/hooks/marketHook';
 import { useCalculatedPredictions, usePredictions, type CalculatedPredictions } from '../../../features/market/hooks/predictionHook';
 import { ErrorState, LoadingState } from '../../../common/components/StatusState';
+import { formatDate } from '../../../common/lib/formatDate';
 
 
 const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
@@ -34,17 +35,6 @@ export function MarketDetail() {
     const calculatedPredictionData: CalculatedPredictions = useMemo(() => { // useMemo for mitigate expensive prediction metadata formating process
         return useCalculatedPredictions(predictions)
     }, [predictions])
-
-    // Memoize formatters
-    const formatDate = useCallback((date: string) => {
-        return new Date(date).toLocaleDateString('en-US', {
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        })
-    }, [])
 
 
     const statusConfig = STATUS_CONFIG[market?.status ?? "CLOSED"]

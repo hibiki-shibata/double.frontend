@@ -5,10 +5,11 @@ import { ArrowLeft, Wallet, History, Settings, LogOut } from 'lucide-react';
 
 import { WalletTab, type Transaction } from './wallet/page';
 import { BetHistoryTab } from './betHistory/page';
-import type { Bet } from '../../features/bet/types/betHistory.type';
+import type { Bet } from '../../features/betHistory/types/betHistory.type';
 import { SettingsTab } from './setting/page';
 import { ROUTES } from '../../common/config/routes';
-import { useBetHistory } from '../../features/bet/hooks/betHook';
+import { useBetHistory } from '../../features/betHistory/hooks/betHook';
+import { formatDate } from '../../common/lib/formatDate';
 
 export function AccountSettings() {
     const [activeTab, setActiveTab] = useState<'wallet' | 'bets' | 'settings'>('wallet');
@@ -34,16 +35,6 @@ export function AccountSettings() {
     ];
 
     const { data: betHistory, isLoading: isBetHistoryLoading, error: betHistoryError } = useBetHistory({ page: 0, limit: 2 })
-
-    const formatDate = (date: string) => {
-        return new Date(date).toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    };
 
     return (
         <div className="min-h-screen bg-slate-900">

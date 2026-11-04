@@ -50,6 +50,7 @@ export const handlers = [
         return HttpResponse.json(mockedResponse)
     }),
 
+
     // Mock fetch market detail
     http.get('http://localhost:3000/api/v1/market/:marketId', async () => {
         await delay(Math.random() * 2500);
@@ -95,6 +96,7 @@ export const handlers = [
         }
         return HttpResponse.json(mockedResponse);
     }),
+
 
     // Place Bet
     http.post('http://localhost:3000/api/v1/bet', async ({ request }) => {

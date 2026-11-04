@@ -1,12 +1,13 @@
 
-import { apiClient } from "../../../common/lib/apiClient/apiClient";
+import { useApiClient } from "../../../common/lib/apiClient/apiClientHook";
 import { useMutation } from "@tanstack/react-query";
 import type { User } from "../types/user.type";
 
 export function useUser() {
+    const { get } = useApiClient()
     const mutation = useMutation({
         mutationFn: () =>
-            apiClient.get<User>("/user/me")
+            get<User>("/user/me")
     })
 
     return {
