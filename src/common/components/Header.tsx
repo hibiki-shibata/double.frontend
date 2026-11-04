@@ -2,23 +2,25 @@ import { History, LogOut, SettingsIcon, User, Wallet, type LucideIcon } from 'lu
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { useAuth } from '../../features/auth/contexts/AuthContext';
+import { ROUTES } from '../config/routes';
+import { MarketList } from '../../pages/marketList/page';
 
 type MenuItems = {
     Icon?: LucideIcon,
     label: string,
-    href: string
+    route: string
 }
 
 const accountMenuItems: MenuItems[] = [
-    { Icon: User, label: "Profile", href: "/settings" },
-    { Icon: Wallet, label: "Wallet", href: "/settings" },
-    { Icon: History, label: "History", href: "/settings" },
-    { Icon: SettingsIcon, label: "Settings", href: "/settings" },
+    { Icon: User, label: "Profile", route: ROUTES.SETTINGS },
+    { Icon: Wallet, label: "Wallet", route: ROUTES.SETTINGS },
+    { Icon: History, label: "History", route: ROUTES.SETTINGS },
+    { Icon: SettingsIcon, label: "Settingsss", route: ROUTES.SETTINGS },
 ]
 
 const menuItems: MenuItems[] = [
-    { label: "Market", href: "/" },
-    { label: "About", href: "about" },
+    { label: "Market", route: ROUTES.MARKET_LIST },
+    { label: "About", route: ROUTES.ABOUT },
 ]
 
 
@@ -32,19 +34,21 @@ export function Header() {
             <div className=' px-4 sm:px-6 lg:px-30'>
                 <div className='flex items-center justify-between h-16'>
                     {/* Logo */}
-                    <div className='flex items-center gap-2'>
-                        <div className='w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold'>D</div>
-                        <h1 className='text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'>
-                            <a href='/'>Double</a>
-                        </h1>
-                    </div>
+                    <Link to={ROUTES.MARKET_LIST}>
+                        <div className='flex items-center gap-2'>
+                            <div className='w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold'>D</div>
+                            <h1 className='text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'>
+                                Double
+                            </h1>
+                        </div>
+                    </Link>
 
                     {/* Desktop Center Navigation */}
                     <nav className='hidden md:flex items-center gap-6'>
                         {menuItems.map((item: MenuItems) => (
-                            <a key={item.href} href={item.href} className='text-sm text-gray-300 hover:text-white transition-colors'>
+                            <Link to={item.route} className='text-sm text-gray-300 hover:text-white transition-colors'>
                                 {item.label}
-                            </a>
+                            </Link>
                         ))}
                     </nav>
 
@@ -74,7 +78,7 @@ export function Header() {
                                                 <p className="text-xs text-gray-400">hibiki@example.com</p>
                                             </div>
                                             {accountMenuItems.map((item: MenuItems) => (
-                                                <a key={item.href} href={item.href}>
+                                                <Link to={item.route}>
                                                     <div
                                                         onClick={() => setIsDropdownOpen(false)}
                                                         className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
@@ -82,7 +86,7 @@ export function Header() {
                                                         {item.Icon && <item.Icon className="w-4 h-4" />}
                                                         {item.label}
                                                     </div>
-                                                </a>
+                                                </Link>
                                             ))
                                             }
 
@@ -119,7 +123,7 @@ export function Header() {
                             </div>
                         )}
 
-                        {/* Mobile Menu Toggle - Always visible */}
+                        {/* Mobile Menu Toggle */}
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             className="sm:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
@@ -139,11 +143,11 @@ export function Header() {
                 {isMobileMenuOpen && (
                     <div className="md:hidden py-4 border-t border-white/10 space-y-3">
                         {menuItems.map((item: MenuItems) => (
-                            <a href={item.href} onClick={() => setIsMobileMenuOpen(false)}>
+                            <Link to={item.route} onClick={() => setIsMobileMenuOpen(false)}>
                                 <div className="block px-3 py-2 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-colors">
                                     {item.label}
                                 </div>
-                            </a>
+                            </Link>
                         ))}
                         {isAuthenticated && (
                             <button

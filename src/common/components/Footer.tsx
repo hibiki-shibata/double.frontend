@@ -1,5 +1,7 @@
 // components/Footer.tsx
 import { MapPin, Coffee } from 'lucide-react';
+import { Link } from 'react-router';
+import { ROUTES } from '../config/routes';
 
 export function Footer() {
     const currentYear = new Date().getFullYear();
@@ -13,9 +15,9 @@ export function Footer() {
                         <h4 className="text-sm font-semibold text-white mb-3">Quick Links</h4>
                         <ul className="space-y-2">
                             <li>
-                                <a href="/" className="text-sm text-gray-400 hover:text-white">
+                                <Link to={ROUTES.MARKET_LIST} className="text-sm text-gray-400 hover:text-white">
                                     Markets
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <a href="https://hibiki-shibata.github.io/" target='_blank' className="text-sm text-gray-400 hover:text-white">
@@ -47,12 +49,12 @@ export function Footer() {
                         </span>
                     </div>
                     <div className="flex items-center gap-4 text-xs text-gray-500">
-                        <a href="/privacy" className="hover:text-gray-300 transition-colors">
+                        <Link to={ROUTES.PRIVACY} className="hover:text-gray-300 transition-colors">
                             Privacy
-                        </a>
-                        <a href="/terms" className="hover:text-gray-300 transition-colors">
+                        </Link>
+                        <Link to={ROUTES.TERMS} className="hover:text-gray-300 transition-colors">
                             Terms
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

@@ -105,6 +105,15 @@ export const handlers = [
         })
     }),
 
+    // Signup
+    http.post('http://localhost:3000/api/v1/auth/refreshToken', async ({ request }) => {
+        await delay(Math.random() * 2500)
+        console.log("signup request: " + request)
+        return HttpResponse.json({
+            accessToken: "mocked-access-token-for-signup"
+        })
+    }),
+
     // http.post('http://localhost:3000/api/v1/auth/refreshToken', ({ request }) => {
     //     return HttpResponse.STATUS_CODES_WITHOUT_BODY
     // })
