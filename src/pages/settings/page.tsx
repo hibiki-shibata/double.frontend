@@ -4,8 +4,11 @@ import { Link } from 'react-router';
 import { ArrowLeft, Wallet, History, Settings, LogOut } from 'lucide-react';
 
 import { WalletTab, type Transaction } from './wallet/page';
-import { BetHistoryTab, type Bet } from './betHistory/page';
+import { BetHistoryTab } from './betHistory/page';
+import type { Bet } from '../../features/bet/types/betHistory.type';
 import { SettingsTab } from './setting/page';
+import { ROUTES } from '../../common/config/routes';
+import { useBetHistory } from '../../features/bet/hooks/betHook';
 
 export function AccountSettings() {
     const [activeTab, setActiveTab] = useState<'wallet' | 'bets' | 'settings'>('wallet');
@@ -30,12 +33,7 @@ export function AccountSettings() {
         { id: '5', type: 'bet_lost', amount: 50, status: 'completed', timestamp: '2024-01-11T12:00:00Z', description: 'Lost bet on market crash', txHash: '0xdef...mno' },
     ];
 
-    const betHistory: Bet[] = [
-        { id: '1', marketTitle: 'Will Ethereum reach $5,000 by end of 2024?', prediction: 'Yes', amount: 100, outcome: 'won', profit: 150, timestamp: '2024-01-14T15:20:00Z' },
-        { id: '2', marketTitle: 'BTC price above $50,000 in Q1 2024', prediction: 'No', amount: 200, outcome: 'lost', profit: -200, timestamp: '2024-01-13T10:00:00Z' },
-        { id: '3', marketTitle: 'Federal Reserve rate decision', prediction: 'Hike', amount: 50, outcome: 'won', profit: 75, timestamp: '2024-01-12T08:30:00Z' },
-        { id: '4', marketTitle: 'Apple stock reaches $200', prediction: 'Yes', amount: 75, outcome: 'pending', profit: 0, timestamp: '2024-01-11T16:45:00Z' },
-    ];
+    const { data: betHistory, isLoading: isBetHistoryLoading, error: betHistoryError } = useBetHistory({ page: 0, limit: 2 })
 
     const formatDate = (date: string) => {
         return new Date(date).toLocaleDateString('en-US', {
@@ -50,13 +48,10 @@ export function AccountSettings() {
     return (
         <div className="min-h-screen bg-slate-900">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Header */}
+                {/* Headline */}
                 <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-4">
-                        <Link
-                            to="/"
-                            className="p-2 rounded-lg hover:bg-white/5 transition-colors"
-                        >
+                        <Link to={ROUTES.MARKET_LIST} className="p-2 rounded-lg hover:bg-white/5 transition-colors">
                             <ArrowLeft className="w-5 h-5 text-gray-400" />
                         </Link>
                         <div>
@@ -103,7 +98,7 @@ export function AccountSettings() {
                     </button>
                 </div>
 
-                {/* Content */}
+                {/* Contents */}
                 {activeTab === 'wallet' && (
                     <WalletTab
                         walletData={walletData}
@@ -122,7 +117,9 @@ export function AccountSettings() {
                     />
                 )}
 
-                {activeTab === 'settings' && <SettingsTab />}
+                {activeTab === 'settings' && (
+                    <SettingsTab />
+                )}
             </div>
         </div>
     );

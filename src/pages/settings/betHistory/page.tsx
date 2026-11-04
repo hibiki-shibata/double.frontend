@@ -1,18 +1,11 @@
 // components/BetHistoryTab.tsx
 import { CheckCircle, XCircle, Clock } from 'lucide-react';
+import type { Bet } from '../../../features/bet/types/betHistory.type';
+import { EmptyState } from '../../../common/components/StatusState';
 
-export interface Bet {
-    id: string;
-    marketTitle: string;
-    prediction: string;
-    amount: number;
-    outcome: 'won' | 'lost' | 'pending';
-    profit: number;
-    timestamp: string;
-}
 
 interface BetHistoryTabProps {
-    betHistory: Bet[];
+    betHistory: Bet[] | undefined;
     totalBets: number;
     wonBets: number;
     lostBets: number;
@@ -38,8 +31,11 @@ export function BetHistoryTab({ betHistory, totalBets, wonBets, lostBets, format
                     <span className="text-gray-400">Lost: <span className="text-red-400 font-medium">{lostBets}</span></span>
                 </div>
             </div>
+            {betHistory && (
+                <EmptyState message="No Bet History yet" />
+            )}
 
-            <div className="space-y-3">
+            {betHistory && <div className="space-y-3">
                 {betHistory.map((bet) => (
                     <div key={bet.id} className="flex items-center justify-between p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
                         <div className="flex-1">
@@ -64,7 +60,7 @@ export function BetHistoryTab({ betHistory, totalBets, wonBets, lostBets, format
                         </div>
                     </div>
                 ))}
-            </div>
+            </div>}
         </div>
     );
 }

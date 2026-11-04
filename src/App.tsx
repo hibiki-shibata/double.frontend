@@ -12,9 +12,7 @@ export default function App() {
       <AuthProvider>
         <div className='min-h-screen bg-slate-950 text-white'>
           <Header />
-          {/* <main className='px-4 sm:px-6 lg:px-8 py-10'> */}
           <Outlet />
-          {/* </main> */}
           <Footer />
         </div>
       </AuthProvider>

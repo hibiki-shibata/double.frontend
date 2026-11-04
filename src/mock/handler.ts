@@ -77,6 +77,25 @@ export const handlers = [
         });
     }),
 
+
+    // Mock bet histotry
+    http.get('http://localhost:3000/api/v1/bet/history', async () => {
+        await delay(Math.random() * 2500);
+        const mockedResponse = []
+        for (let i = 0; i < 10; i++) {
+            mockedResponse.push({
+                id: i,
+                marketTitle: i + 'Will prediction market goes viral?',
+                prediction: (i % 2) ? 'Yes' : 'No',
+                amount: i * 100,
+                outcome: (i % 2) ? 'won' : 'lose',
+                profit: i * 150,
+                timestamp: '2024-01-14T15:20:00Z'
+            },)
+        }
+        return HttpResponse.json(mockedResponse);
+    }),
+
     // Place Bet
     http.post('http://localhost:3000/api/v1/bet', async ({ request }) => {
         await delay(Math.random() * 2500);
