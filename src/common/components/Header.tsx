@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import { useAuth } from '../../features/auth/contexts/AuthContext';
 import { ROUTES } from '../config/routes';
-import { MarketList } from '../../pages/marketList/page';
+import { LoadingState } from './StatusState';
 
 type MenuItems = {
     Icon?: LucideIcon,
@@ -25,7 +25,7 @@ const menuItems: MenuItems[] = [
 
 
 export function Header() {
-    const { user, isAuthenticated, logout } = useAuth()
+    const { user, isAuthenticated, isLoading: isAuthLoading, logout } = useAuth()
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
@@ -52,8 +52,9 @@ export function Header() {
                         ))}
                     </nav>
 
+                    {/* Authenticated case */}
                     <div className="flex items-center gap-3">
-                        {(isAuthenticated && user) ? (
+                        {isAuthenticated && user && (
                             <>
                                 {/* Desktop User Menu */}
                                 <div className="hidden sm:relative sm:flex sm:items-center">
@@ -111,7 +112,15 @@ export function Header() {
                                     </div>
                                 </button>
                             </>
-                        ) : (
+                        )}
+
+                        {isAuthLoading && (
+                            <LoadingState message="Loading.." />
+                        )}
+
+
+                        {/* UnAuthenticated case */}
+                        {!isAuthenticated && !user && !isAuthLoading && (
                             // Auth Buttons (Logged Out)
                             <div className="flex items-center gap-3">
                                 <div className="hidden sm:inline-block px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">

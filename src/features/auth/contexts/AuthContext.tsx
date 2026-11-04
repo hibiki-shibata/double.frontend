@@ -36,8 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     useEffect(() => {
-        if (!Boolean(user && accessToken)) return
-        handleRefreshToken()
+        handleRefreshToken() // Refresh Token every time 
     }, [])
 
 
@@ -70,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setUser(await fetchUser())
         } catch {
             clearAuthState()
-            alert("Failed to token refresh")
+            console.error("Failed to refresh token")
         }
     }
 

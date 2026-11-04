@@ -136,8 +136,7 @@ export function MarketDetail() {
                             )}
                             <div className="space-y-3">
                                 {calculatedPredictionData.predictions.map((prediction, index) => {
-                                    const isLeading = prediction.percentage === calculatedPredictionData.maxPercentage &&
-                                        calculatedPredictionData.maxPercentage > 0;
+                                    const isLeading = prediction.id === calculatedPredictionData.leadingPrediction?.id
                                     return (
                                         <PredictionCard
                                             key={index}

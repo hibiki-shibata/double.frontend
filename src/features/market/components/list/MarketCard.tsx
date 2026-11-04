@@ -56,8 +56,8 @@ export function MarketCard({ market }: { market: Market }) {
 
         {/* Prediction */}
         <p className="mt-2 text-sm text-gray-400 line-clamp-2 leading-relaxed">
-          <p>majority bet on:</p>
-          {calculatedPredictionData.maxPercentage ?? "No bet yet"}
+          <span className="text-xs">Popular bets: </span>
+          {calculatedPredictionData.leadingPrediction?.name ?? "No bet yet"}
         </p>
 
         {/* Stats row */}
