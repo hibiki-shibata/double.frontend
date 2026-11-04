@@ -54,7 +54,7 @@ export function Header() {
 
                     {/* Authenticated case */}
                     <div className="flex items-center gap-3">
-                        {isAuthenticated && user && (
+                        {isAuthenticated && user && !isAuthLoading && (
                             <>
                                 {/* Desktop User Menu */}
                                 <div className="hidden sm:relative sm:flex sm:items-center">

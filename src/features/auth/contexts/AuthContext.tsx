@@ -28,7 +28,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { signup, isLoading: isSignupLoading } = useSignup()
     const { logout, isLoading: isLogoutLoading } = useLogout()
     const { refreshToken, isLoading: isRefreshTokenLoading } = useRefreshToken()
-    const { fetchUser } = useUser()
+    const { fetchUser, isLoading: isUserLoading } = useUser()
 
     function clearAuthState() {
         setUser(null)
@@ -90,7 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 user: user,
                 accessToken: accessToken,
                 isAuthenticated: Boolean(user && accessToken),
-                isLoading: (isLoginLoading || isSignupLoading || isLogoutLoading || isRefreshTokenLoading),
+                isLoading: (isLoginLoading || isSignupLoading || isLogoutLoading || isRefreshTokenLoading || (Boolean(accessToken) && isUserLoading)),
                 login: handleLogin,
                 signup: handleSignup,
                 logout: handleLogout,
