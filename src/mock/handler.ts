@@ -36,7 +36,8 @@ export const handlers = [
     // const url = new URL(request.url)
     // const marketId = url.searchParams.get('marketId')
     http.get('http://localhost:3000/api/v1/market/:marketId/predictions', async ({ params }) => {
-        await delay(Math.random() * 2500);
+        await delay(Math.random() * 2500)
+        console.log(params)
         const mockedResponse = []
         for (let i = 1; i < 3; i++) {
             mockedResponse.push({
@@ -62,6 +63,25 @@ export const handlers = [
                 status: i % 2 ? "OPEN" : "CLOSED",
                 closeAt: "2024-12-31T23:59:59Z",
                 createdAt: "2024-01-01T00:00:00Z",
+            })
+        }
+        return HttpResponse.json(mockedResponse);
+    }),
+
+
+    // Mock Wallet history
+    http.get('http://localhost:3000/api/v1/wallet/history', async () => {
+        await delay(Math.random() * 2500);
+        const mockedResponse = []
+        for (let i = 0; i < 10; i++) {
+            mockedResponse.push({
+                id: i,
+                type: 'deposit',
+                amount: 500,
+                status: 'completed',
+                timestamp: '2024-01-15T10:30:00Z',
+                description: 'Bank transfer deposit',
+                txHash: '0x123...abc'
             })
         }
         return HttpResponse.json(mockedResponse);

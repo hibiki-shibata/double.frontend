@@ -5,7 +5,6 @@ import { ArrowLeft, Wallet, History, Settings, LogOut } from 'lucide-react';
 
 import { WalletTab, type Transaction } from './wallet/page';
 import { BetHistoryTab } from './betHistory/page';
-import type { Bet } from '../../features/betHistory/types/betHistory.type';
 import { SettingsTab } from './setting/page';
 import { ROUTES } from '../../common/config/routes';
 import { useBetHistory } from '../../features/betHistory/hooks/betHook';
