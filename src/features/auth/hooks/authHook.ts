@@ -36,7 +36,6 @@ export function useSignup() {
 }
 
 
-
 export function useLogout() {
     const { post } = useApiClient()
     const mutation = useMutation({
@@ -61,7 +60,7 @@ export function useRefreshToken() {
     })
 
     return {
-        reqLefreshToken: mutation.mutateAsync,
+        reqRefreshToken: mutation.mutateAsync,
         isLoading: mutation.isPending,
         error: mutation.error instanceof Error ? mutation.error.message : null,
         isSuccess: mutation.isSuccess,

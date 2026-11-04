@@ -1,4 +1,3 @@
-import { useAuth } from "../../../features/auth/contexts/AuthContext";
 import { authTokenStore } from "../authTokenStore";
 import { buildReqHeader, buildReqURI } from "./apiBuilders";
 import { APIError } from "./apiError";

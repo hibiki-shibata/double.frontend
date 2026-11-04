@@ -34,19 +34,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     const clearAuthState = () => {
-        setUser(null)
         authTokenStore.clear()
+        setUser(null)
     }
 
     useEffect(() => {
-        refreshToken() // Refresh Token every time 
+        refreshToken() // Refresh Token - Relogin every time 
     }, [])
 
 
     async function login(loginCredential: AuthCredential) {
         try {
             const res: AccessToken = await reqLogin(loginCredential)
-            setAuthState(res.accessToken)
+            await setAuthState(res.accessToken)
         } catch {
             clearAuthState()
             alert("Failed to login")
@@ -56,7 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async function signup(signupCredential: AuthCredential) {
         try {
             const res: AccessToken = await reqSignup(signupCredential)
-            setAuthState(res.accessToken)
+            await setAuthState(res.accessToken)
         } catch {
             clearAuthState()
             alert("Failed to Signup")
@@ -66,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async function refreshToken() {
         try {
             const res: AccessToken = await reqRefreshToken()
-            setAuthState(res.accessToken)
+            await setAuthState(res.accessToken)
         } catch {
             clearAuthState()
             console.error("Failed to refresh token")
@@ -87,7 +87,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             value={{
                 user: user,
                 isAuthenticated: Boolean(user),
-                isLoading: (isLoginLoading || isSignupLoading || isLogoutLoading || isRefreshTokenLoading || (!Boolean(user) && isUserLoading)),
+                isLoading: (isLoginLoading || isSignupLoading || isLogoutLoading || isRefreshTokenLoading || (!user && isUserLoading)),
                 login: login,
                 signup: signup,
                 logout: logout,
