@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { Header } from './common/components/Header'
 import { Footer } from './common/components/Footer'
-import { QueryClientProvider } from '@tanstack/react-query'
-import { AuthProvider } from './features/auth/contexts/AuthContext'
+import { AuthProvider } from './common/lib/auth/context/AuthContext'
 import { queryClient } from './common/lib/queryClient'
 
 // Giving Providers

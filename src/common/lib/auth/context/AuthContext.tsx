@@ -4,7 +4,7 @@ import type { AccessToken } from '../types/token.type';
 import type { AuthCredential } from '../types/credential.type';
 import { useLogin, useLogout, useRefreshToken, useSignup } from '../hooks/authHook';
 import { useUser } from '../hooks/userHook';
-import { authTokenStore } from '../../../common/lib/authTokenStore';
+import { authTokenStore } from '../authTokenStore';
 
 type AuthContextType = {
     user: User | null;

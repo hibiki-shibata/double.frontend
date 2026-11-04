@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import type { AuthCredential } from "../types/credential.type";
-import { useApiClient } from "../../../common/lib/apiClient/apiClientHook";
+import { useApiClient } from "../../apiClient/apiClientHook";
 import type { AccessToken } from "../types/token.type";
 
 export function useLogin() {

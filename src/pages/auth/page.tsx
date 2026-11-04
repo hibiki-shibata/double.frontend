@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router';
 import { GoogleLogin } from '../../features/auth/components/GoogleLogin';
 import { UsernameAndPassword } from '../../features/auth/components/UsernameAndPassword';
-import { useAuth } from '../../features/auth/contexts/AuthContext';
+import { useAuth } from '../../common/lib/auth/context/AuthContext';
 import { ROUTES } from '../../common/config/routes';
 
 

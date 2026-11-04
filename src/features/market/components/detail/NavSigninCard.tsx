@@ -1,6 +1,6 @@
 import { Users } from "lucide-react";
 import { Link } from "react-router";
-import { useAuth } from "../../../auth/contexts/AuthContext";
+import { useAuth } from "../../../../common/lib/auth/context/AuthContext";
 import { LoadingState } from "../../../../common/components/StatusState";
 
 export function NavSigninCard() {

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router"
-import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../../../common/lib/auth/context/AuthContext"
 import { ROUTES } from "../../../common/config/routes"
 
 type Props = { isSignupMode: boolean }

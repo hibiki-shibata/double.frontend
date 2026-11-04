@@ -1,4 +1,4 @@
-import { authTokenStore } from "../authTokenStore";
+import { authTokenStore } from "../auth/authTokenStore";
 import { buildReqHeader, buildReqURI } from "./apiBuilders";
 import { APIError } from "./apiError";
 

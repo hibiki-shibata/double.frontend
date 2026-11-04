@@ -5,7 +5,7 @@ import type { Market } from '../../types/market.type'
 import type { Prediction } from '../../types/prediction.type'
 import { NavSigninCard } from './NavSigninCard'
 import { usePlaceBet } from '../../hooks/placeBetHook'
-import { useAuth } from '../../../auth/contexts/AuthContext'
+import { useAuth } from '../../../../common/lib/auth/context/AuthContext'
 
 type Props = {
     market: Market,

@@ -1,7 +1,7 @@
 import { History, LogOut, SettingsIcon, User, Wallet, type LucideIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { useAuth } from '../../features/auth/contexts/AuthContext';
+import { useAuth } from '../lib/auth/context/AuthContext';
 import { ROUTES } from '../config/routes';
 import { LoadingState } from './StatusState';
 
