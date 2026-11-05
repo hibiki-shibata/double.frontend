@@ -1,4 +1,3 @@
-// pages/AccountSettings.tsx
 import { useState, type ReactNode } from 'react';
 import { Link } from 'react-router';
 import { ArrowLeft, Wallet, History, Settings, LogOut } from 'lucide-react';

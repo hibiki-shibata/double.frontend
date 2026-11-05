@@ -1,5 +1,5 @@
 // MarketDetail.tsx
-import { useMemo, useCallback, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useParams, Navigate, Link } from "react-router";
 import { ArrowLeft, Clock, Calendar, Users, Award, BarChart3 } from 'lucide-react';
 import type { MarketStatus } from '../../../features/market/types/market.type';
