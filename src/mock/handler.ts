@@ -87,6 +87,20 @@ export const handlers = [
         return HttpResponse.json(mockedResponse);
     }),
 
+    // Mock Wallet Data
+    http.get('http://localhost:3000/api/v1/wallet/me', async () => {
+        await delay(Math.random() * 2500);
+        return HttpResponse.json({
+            id: Math.random(),
+            userId: "fake-user-id",
+            balance: 101910101010101001,
+            currency: 'USD',
+            reservedAmount: 22222292929,
+            status: "ACTIVE",
+            timestamp: '2024-01-15T10:30:00Z',
+        });
+    }),
+
 
     // Mock fetch user 
     http.get('http://localhost:3000/api/v1/user/me', async () => {

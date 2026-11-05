@@ -112,10 +112,7 @@ export function AccountSettings() {
                         <button
                             key={tab.type}
                             onClick={() => setActiveTab(tab.type)}
-                            className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 ${activeTab === tab.type
-                                ? 'border-blue-500 text-white'
-                                : 'border-transparent text-gray-400 hover:text-gray-300'
-                                }`}
+                            className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 ${activeTab === tab.type ? 'border-blue-500 text-white' : 'border-transparent text-gray-400 hover:text-gray-300'}`}
                         >
                             {tab.icon}
                             {tab.title}
