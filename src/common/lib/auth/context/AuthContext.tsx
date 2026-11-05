@@ -20,6 +20,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null)
+    const [isInitialLoading, setIsInitialLoading] = useState(true)
 
     // Mutations to handle auth reqs
     const { reqLogin, isLoading: isLoginLoading } = useLogin()
@@ -39,7 +40,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     useEffect(() => {
-        refreshToken() // Refresh Token - Relogin every time 
+        async function initAuth() {
+            try {
+                const res: AccessToken = await reqRefreshToken()
+                await setAuthState(res.accessToken)
+            } catch {
+                clearAuthState()
+                console.error("Failed to refresh token on init")
+            } finally {
+                setIsInitialLoading(false) // ✅ Ensure loading is marked done regardless of success/fail
+            }
+        }
+
+        initAuth()
     }, [])
 
 
@@ -82,12 +95,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     }
 
+
     return (
         <AuthContext.Provider
             value={{
                 user: user,
                 isAuthenticated: Boolean(user),
-                isLoading: (isLoginLoading || isSignupLoading || isLogoutLoading || isRefreshTokenLoading || (!user && isUserLoading)),
+                isLoading: isInitialLoading || isLoginLoading || isSignupLoading || isLogoutLoading || isRefreshTokenLoading || (!user && isUserLoading),
                 login: login,
                 signup: signup,
                 logout: logout,

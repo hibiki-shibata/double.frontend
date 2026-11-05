@@ -1,11 +1,9 @@
-// components/BetHistoryTab.tsx
-import { CheckCircle, XCircle, Clock } from 'lucide-react';
 import type { Bet } from '../../../features/betHistory/types/betHistory.type';
 import { EmptyState } from '../../../common/components/StatusState';
 import { BetCard } from '../../../features/betHistory/components/BetCard';
 
 
-interface BetHistoryTabProps {
+type Props = {
     betHistory: Bet[] | undefined;
     totalBets: number;
     wonBets: number;
@@ -13,7 +11,7 @@ interface BetHistoryTabProps {
     formatDate: (date: string) => string;
 }
 
-export function BetHistoryTab({ betHistory, totalBets, wonBets, lostBets, formatDate }: BetHistoryTabProps) {
+export function BetHistoryTab({ betHistory, totalBets, wonBets, lostBets }: Props) {
     return (
         <div className="bg-white/5 rounded-2xl border border-white/10 p-6">
             <div className="flex items-center justify-between mb-4">

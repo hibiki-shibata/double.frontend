@@ -8,10 +8,8 @@ import { ROUTES } from '../../common/config/routes';
 
 
 export function Auth() {
-
-  // Redirect to Maket list when user already logged-in
-  const { isAuthenticated } = useAuth()
-  if (isAuthenticated) return <Navigate to={ROUTES.MARKET_LIST} />
+  const { isAuthenticated, isLoading: isAuthLoading } = useAuth()
+  if (isAuthenticated && !isAuthLoading) return <Navigate to={ROUTES.MARKET_LIST} />
 
   // Display signin page at initialization
   const [searchParams] = useSearchParams()
