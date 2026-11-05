@@ -12,15 +12,17 @@ type MenuItems = {
 }
 
 const accountMenuItems: MenuItems[] = [
-    { Icon: User, label: "Profile", route: ROUTES.SETTINGS },
-    { Icon: Wallet, label: "Wallet", route: ROUTES.SETTINGS },
-    { Icon: History, label: "History", route: ROUTES.SETTINGS },
-    { Icon: SettingsIcon, label: "Settingsss", route: ROUTES.SETTINGS },
+    { Icon: User, label: "Manage Account", route: ROUTES.SETTINGS },
+    // { Icon: Wallet, label: "Wallet", route: ROUTES.SETTINGS },
+    // { Icon: History, label: "History", route: ROUTES.SETTINGS },
+    // { Icon: SettingsIcon, label: "Settings", route: ROUTES.SETTINGS },
 ]
 
 const menuItems: MenuItems[] = [
-    { label: "Market", route: ROUTES.MARKET_LIST },
+    // { label: "Market", route: ROUTES.MARKET_LIST },
     { label: "About", route: ROUTES.ABOUT },
+    { label: "Privacy", route: ROUTES.PRIVACY },
+    { label: "Terms", route: ROUTES.TERMS },
 ]
 
 

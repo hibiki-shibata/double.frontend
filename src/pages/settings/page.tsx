@@ -1,13 +1,13 @@
 import { useState, type ReactNode } from 'react';
 import { Link } from 'react-router';
 import { ArrowLeft, Wallet, History, Settings, LogOut } from 'lucide-react';
-
 import { WalletTab, type Transaction } from './wallet/page';
 import { BetHistoryTab } from './betHistory/page';
 import { SettingsTab } from './setting/page';
 import { ROUTES } from '../../common/config/routes';
 import { useBetHistory } from '../../features/betHistory/hooks/betHook';
 import { formatDate } from '../../common/lib/formatDate';
+import { useAuth } from '../../common/lib/auth/context/AuthContext';
 
 enum TabTypes {
     Wallet,
@@ -23,7 +23,8 @@ interface TabConfig {
 }
 
 export function AccountSettings() {
-    const [activeTab, setActiveTab] = useState<TabTypes>(TabTypes.Wallet);
+    const [activeTab, setActiveTab] = useState<TabTypes>(TabTypes.Wallet)
+    const { logout } = useAuth()
 
     const walletData = {
         balance: 2450.75,
@@ -93,12 +94,15 @@ export function AccountSettings() {
                             <ArrowLeft className="w-5 h-5 text-gray-400" />
                         </Link>
                         <div>
-                            <h1 className="text-2xl font-bold text-white">Account Settings</h1>
+                            <h1 className="text-2xl font-bold text-white">Manage Account</h1>
                             <p className="text-sm text-gray-400">Manage your wallet and betting history</p>
                         </div>
                     </div>
                     <button className="p-2 rounded-lg hover:bg-white/5 transition-colors">
-                        <LogOut className="w-5 h-5 text-gray-400 hover:text-red-400 transition-colors" />
+                        <LogOut
+                            onClick={logout}
+                            className="w-5 h-5 text-gray-400 hover:text-red-400 transition-colors"
+                        />
                     </button>
                 </div>
 
