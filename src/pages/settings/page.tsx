@@ -1,5 +1,5 @@
 // pages/AccountSettings.tsx
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Link } from 'react-router';
 import { ArrowLeft, Wallet, History, Settings, LogOut } from 'lucide-react';
 
@@ -10,10 +10,22 @@ import { ROUTES } from '../../common/config/routes';
 import { useBetHistory } from '../../features/betHistory/hooks/betHook';
 import { formatDate } from '../../common/lib/formatDate';
 
-export function AccountSettings() {
-    const [activeTab, setActiveTab] = useState<'wallet' | 'bets' | 'settings'>('wallet');
+enum TabTypes {
+    Wallet,
+    Bets,
+    Settings
+}
 
-    // Mock data - replace with real data from your API
+interface TabConfig {
+    type: TabTypes;
+    title: string;
+    icon: ReactNode;
+    content: ReactNode;
+}
+
+export function AccountSettings() {
+    const [activeTab, setActiveTab] = useState<TabTypes>(TabTypes.Wallet);
+
     const walletData = {
         balance: 2450.75,
         totalDeposited: 5000,
@@ -33,7 +45,44 @@ export function AccountSettings() {
         { id: '5', type: 'bet_lost', amount: 50, status: 'completed', timestamp: '2024-01-11T12:00:00Z', description: 'Lost bet on market crash', txHash: '0xdef...mno' },
     ];
 
-    const { data: betHistory, isLoading: isBetHistoryLoading, error: betHistoryError } = useBetHistory({ page: 0, limit: 2 })
+    const { data: betHistory } = useBetHistory({ page: 0, limit: 2 });
+
+    const settingTabs: TabConfig[] = [
+        {
+            type: TabTypes.Wallet,
+            title: 'Wallet',
+            icon: <Wallet className="w-4 h-4 inline mr-2" />,
+            content: (
+                <WalletTab
+                    walletData={walletData}
+                    transactions={transactions}
+                    formatDate={formatDate}
+                />
+            )
+        },
+        {
+            type: TabTypes.Bets,
+            title: 'Bet History',
+            icon: <History className="w-4 h-4 inline mr-2" />,
+            content: (
+                <BetHistoryTab
+                    betHistory={betHistory}
+                    totalBets={walletData.totalBets}
+                    wonBets={walletData.wonBets}
+                    lostBets={walletData.lostBets}
+                    formatDate={formatDate}
+                />
+            )
+        },
+        {
+            type: TabTypes.Settings,
+            title: 'Settings',
+            icon: <Settings className="w-4 h-4 inline mr-2" />,
+            content: <SettingsTab />
+        }
+    ];
+
+    const activeTabContent = settingTabs.find((tab) => tab.type === activeTab)?.content;
 
     return (
         <div className="min-h-screen bg-slate-900">
@@ -54,62 +103,27 @@ export function AccountSettings() {
                     </button>
                 </div>
 
-                {/* Tabs */}
+                {/* Tabs Navigation */}
                 <div className="flex gap-2 mb-8 border-b border-white/10">
-                    <button
-                        onClick={() => setActiveTab('wallet')}
-                        className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 ${activeTab === 'wallet'
-                            ? 'border-blue-500 text-white'
-                            : 'border-transparent text-gray-400 hover:text-gray-300'
-                            }`}
-                    >
-                        <Wallet className="w-4 h-4 inline mr-2" />
-                        Wallet
-                    </button>
-                    <button
-                        onClick={() => setActiveTab('bets')}
-                        className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 ${activeTab === 'bets'
-                            ? 'border-blue-500 text-white'
-                            : 'border-transparent text-gray-400 hover:text-gray-300'
-                            }`}
-                    >
-                        <History className="w-4 h-4 inline mr-2" />
-                        Bet History
-                    </button>
-                    <button
-                        onClick={() => setActiveTab('settings')}
-                        className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 ${activeTab === 'settings'
-                            ? 'border-blue-500 text-white'
-                            : 'border-transparent text-gray-400 hover:text-gray-300'
-                            }`}
-                    >
-                        <Settings className="w-4 h-4 inline mr-2" />
-                        Settings
-                    </button>
+                    {settingTabs.map((tab) => (
+                        <button
+                            key={tab.type}
+                            onClick={() => setActiveTab(tab.type)}
+                            className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 ${activeTab === tab.type
+                                ? 'border-blue-500 text-white'
+                                : 'border-transparent text-gray-400 hover:text-gray-300'
+                                }`}
+                        >
+                            {tab.icon}
+                            {tab.title}
+                        </button>
+                    ))}
                 </div>
 
                 {/* Contents */}
-                {activeTab === 'wallet' && (
-                    <WalletTab
-                        walletData={walletData}
-                        transactions={transactions}
-                        formatDate={formatDate}
-                    />
-                )}
-
-                {activeTab === 'bets' && (
-                    <BetHistoryTab
-                        betHistory={betHistory}
-                        totalBets={walletData.totalBets}
-                        wonBets={walletData.wonBets}
-                        lostBets={walletData.lostBets}
-                        formatDate={formatDate}
-                    />
-                )}
-
-                {activeTab === 'settings' && (
-                    <SettingsTab />
-                )}
+                <div>
+                    {activeTabContent}
+                </div>
             </div>
         </div>
     );
