@@ -7,11 +7,7 @@ import { SettingsTab } from '../../features/settings/components/page';
 import { ROUTES } from '../../common/config/routes';
 import { useAuth } from '../../common/lib/auth/context/AuthContext';
 
-enum TabTypes {
-    Wallet,
-    BetHistory,
-    Settings,
-}
+enum TabTypes { Wallet, BetHistory, Settings, }
 
 const tabs: { 'tabType': TabTypes, 'title': string, 'icon': ReactElement }[] = [
     { 'tabType': TabTypes.Wallet, 'title': 'Wallet', 'icon': <Wallet className="w-4 h-4" /> },
