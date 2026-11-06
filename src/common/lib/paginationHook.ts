@@ -7,7 +7,7 @@ interface UsePaginationOptions {
 }
 
 export function usePagination(options: UsePaginationOptions = {}) {
-    const { defaultPage = 1, defaultLimit = 20 } = options;
+    const { defaultPage = 1, defaultLimit = 15 } = options;
     const [searchParams, setSearchParams] = useSearchParams();
 
     // Parse current values with safe fallbacks

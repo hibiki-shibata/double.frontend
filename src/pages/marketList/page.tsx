@@ -7,7 +7,7 @@ import { usePagination } from '../../common/lib/paginationHook';
 
 // Index page
 export function MarketList() {
-    const { currentPage, currentLimit, setPage, setLimit } = usePagination();
+    const { currentPage, currentLimit, setPage } = usePagination()
     const { data: markets = [], isLoading, isError } = useMarketList({ page: currentPage, limit: currentLimit });
 
     if (isLoading) {

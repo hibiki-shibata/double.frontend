@@ -95,13 +95,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     }
 
+    const isLoading = isInitialLoading || isLoginLoading || isSignupLoading || isLogoutLoading || isRefreshTokenLoading || (!user && isUserLoading)
 
     return (
         <AuthContext.Provider
             value={{
                 user: user,
-                isAuthenticated: Boolean(user),
-                isLoading: isInitialLoading || isLoginLoading || isSignupLoading || isLogoutLoading || isRefreshTokenLoading || (!user && isUserLoading),
+                isAuthenticated: (Boolean(user) && !isLoading),
+                isLoading: isLoading,
                 login: login,
                 signup: signup,
                 logout: logout,
