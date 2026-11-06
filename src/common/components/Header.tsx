@@ -51,27 +51,28 @@ export function Header() {
                         ))}
                     </nav>
 
-                    {isAuthLoading && (
-                        <LoadingState message="Loading.." />
-                    )}
 
-                    {/* UnAuthenticated case */}
-                    {!isAuthenticated && !user && !isAuthLoading && (
-                        // Auth Buttons (Logged Out)
-                        <div className="flex items-center gap-3">
-                            <div className="hidden sm:inline-block px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">
-                                <Link to='/auth'>Log In</Link>
-                            </div>
-                            <div className="px-4 py-2 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-200 hover:scale-105">
-                                <Link to='/auth?isSignup=TRUE'>Sign Up</Link>
-                            </div>
-                        </div>
-                    )}
-
-
-                    {/* Authenticated case */}
                     <div className="flex items-center gap-3">
-                        {isAuthenticated && user && !isAuthLoading && (
+                        {/* Loading Case */}
+                        {isAuthLoading && (
+                            <LoadingState message="Loading.." />
+                        )}
+
+                        {/* UnAuthenticated case */}
+                        {!isAuthenticated && !isAuthLoading && (
+                            // Auth Buttons (Logged Out)
+                            <div className="flex items-center gap-3">
+                                <div className="hidden sm:inline-block px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">
+                                    <Link to='/auth'>Log In</Link>
+                                </div>
+                                <div className="px-4 py-2 text-sm font-medium bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-200 hover:scale-105">
+                                    <Link to='/auth?isSignup=TRUE'>Sign Up</Link>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Authenticated case */}
+                        {isAuthenticated && user && (
                             <>
                                 {/* Desktop User Menu */}
                                 <div className="hidden sm:relative sm:flex sm:items-center">
