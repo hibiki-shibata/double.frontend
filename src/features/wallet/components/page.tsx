@@ -4,8 +4,8 @@ import {
     DollarSign, TrendingUp, TrendingDown, Copy, Filter, Wallet as WalletIcon
 } from 'lucide-react';
 import { formatDate } from '../../../common/lib/formatDate';
-import { WalletTransactionType } from '../../../features/wallet/types/walletTransaction.type';
-import { useWallet, useWalletHistory } from '../../../features/wallet/hooks/walletHook';
+import { WalletTransactionType } from '../types/walletTransaction.type';
+import { useWallet, useWalletHistory } from '../hooks/walletHook';
 
 type TransactionFilter = 'all' | 'deposits' | 'withdrawals' | 'bets';
 

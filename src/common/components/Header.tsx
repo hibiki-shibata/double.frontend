@@ -12,7 +12,7 @@ type MenuItems = {
 }
 
 const accountMenuItems: MenuItems[] = [
-    { Icon: User, label: "Manage Account", route: ROUTES.SETTINGS },
+    { Icon: User, label: "Manage Account", route: ROUTES.MANAGEMENT },
     // { Icon: Wallet, label: "Wallet", route: ROUTES.SETTINGS },
     // { Icon: History, label: "History", route: ROUTES.SETTINGS },
     // { Icon: SettingsIcon, label: "Settings", route: ROUTES.SETTINGS },

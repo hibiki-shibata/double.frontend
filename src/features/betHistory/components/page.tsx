@@ -1,6 +1,6 @@
-import type { Bet } from "../../../features/betHistory/types/bet.type";
-import { BetCard } from '../../../features/betHistory/components/BetCard';
-import { useBetHistory } from "../../../features/betHistory/hooks/betHook";
+import type { Bet } from "../types/bet.type";
+import { BetCard } from './BetCard';
+import { useBetHistory } from "../hooks/betHook";
 
 
 export function BetHistoryTab() {

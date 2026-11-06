@@ -1,9 +1,9 @@
 import { useState, type ReactElement } from 'react';
 import { Link } from 'react-router';
-import { ArrowLeft, Wallet, History, Settings, LogOut, AlertCircle } from 'lucide-react';
-import { WalletTab } from './wallet/page';
-import { BetHistoryTab } from './betHistory/page';
-import { SettingsTab } from './setting/page';
+import { ArrowLeft, Wallet, History, Settings, LogOut } from 'lucide-react';
+import { WalletTab } from '../../features/wallet/components/page';
+import { BetHistoryTab } from '../../features/betHistory/components/page';
+import { SettingsTab } from '../../features/settings/components/page';
 import { ROUTES } from '../../common/config/routes';
 import { useAuth } from '../../common/lib/auth/context/AuthContext';
 
@@ -19,14 +19,15 @@ const tabs: { 'tabType': TabTypes, 'title': string, 'icon': ReactElement }[] = [
     { 'tabType': TabTypes.Settings, 'title': 'Settings', 'icon': <Settings className="w-4 h-4" /> },
 ]
 
-export function MaanageAccount() {
+export function Management() {
     const [activeTab, setActiveTab] = useState<TabTypes>(TabTypes.Wallet);
     const { logout } = useAuth();
 
     return (
         <div className="min-h-screen bg-slate-900 text-slate-100">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Header Section */}
+
+                {/* Headline */}
                 <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-4">
                         <Link
@@ -47,7 +48,6 @@ export function MaanageAccount() {
                         title="Log out"
                     >
                         <LogOut className="w-5 h-5 transition-colors" />
-
                     </button>
                 </div>
 
