@@ -1,6 +1,6 @@
 import { CheckCircle, Clock, XCircle } from "lucide-react";
 import { formatDate } from "../../../common/lib/formatDate";
-import type { Bet } from "../types/betHistory.type";
+import type { Bet } from "../types/bet.type";
 
 const getOutcomeIcon = (outcome: Bet['outcome']) => {
     switch (outcome) {

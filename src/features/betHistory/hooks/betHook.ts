@@ -1,5 +1,5 @@
 import type { PaginationParam } from '../../../common/types/pagination.type';
-import type { Bet } from '../types/betHistory.type';
+import type { Bet } from '../types/bet.type';
 import { useApiClient } from '../../../common/lib/apiClient/apiClientHook';
 import { useQuery } from '@tanstack/react-query';
 

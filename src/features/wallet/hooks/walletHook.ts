@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
 import { useApiClient } from "../../../common/lib/apiClient/apiClientHook"
-import type { Wallet, WalletTransaction } from "../types/wallet.type"
+import type { Wallet } from "../types/wallet.type"
 import type { PaginationParam } from "../../../common/types/pagination.type"
+import type { WalletTransaction } from "../types/walletTransaction.type"
 
 export function useWallet() {
     const { get } = useApiClient()
@@ -21,7 +22,7 @@ export function useWalletHistory(paginationParam: PaginationParam) {
     const { get } = useApiClient()
 
     return useQuery<WalletTransaction[]>({
-        queryKey: ["betHistory", page, limit],
+        queryKey: ["walletHistory", page, limit],
         queryFn: () => get<WalletTransaction[]>('/wallet/history', { page, limit }),
         refetchInterval: 7000,
         staleTime: 10000
