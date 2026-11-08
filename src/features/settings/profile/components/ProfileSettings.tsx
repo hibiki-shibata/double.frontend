@@ -1,5 +1,5 @@
 import { User } from "lucide-react";
-import { useAuth } from "../../../common/lib/auth/context/AuthContext";
+import { useAuth } from "../../../../common/lib/auth/context/AuthContext";
 
 export function ProfileSettings() {
     const { user } = useAuth()

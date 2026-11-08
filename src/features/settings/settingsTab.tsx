@@ -1,5 +1,5 @@
 import { NotificationSettings } from "./components/NotificationSettings";
-import { ProfileSettings } from "./components/ProfileSettings";
+import { ProfileSettings } from "./profile/components/ProfileSettings";
 import { SecuritySettings } from "./components/SecuritySettings";
 import { WalletSettings } from "./components/WalletSettings";
 
