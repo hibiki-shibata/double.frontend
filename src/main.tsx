@@ -1,40 +1,54 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router'
 import App from './App.tsx'
 import './index.css'
-import { MarketDetail } from './features/market/components/MarketDetail'
-import { MarketList } from './features/market/components/MarketList'
-import { Privacy } from './features/service-info/Privacy'
-import { Terms } from './features/service-info/Terms'
-import { About } from './features/service-info/About'
-import { Auth } from './features/auth/components/Auth'
-import { AccountSettings } from './features/user-profile/components/UserSettings'
-import { ProtectedRoute } from './components/Protected'
+import { MarketList } from './pages/marketList/page.tsx'
+import { MarketDetail } from './pages/market/[id]/page.tsx'
+import { Privacy } from './pages/privacy/page.tsx'
+import { Terms } from './pages/terms/page.tsx'
+import { About } from './pages/about/page.tsx'
+import { Auth } from './pages/auth/page.tsx'
+import { Account } from './pages/account/page.tsx'
+import { ProtectedRoute } from './common/lib/auth/wrapper/ProtectedRoute.tsx'
+import { coreConfig } from './common/config/coreConfig.ts'
+import { worker } from './mock/browser.ts'
+import { ROUTES } from './common/config/routes.ts'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        {/* App acts as a layout with shared components (Header, Footer) */}
-        <Route element={<App />}>
-          {/* Index route for the main page */}
-          <Route index path="*" element={<MarketList />} />
+async function executeBeforeServerStarts() {
+  if (coreConfig.RUNTIME_ENV.toUpperCase() !== 'PROD') {
+    await worker.start()
+  }
+}
 
-          {/* Nested routes */}
-          <Route path="market/*" element={<MarketDetail />} />
-          <Route path="privacy" element={<Privacy />} />
-          <Route path="terms" element={<Terms />} />
-          <Route path="about" element={<About />} />
+executeBeforeServerStarts().then(() => {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <BrowserRouter>
+        <Routes>
+          {/* Provider wrapper */}
+          <Route element={<App />}>
 
-          {/* Protected route */}
-          <Route element={<ProtectedRoute />} >
-            <Route path="settings" element={<AccountSettings />} />
+            {/* Public routes */}
+            <Route index element={<Navigate to={ROUTES.MARKET_LIST} replace />} />
+            <Route path={ROUTES.MARKET_LIST} element={<MarketList />} />
+            <Route path={ROUTES.MARKET_DETAILS({})} element={<MarketDetail />} />
+            <Route path={ROUTES.PRIVACY} element={<Privacy />} />
+            <Route path={ROUTES.TERMS} element={<Terms />} />
+            <Route path={ROUTES.ABOUT} element={<About />} />
+            <Route path={ROUTES.AUTH({})} element={<Auth />} />
+            <Route path='*' element={<Navigate to={ROUTES.MARKET_LIST} replace />} />
+
+            {/* Protected routes - Auth required */}
+            <Route element={<ProtectedRoute />} >
+              <Route path={ROUTES.MANAGEMENT} element={<Account />} />
+            </Route>
+
           </Route>
-        </Route>
-
-        <Route path="auth" element={<Auth />} />
-      </Routes>
-    </BrowserRouter>
-  </StrictMode>
+        </Routes>
+      </BrowserRouter>
+    </StrictMode>
+  )
+}
 )
+

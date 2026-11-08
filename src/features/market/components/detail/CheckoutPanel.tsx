@@ -1,0 +1,141 @@
+// components/CheckoutPanel.tsx
+import { useState } from 'react'
+import { Clock, CheckCircle } from 'lucide-react'
+import type { Market } from '../../types/market.type'
+import type { Prediction } from '../../types/prediction.type'
+import { NavSigninCard } from './NavSigninCard'
+import { usePlaceBet } from '../../hooks/placeBetHook'
+import { useAuth } from '../../../../common/lib/auth/context/AuthContext'
+
+type Props = {
+    market: Market,
+    selectedPrediction: Prediction,
+    closeCheckoutPanel: () => void
+}
+
+export function CheckoutPanel(
+    { market, selectedPrediction, closeCheckoutPanel }: Props
+) {
+    // Replace later
+    const { isAuthenticated } = useAuth()
+
+    const { placeBet, isSuccess: placeBetIsSuccess, isLoading: placeBetIsLoading, error: placeBetError } = usePlaceBet(market.id)
+    const [betAmount, setBetAmount] = useState<string>('')
+
+    async function handlePlaceBet(e: React.FormEvent<HTMLFormElement>): Promise<void> {
+        e.preventDefault()
+        try {
+            await placeBet({ predictionId: selectedPrediction.id, amount: Number(betAmount) })
+            setBetAmount('')
+        } catch (err: unknown) {
+            alert('Failed to submit your bet\n' + err)
+        }
+    }
+
+    return (
+        <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6">
+            {/* User Not Logged In case */}
+            {!isAuthenticated && (
+                <NavSigninCard />
+            )}
+            {placeBetError && (
+                <div>Failed to bet</div>
+            )}
+
+            {/* Market Closed case */}
+            {isAuthenticated && (market.status !== 'OPEN') && (
+                <div className="text-center py-4">
+                    <div className="w-16 h-16 rounded-full bg-gray-500/20 flex items-center justify-center mx-auto mb-4">
+                        <Clock className="w-8 h-8 text-gray-400" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-2">Market Closed</h3>
+                    <p className="text-sm text-gray-400">This market is no longer accepting bets</p>
+                </div>
+            )}
+
+            {/* Success State */}
+            {isAuthenticated && placeBetIsSuccess && (
+                <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 text-center">
+                    <CheckCircle className="w-8 h-8 text-green-400 mx-auto mb-2" />
+                    <p className="text-sm font-medium text-green-400">bet submitted!</p>
+                    <p className="text-xs text-gray-400 mt-1">Your prediction has been recorded</p>
+                </div>
+            )}
+
+            {/* Error State */}
+            {isAuthenticated && placeBetError && (
+                <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 text-center">
+                    <CheckCircle className="w-8 h-8 text-green-400 mx-auto mb-2" />
+                    <p className="text-sm font-medium text-red-400">Failed to submit your bet</p>
+                    <p className="text-xs text-gray-400 mt-1">Messsage: {placeBetError} </p>
+                </div>
+            )}
+
+            {/* Default State: Active Voting Form */}
+            {isAuthenticated && !placeBetIsSuccess && (
+                <>
+                    <p className="text-sm text-gray-400 mb-4 mt-1">Review your bet details before submit</p>
+
+                    <form onSubmit={handlePlaceBet} className="space-y-4">
+                        {/* Prediction Selection */}
+                        <div className="space-y-1.5">
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-400">
+                                Selected Prediction
+                            </label>
+                            <div className="w-full text-left px-4 py-2.5 rounded-lg bg-white/1 border border-white/15 font-medium truncate">
+                                {selectedPrediction?.name || "None selected"}
+                            </div>
+                        </div>
+
+                        {/* Bet Amount */}
+                        <div>
+                            <label className="block text-sm text-gray-300 mb-2">Bet Amount (USD)</label>
+                            <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">$</span>
+                                <input
+                                    type="number"
+                                    value={betAmount}
+                                    onChange={(e) => setBetAmount(e.target.value)}
+                                    placeholder="0.00"
+                                    min="0"
+                                    step="1"
+                                    className="w-full pl-8 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-emerald-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
+                                />
+                            </div>
+                            <p className="text-xs text-gray-500 mt-1">Min: $1.00 • Max: $10,000.00</p>
+                        </div>
+
+                        {/* Submit Button */}
+                        <button
+                            type="submit"
+                            disabled={!selectedPrediction || !betAmount || placeBetIsLoading}
+                            className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {placeBetIsLoading ? (
+                                <span className="flex items-center justify-center gap-2">
+                                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                    </svg>
+                                    Processing...
+                                </span>
+                            ) : (
+                                'Submit bet'
+                            )}
+                        </button>
+                    </form>
+                </>
+            )}
+
+            {/* Footer Close Button */}
+            <div className="flex items-center justify-center mt-6">
+                <button
+                    onClick={closeCheckoutPanel}
+                    className='hover:scale-104 active:scale-100 font-semibold'
+                >
+                    Close
+                </button>
+            </div>
+        </div>
+    );
+}

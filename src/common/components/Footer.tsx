@@ -1,0 +1,63 @@
+// components/Footer.tsx
+import { MapPin, Coffee } from 'lucide-react';
+import { Link } from 'react-router';
+import { ROUTES } from '../config/routes';
+
+export function Footer() {
+    const currentYear = new Date().getFullYear();
+
+    return (
+        <footer className="bg-slate-900/50 mx-auto ">
+            <div className="px-4 max-w-7xl mx-auto sm:px-6 lg:px-8 py-12">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                    {/* Quick Links */}
+                    <div>
+                        <h4 className="text-sm font-semibold text-white mb-3">Quick Links</h4>
+                        <ul className="space-y-2">
+                            <li>
+                                <Link to={ROUTES.MARKET_LIST} className="text-sm text-gray-400 hover:text-white">
+                                    Markets
+                                </Link>
+                            </li>
+                            <li>
+                                <a href="https://hibiki-shibata.github.io/" target='_blank' className="text-sm text-gray-400 hover:text-white">
+                                    Maintainer profile
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <p className="text-sm mt-7 text-gray-400">
+                    We always welcome your contribution on the development.
+                    Feel free to reach out:)
+                </p>
+
+                {/* Bottom Bar */}
+                <div className="mt-2 pt-5 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="flex items-center gap-4 text-xs text-gray-500">
+                        <span>© {currentYear} Hibiki</span>
+                        <span className="hidden sm:inline">•</span>
+                        <span className="flex items-center gap-1">
+                            <MapPin className="w-3 h-3" />
+                            Japan
+                        </span>
+                        <span className="hidden sm:inline">•</span>
+                        <span className="flex items-center gap-1">
+                            <Coffee className="w-3 h-3" />
+                            Open Source
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-4 text-xs text-gray-500">
+                        <Link to={ROUTES.PRIVACY} className="hover:text-gray-300 transition-colors">
+                            Privacy
+                        </Link>
+                        <Link to={ROUTES.TERMS} className="hover:text-gray-300 transition-colors">
+                            Terms
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    );
+}
