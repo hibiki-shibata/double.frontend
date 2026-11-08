@@ -1,7 +1,7 @@
-import { NotificationSettings } from "./components/NotificationSettings";
+import { NotificationSettings } from "./notification/components/NotificationSettings";
 import { ProfileSettings } from "./profile/components/ProfileSettings";
-import { SecuritySettings } from "./components/SecuritySettings";
-import { WalletSettings } from "./components/WalletSettings";
+import { SecuritySettings } from "./security/components/SecuritySettings";
+import { WalletSettings } from "./wallet/components/WalletSettings";
 
 import type { ReactElement } from 'react';
 
