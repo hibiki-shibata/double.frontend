@@ -3,19 +3,19 @@ import { Link } from 'react-router';
 import { ArrowLeft, Wallet, History, Settings, LogOut } from 'lucide-react';
 import { WalletTab } from '../../features/wallet/components/page';
 import { BetHistoryTab } from '../../features/betHistory/components/page';
-import { SettingsTab } from '../../features/settings/components/page';
+import { SettingsTab } from '../../features/settings/settingsTab';
 import { ROUTES } from '../../common/config/routes';
 import { useAuth } from '../../common/lib/auth/context/AuthContext';
 
 enum TabTypes { Wallet, BetHistory, Settings, }
 
-const tabs: { 'tabType': TabTypes, 'title': string, 'icon': ReactElement }[] = [
-    { 'tabType': TabTypes.Wallet, 'title': 'Wallet', 'icon': <Wallet className="w-4 h-4" /> },
-    { 'tabType': TabTypes.BetHistory, 'title': 'Bet History', 'icon': <History className="w-4 h-4" /> },
-    { 'tabType': TabTypes.Settings, 'title': 'Settings', 'icon': <Settings className="w-4 h-4" /> },
+const tabs: { 'tabType': TabTypes, 'title': string, 'icon': ReactElement, 'content': ReactElement }[] = [
+    { 'tabType': TabTypes.Wallet, 'title': 'Wallet', 'icon': <Wallet className="w-4 h-4" />, 'content': <WalletTab /> },
+    { 'tabType': TabTypes.BetHistory, 'title': 'Bet History', 'icon': <History className="w-4 h-4" />, 'content': <BetHistoryTab /> },
+    { 'tabType': TabTypes.Settings, 'title': 'Settings', 'icon': <Settings className="w-4 h-4" />, 'content': <SettingsTab /> },
 ]
 
-export function Management() {
+export function Account() {
     const [activeTab, setActiveTab] = useState<TabTypes>(TabTypes.Wallet);
     const { logout } = useAuth();
 
@@ -65,15 +65,7 @@ export function Management() {
                 </div>
 
                 {/* Active Tab Content Panel */}
-                {activeTab === TabTypes.Wallet && (
-                    <WalletTab />
-                )}
-                {activeTab === TabTypes.BetHistory && (
-                    <BetHistoryTab />
-                )}
-                {activeTab === TabTypes.Settings && (
-                    <SettingsTab />
-                )}
+                {(tabs.find((tab) => tab.tabType === activeTab))?.content}
             </div>
         </div>
     );

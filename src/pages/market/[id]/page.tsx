@@ -10,6 +10,7 @@ import { useMarket } from '../../../features/market/hooks/marketHook';
 import { useCalculatedPredictions, usePredictions, type CalculatedPredictions } from '../../../features/market/hooks/predictionHook';
 import { ErrorState, LoadingState } from '../../../common/components/StatusState';
 import { formatDate } from '../../../common/lib/formatDate';
+import { ROUTES } from '../../../common/config/routes';
 
 
 const STATUS_CONFIG: Record<MarketStatus, { color: string, label: string }> = {
@@ -43,7 +44,7 @@ export function MarketDetail() {
         <>
             <div className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-150 mt-14 mb-10 mx-10">
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-150" />
-                <Link to='/'>Back to Markets</Link>
+                <Link to={ROUTES.MARKET_LIST}>Back to Markets</Link>
             </div>
             {(isMarketLoading) && (
                 <LoadingState message="Loading market data" />
@@ -57,20 +58,16 @@ export function MarketDetail() {
             {market &&
                 <div className={`grid gap-6 ${showCheckout ? 'max-w-7xl mx-auto grid-cols-1 lg:grid-cols-2' : 'max-w-6xl mx-auto grid-cols-1'}`}>
                     <div className="bg-white/5 rounded-2xl border border-white/10 p-8">
-                        {/* Header - Removed animate-pulse */}
+                        {/* Headline */}
                         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
-
                             <div className="flex-1">
                                 <div className="flex items-center gap-3 mb-3">
-
                                     <span className={`px-4 py-1 rounded-full font-semibold ${statusConfig.color}`}>
                                         {statusConfig.label}
                                     </span>
-
                                     <span className="text-xs text-gray-400 flex items-center gap-1">
                                         <Clock className="w-3 h-3" />Created {formatDate(market.createdAt)}
                                     </span>
-
                                 </div>
                                 <h1 className="text-2xl sm:text-3xl font-bold">{market.title}</h1>
                             </div>
@@ -83,8 +80,8 @@ export function MarketDetail() {
                             </div>
                         </div>
 
-                        {/* Stats Grid - Using memoized values */}
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-white/5 rounded-xl border border-white/5 mb-8">
+                        {/* Prediction meta data */}
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 p-4 bg-white/5 rounded-xl border border-white/5 mb-8">
                             <div>
                                 <p className="text-xs text-gray-400">Participants</p>
                                 <p className="text-lg font-semibold text-white flex items-center gap-1">
@@ -100,12 +97,6 @@ export function MarketDetail() {
                                 </p>
                             </div>
                             <div>
-                                <p className="text-xs text-gray-400">Predictions</p>
-                                <p className="text-lg font-semibold text-white">
-                                    {/* {calculatedPredictionData.predictions.length} */}
-                                </p>
-                            </div>
-                            <div>
                                 <p className="text-xs text-gray-400">Closes</p>
                                 <p className="text-lg font-semibold text-white flex items-center gap-1">
                                     <Calendar className="w-4 h-4 text-orange-400" />{formatDate(market.closeAt)}
@@ -114,7 +105,7 @@ export function MarketDetail() {
                         </div>
 
 
-                        {/* Predictions - Using memoized data */}
+                        {/* Predictions choises */}
                         <div>
                             <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                                 <Award className="w-5 h-5 text-yellow-400" />Predictions</h2>

@@ -5,6 +5,6 @@ export const ROUTES = {
     ABOUT: '/about',
     PRIVACY: '/privacy',
     TERMS: '/terms',
-    MANAGEMENT: '/management',
+    MANAGEMENT: '/account',
     AUTH: ({ isSignup }: { isSignup?: boolean }) => '/auth' + (isSignup ? '?isSignup=TRUE' : ''),
 }

@@ -9,7 +9,7 @@ import { Privacy } from './pages/privacy/page.tsx'
 import { Terms } from './pages/terms/page.tsx'
 import { About } from './pages/about/page.tsx'
 import { Auth } from './pages/auth/page.tsx'
-import { Management } from './pages/management/page.tsx'
+import { Account } from './pages/account/page.tsx'
 import { ProtectedRoute } from './common/lib/auth/wrapper/ProtectedRoute.tsx'
 import { coreConfig } from './common/config/coreConfig.ts'
 import { worker } from './mock/browser.ts'
@@ -41,7 +41,7 @@ executeBeforeServerStarts().then(() => {
 
             {/* Protected routes - Auth required */}
             <Route element={<ProtectedRoute />} >
-              <Route path={ROUTES.MANAGEMENT} element={<Management />} />
+              <Route path={ROUTES.MANAGEMENT} element={<Account />} />
             </Route>
 
           </Route>
