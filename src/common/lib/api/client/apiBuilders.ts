@@ -1,4 +1,4 @@
-import { coreConfig } from "../../config/coreConfig"
+import { coreConfig } from "../../../config/coreConfig"
 
 export function buildReqURI(
     path: string,

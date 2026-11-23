@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { useApiClient } from "../../../common/lib/apiClient/apiClientHook";
-import type { PlaceBetPayload } from "../types/bet.type";
+import { useApiClient } from "../../../common/lib/api/client/apiClientHook";
+import type { PlaceBetPayload } from "../types/placeBet.type";
 import { queryClient } from "../../../common/lib/queryClient";
 
 export function usePlaceBet(marketId: string) {

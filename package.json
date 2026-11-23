@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "npx msw init ./public --save && vite",
-    "build": "tsc -b && vite build",
+    "build": "pnpm tsc -b && pnpm orval --config ./src/common/config/orval.config.ts && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -28,6 +28,7 @@
     "globals": "^17.13.0",
     "lucide-react": "^1.66.0",
     "msw": "^3.0.3",
+    "orval": "^8.47.0",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.72.1",

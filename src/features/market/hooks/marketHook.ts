@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { useApiClient } from '../../../common/lib/apiClient/apiClientHook'
+import { useApiClient } from '../../../common/lib/api/client/apiClientHook'
 import type { PaginationParam } from '../../../common/types/pagination.type'
 import type { Market } from '../types/market.type'
 

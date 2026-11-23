@@ -1,5 +1,5 @@
 
-import { useApiClient } from "../../apiClient/apiClientHook";
+import { useApiClient } from "../../api/client/apiClientHook";
 import { useMutation } from "@tanstack/react-query";
 import type { User } from "../types/user.type";
 

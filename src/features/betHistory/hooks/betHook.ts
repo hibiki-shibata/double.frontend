@@ -1,6 +1,6 @@
 import type { PaginationParam } from '../../../common/types/pagination.type';
 import type { Bet } from '../types/bet.type';
-import { useApiClient } from '../../../common/lib/apiClient/apiClientHook';
+import { useApiClient } from '../../../common/lib/api/client/apiClientHook';
 import { useQuery } from '@tanstack/react-query';
 
 export function useBetHistory(paginationParam: PaginationParam) {
