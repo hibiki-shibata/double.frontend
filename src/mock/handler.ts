@@ -103,14 +103,14 @@ export const handlers = [
 
 
     // Mock fetch user 
-    http.get('http://localhost:3000/api/v1/user/me', async () => {
-        await delay(Math.random() * 2500);
-        return HttpResponse.json({
-            id: "1",
-            name: "hibiki shibata",
-            emailAddress: "hibiki@example.com",
-        });
-    }),
+    // http.get('http://localhost:3000/api/v1/user/me', async () => {
+    //     await delay(Math.random() * 2500);
+    //     return HttpResponse.json({
+    //         id: "1",
+    //         name: "hibiki shibata",
+    //         emailAddress: "hibiki@example.com",
+    //     });
+    // }),
 
 
     // Mock bet histotry

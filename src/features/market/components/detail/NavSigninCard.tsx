@@ -10,7 +10,7 @@ export function NavSigninCard() {
             {isAuthLoading && (
                 <LoadingState message='Loading..' />
             )}
-            {isAuthenticated && !isAuthLoading && (
+            {!isAuthenticated && !isAuthLoading && (
                 <>
                     <div className="w-16 h-16 rounded-full bg-blue-500/20 flex items-center justify-center mx-auto mb-4">
                         <Users className="w-8 h-8 text-blue-400" />
